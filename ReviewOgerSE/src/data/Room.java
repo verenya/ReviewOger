@@ -9,7 +9,7 @@ public class Room {
 	//Is the unique ID of a location
 	private String roomID;
 	
-	// To know if a portable beamerhas tobe provided
+	// To know if a portable beamer has to be provided
 	private boolean hasBeamer;
 
 	public String getRoomID() {

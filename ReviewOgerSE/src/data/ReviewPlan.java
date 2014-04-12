@@ -15,7 +15,7 @@ public class ReviewPlan {
 	
 	public List<Slot> slots = new ArrayList<Slot>();
 	
-	public List<Participant> participants = new ArrayList<Participant>();
+	public static List<Participant> participants = new ArrayList<Participant>();
 	
-
+	public static int maxNumberOfReviews;
 }
