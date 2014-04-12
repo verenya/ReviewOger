@@ -14,7 +14,7 @@ public class Pool {
 	/**
 	 * The possible participants for a review
 	 */
-	ArrayList<Participant> participantList = new ArrayList<Participant>();
+	private ArrayList<Participant> participantList = new ArrayList<Participant>();
 
 	/**
 	 * Generates a pool of possible participants for the given review
@@ -60,7 +60,7 @@ public class Pool {
 	/**
 	 * @return the current size of the pool
 	 */
-	protected int getCurrentPollsize() {
+	protected int getCurrentPoolsize() {
 		return participantList.size();
 	}
 
