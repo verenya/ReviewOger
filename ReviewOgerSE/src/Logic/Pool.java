@@ -1,7 +1,7 @@
 /**
  * This class represents one pool for a review. A pool holds all participants which can be added to a review. These participants have no other review in the same time slot, have not the same group as the author of the review and have not participated in the maximum amount of reviews for each participabt.  
  */
-package Logic;
+package logic;
 
 import java.util.ArrayList;
 
@@ -60,7 +60,7 @@ public class Pool {
 	/**
 	 * @return the current size of the pool
 	 */
-	protected int getCurrentPollsize() {
+	protected int getCurrentPoolsize() {
 		return participantList.size();
 	}
 
