@@ -1,5 +1,7 @@
 package gui.actions;
 
+import gui.Gui;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,15 +18,19 @@ import javax.swing.JTextField;
 import data.Participant;
 import data.ParticipantTableModel;
 
-public class AddParticipantAction extends AbstractAction {
+public class EditParticipantAction extends AbstractAction {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2467904837184600786L;
+	private static final long serialVersionUID = 3746794815943075198L;
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		ParticipantTableModel model = ParticipantTableModel.getInstance();
+		int row = Gui.getselectedParticipantRow();
+		final Participant selectedParticipant = model.getParticipantAt(row);
+		
 		final JFrame participantFrame = new JFrame();
 		participantFrame.setLayout(new GridLayout(2, 1));
 		participantFrame.setTitle("Neuer Teilnehmer");
@@ -39,24 +45,28 @@ public class AddParticipantAction extends AbstractAction {
 		inputPane.add(firstNameLabel);
 
 		final JTextField firstNameField = new JTextField();
+		firstNameField.setText(selectedParticipant.getFirstName());
 		inputPane.add(firstNameField);
 
 		JLabel lastNameLabel = new JLabel("Nachname:");
 		inputPane.add(lastNameLabel);
 
 		final JTextField lastNameField = new JTextField();
+		lastNameField.setText(selectedParticipant.getLastName());
 		inputPane.add(lastNameField);
 
 		JLabel emailLabel = new JLabel("E-Mail:");
 		inputPane.add(emailLabel);
 
 		final JTextField emailField = new JTextField();
+		emailField.setText(selectedParticipant.geteMailAdress());
 		inputPane.add(emailField);
 
 		JLabel groupLabel = new JLabel("Gruppe");
 		inputPane.add(groupLabel);
 
 		final JTextField groupField = new JTextField();
+		groupField.setText(Integer.toString(selectedParticipant.getGroupNumber()));
 		inputPane.add(groupField);
 
 		JButton doneButton = new JButton("OK");
@@ -80,11 +90,12 @@ public class AddParticipantAction extends AbstractAction {
 							"The grupp must be a number!", "Group error",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
-					Participant addedParticipant = new Participant(firstName,
-							lastName, email, group);
-					ParticipantTableModel model = ParticipantTableModel
-							.getInstance();
-					model.addParticipant(addedParticipant);
+					selectedParticipant.setFirstName(firstName);
+					selectedParticipant.setLastName(lastName);
+					selectedParticipant.seteMailAdress(email);
+					selectedParticipant.setGroupNumber(group);
+					ParticipantTableModel model = ParticipantTableModel.getInstance();
+					model.fireTableDataChanged();
 					participantFrame.dispose();
 				}
 			}
@@ -93,7 +104,6 @@ public class AddParticipantAction extends AbstractAction {
 
 		participantFrame.setVisible(true);
 		participantFrame.pack();
-
 	}
 
 }

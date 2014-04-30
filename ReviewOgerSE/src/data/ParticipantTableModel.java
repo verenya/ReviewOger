@@ -83,5 +83,9 @@ public class ParticipantTableModel extends AbstractTableModel {
 		participants.remove(row);
 		fireTableDataChanged();
 	}
+	
+	public Participant getParticipantAt(int index){
+		return participants.get(index);
+	}
 
 }

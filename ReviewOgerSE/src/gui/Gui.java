@@ -2,6 +2,7 @@ package gui;
 
 import gui.actions.AddParticipantAction;
 import gui.actions.DeleteParticipantAction;
+import gui.actions.EditParticipantAction;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -79,8 +80,9 @@ public class Gui extends JFrame {
 		menuParticipant.add(menuDeleteParticipant);
 		menuDeleteParticipant.setText("Löschen");
 
-		JMenuItem menuEditParticipant = new JMenuItem("bearbeiten");
+		JMenuItem menuEditParticipant = new JMenuItem(new EditParticipantAction());
 		menuParticipant.add(menuEditParticipant);
+		menuEditParticipant.setText("Bearbeiten");
 
 		JMenu menuRoom = new JMenu("Raum");
 		menuEdit.add(menuRoom);
@@ -170,7 +172,7 @@ public class Gui extends JFrame {
 		
 		participantDeleteButton.setText("Löschen");
 
-		JButton participantEditButton = new JButton("Bearbeiten");
+		JButton participantEditButton = new JButton(new EditParticipantAction());
 		GridBagConstraints gbc_participantEditButton = new GridBagConstraints();
 		gbc_participantEditButton.fill = GridBagConstraints.BOTH;
 		gbc_participantEditButton.gridwidth = 2;
@@ -178,6 +180,8 @@ public class Gui extends JFrame {
 		gbc_participantEditButton.gridy = 1;
 		participantButtonPanle.add(participantEditButton,
 				gbc_participantEditButton);
+		
+		participantEditButton.setText("Bearbeiten");
 
 		// room panel
 		JPanel roomPanel = new JPanel();
