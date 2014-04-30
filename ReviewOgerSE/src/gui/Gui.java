@@ -3,6 +3,7 @@ package gui;
 import gui.actions.AddParticipantAction;
 import gui.actions.DeleteParticipantAction;
 import gui.actions.EditParticipantAction;
+import io.FileReader;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,6 +26,9 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JMenuItem;
 import javax.swing.ListSelectionModel;
@@ -58,6 +62,22 @@ public class Gui extends JFrame {
 		mnFile.add(menuSave);
 
 		JMenuItem menuLoadParticipant = new JMenuItem("Teilnehmer einlesen");
+		menuLoadParticipant.addActionListener(new ActionListener() {
+			 
+            public void actionPerformed(ActionEvent e)
+            {
+                FileReader reader = new FileReader();
+                try {
+                	//TODO richtiger pfad
+					reader.readParticipantList("/media/verena/F0CA5804CA57C60E/verena/Oger/teilnehmerliste-for-reviewogre.csv");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+
+		
+        }); 
 		mnFile.add(menuLoadParticipant);
 
 		JMenuItem menuLoadRoom = new JMenuItem("Räume einlesen");
@@ -93,7 +113,7 @@ public class Gui extends JFrame {
 		JMenuItem menuDeleteRoom = new JMenuItem("löschen");
 		menuRoom.add(menuDeleteRoom);
 
-		JMenuItem menuEditRoom = new JMenuItem("bearbeiten");
+		JMenuItem menuEditRoom = new JMenuItem("bearbeiten");  
 		menuRoom.add(menuEditRoom);
 
 		// participant panel

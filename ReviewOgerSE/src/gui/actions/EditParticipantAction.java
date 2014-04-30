@@ -1,3 +1,6 @@
+/**
+ * This class implements an abstract action that is called when a participant should be edited
+ */
 package gui.actions;
 
 import gui.Gui;

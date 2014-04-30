@@ -1,3 +1,6 @@
+/**
+ * This class has an abstract action which is called when a participant should be deleted
+ */
 package gui.actions;
 
 import gui.Gui;

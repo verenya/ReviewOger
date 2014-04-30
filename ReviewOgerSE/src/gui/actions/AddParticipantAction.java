@@ -1,3 +1,6 @@
+/**
+ * This class holds an abstract action which is called when a new participant shall be added
+ */
 package gui.actions;
 
 import java.awt.Dimension;

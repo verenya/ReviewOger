@@ -1,3 +1,6 @@
+/**
+ * This class is the table model of the participant table
+ */
 package data;
 
 import java.util.ArrayList;
@@ -7,24 +10,30 @@ import javax.swing.table.AbstractTableModel;
 
 public class ParticipantTableModel extends AbstractTableModel {
 
+	/**
+	 * All participants
+	 */
 	private static List<Participant> participants = new ArrayList<Participant>();
 
+	/**
+	 * an instance of the model to use the singleton pattern
+	 */
 	private static ParticipantTableModel instance;
 
 	private ParticipantTableModel() {
 	}
 
+	/**
+	 * An implementation of the singleton pattern
+	 * 
+	 * @return an instance of the model
+	 */
 	public static ParticipantTableModel getInstance() {
 		if (ParticipantTableModel.instance == null) {
 			ParticipantTableModel.instance = new ParticipantTableModel();
 		}
 		return ParticipantTableModel.instance;
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5928928394242503836L;
 
 	@Override
 	public int getColumnCount() {
@@ -70,21 +79,40 @@ public class ParticipantTableModel extends AbstractTableModel {
 		}
 	}
 
+	/**
+	 * @return the list with all participants
+	 */
 	public static List<Participant> getParticipants() {
 		return participants;
 	}
 
+	/**
+	 * adds a new participant
+	 * 
+	 * @param newParticipant
+	 */
 	public void addParticipant(Participant newParticipant) {
 		participants.add(newParticipant);
 		fireTableDataChanged();
 	}
-	
-	public void deleteParticipant(int row){
-		participants.remove(row);
+
+	/**
+	 * deletes a participant
+	 * 
+	 * @param index
+	 *            the index of the participant
+	 */
+	public void deleteParticipant(int index) {
+		participants.remove(index);
 		fireTableDataChanged();
 	}
-	
-	public Participant getParticipantAt(int index){
+
+	/**
+	 * @param index
+	 *            the index of the wanted participant
+	 * @return the participant at the given index
+	 */
+	public Participant getParticipantAt(int index) {
 		return participants.get(index);
 	}
 
