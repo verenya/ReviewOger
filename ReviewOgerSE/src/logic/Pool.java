@@ -6,6 +6,7 @@ package logic;
 import java.util.ArrayList;
 
 import data.Participant;
+import data.ParticipantTableModel;
 import data.Review;
 import data.ReviewPlan;
 
@@ -25,7 +26,7 @@ public class Pool {
 	 *         else false
 	 */
 	protected boolean generatePoolForReview(Review review) {
-		for (Participant p : ReviewPlan.participants) {
+		for (Participant p : ParticipantTableModel.getParticipants()) {
 			// must not be the same group as the author and not too many reviews
 			if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
 					&& (p.getNumberOfReviews() < ReviewPlan.maxNumberOfReviews)) {

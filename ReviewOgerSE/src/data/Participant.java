@@ -5,6 +5,13 @@
 package data;
 
 public class Participant {
+	
+	public Participant(String firstName, String lastName, String eMail, int groupNumber){
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.eMailAdress = eMail;
+		this.groupNumber = groupNumber;
+	}
 	// The amount of reviews this participant is assigned to
 	private int numberOfReviews;
 	
