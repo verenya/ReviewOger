@@ -10,6 +10,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class ParticipantTableModel extends AbstractTableModel {
 
+	private static final long serialVersionUID = 7633974611670892835L;
+
 	/**
 	 * All participants
 	 */

@@ -3,7 +3,7 @@ package gui;
 import gui.actions.AddParticipantAction;
 import gui.actions.DeleteParticipantAction;
 import gui.actions.EditParticipantAction;
-import io.FileReader;
+import gui.actions.readParticipantsAction;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +14,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import data.ParticipantTableModel;
+import data.RoomTreeModel;
+import data.Slot;
 
 import javax.swing.JLabel;
 
@@ -28,10 +30,12 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JMenuItem;
 import javax.swing.ListSelectionModel;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class Gui extends JFrame {
 	/**
@@ -40,6 +44,7 @@ public class Gui extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField reviewerNumberTextField;
 	private static JTable participantTable;
+	private static JTree roomTree;
 
 	/**
 	 * Creates the main frame. There are five main components. The menu bar. The
@@ -48,6 +53,8 @@ public class Gui extends JFrame {
 	 * option panel with available options. The start button.
 	 */
 	public Gui() {
+
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 967, 414);
 
@@ -61,30 +68,10 @@ public class Gui extends JFrame {
 		JMenuItem menuSave = new JMenuItem("Speichern");
 		mnFile.add(menuSave);
 
-		JMenuItem menuLoadParticipant = new JMenuItem("Teilnehmer einlesen");
-		menuLoadParticipant.addActionListener(new ActionListener() {
-			 
-            public void actionPerformed(ActionEvent e)
-            {
-                FileReader reader = new FileReader();
-                try {
-                	//TODO richtiger pfad
-					reader.readParticipantList("/media/verena/F0CA5804CA57C60E/verena/Oger/teilnehmerliste-for-reviewogre.csv");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-            }
-
-		
-        }); 
+		JMenuItem menuLoadParticipant = new JMenuItem(
+				new readParticipantsAction());
+		menuLoadParticipant.setText("Teilnehmer einlesen");
 		mnFile.add(menuLoadParticipant);
-
-		JMenuItem menuLoadRoom = new JMenuItem("Räume einlesen");
-		mnFile.add(menuLoadRoom);
-
-		JMenuItem menuExit = new JMenuItem("Schließen");
-		mnFile.add(menuExit);
 
 		JMenu menuEdit = new JMenu("Edit");
 		menuBar.add(menuEdit);
@@ -96,11 +83,13 @@ public class Gui extends JFrame {
 		menuAddParticipant.setText("hinzufügen");
 		menuParticipant.add(menuAddParticipant);
 
-		JMenuItem menuDeleteParticipant = new JMenuItem(new DeleteParticipantAction());
+		JMenuItem menuDeleteParticipant = new JMenuItem(
+				new DeleteParticipantAction());
 		menuParticipant.add(menuDeleteParticipant);
 		menuDeleteParticipant.setText("Löschen");
 
-		JMenuItem menuEditParticipant = new JMenuItem(new EditParticipantAction());
+		JMenuItem menuEditParticipant = new JMenuItem(
+				new EditParticipantAction());
 		menuParticipant.add(menuEditParticipant);
 		menuEditParticipant.setText("Bearbeiten");
 
@@ -113,7 +102,7 @@ public class Gui extends JFrame {
 		JMenuItem menuDeleteRoom = new JMenuItem("löschen");
 		menuRoom.add(menuDeleteRoom);
 
-		JMenuItem menuEditRoom = new JMenuItem("bearbeiten");  
+		JMenuItem menuEditRoom = new JMenuItem("bearbeiten");
 		menuRoom.add(menuEditRoom);
 
 		// participant panel
@@ -139,7 +128,7 @@ public class Gui extends JFrame {
 		gbl_participantPanel.rowWeights = new double[] { 1.0, 0.0,
 				Double.MIN_VALUE };
 		participantPanel.setLayout(gbl_participantPanel);
-		
+
 		JScrollPane participantScrollPane = new JScrollPane();
 		GridBagConstraints gbc_participantScrollPane = new GridBagConstraints();
 		gbc_participantScrollPane.insets = new Insets(0, 0, 5, 0);
@@ -147,8 +136,7 @@ public class Gui extends JFrame {
 		gbc_participantScrollPane.gridx = 0;
 		gbc_participantScrollPane.gridy = 0;
 		participantPanel.add(participantScrollPane, gbc_participantScrollPane);
-		
-		
+
 		participantTable = new JTable(ParticipantTableModel.getInstance());
 		participantTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		participantScrollPane.setViewportView(participantTable);
@@ -177,10 +165,11 @@ public class Gui extends JFrame {
 		gbc_participantAddButton.gridy = 0;
 		participantButtonPanle.add(participantAddButton,
 				gbc_participantAddButton);
-		
+
 		participantAddButton.setText("Hinzufügen");
 
-		JButton participantDeleteButton = new JButton(new DeleteParticipantAction());
+		JButton participantDeleteButton = new JButton(
+				new DeleteParticipantAction());
 		GridBagConstraints gbc_participantDeleteButton = new GridBagConstraints();
 		gbc_participantDeleteButton.anchor = GridBagConstraints.NORTH;
 		gbc_participantDeleteButton.fill = GridBagConstraints.HORIZONTAL;
@@ -189,7 +178,7 @@ public class Gui extends JFrame {
 		gbc_participantDeleteButton.gridy = 0;
 		participantButtonPanle.add(participantDeleteButton,
 				gbc_participantDeleteButton);
-		
+
 		participantDeleteButton.setText("Löschen");
 
 		JButton participantEditButton = new JButton(new EditParticipantAction());
@@ -200,7 +189,7 @@ public class Gui extends JFrame {
 		gbc_participantEditButton.gridy = 1;
 		participantButtonPanle.add(participantEditButton,
 				gbc_participantEditButton);
-		
+
 		participantEditButton.setText("Bearbeiten");
 
 		// room panel
@@ -225,55 +214,75 @@ public class Gui extends JFrame {
 		roomPanel.add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 193, 0 };
-		gbl_panel.rowHeights = new int[] { 211, 65, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel.rowHeights = new int[] { 211, 65, 0, 0, 0 };
+		gbl_panel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0,
+				Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		JTable roomTable = new JTable();
-		GridBagConstraints gbc_roomList = new GridBagConstraints();
-		gbc_roomList.fill = GridBagConstraints.BOTH;
-		gbc_roomList.insets = new Insets(0, 0, 5, 0);
-		gbc_roomList.gridx = 0;
-		gbc_roomList.gridy = 0;
-		panel.add(roomTable, gbc_roomList);
+		JScrollPane roomScrollPane = new JScrollPane();
+		GridBagConstraints gbc_roomScrollPane = new GridBagConstraints();
+		gbc_roomScrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_roomScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_roomScrollPane.gridx = 0;
+		gbc_roomScrollPane.gridy = 0;
+		panel.add(roomScrollPane, gbc_roomScrollPane);
+
+roomTree = new JTree(RoomTreeModel.getModel());
+		roomScrollPane.setViewportView(roomTree);
 
 		JPanel roomButtonPanel = new JPanel();
 		GridBagConstraints gbc_roomButtonPanel = new GridBagConstraints();
+		gbc_roomButtonPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_roomButtonPanel.fill = GridBagConstraints.BOTH;
 		gbc_roomButtonPanel.gridx = 0;
 		gbc_roomButtonPanel.gridy = 1;
 		panel.add(roomButtonPanel, gbc_roomButtonPanel);
 		GridBagLayout gbl_roomButtonPanel = new GridBagLayout();
 		gbl_roomButtonPanel.columnWidths = new int[] { 115, 136, 0 };
-		gbl_roomButtonPanel.rowHeights = new int[] { 25, 25, 0 };
+		gbl_roomButtonPanel.rowHeights = new int[] { 25, 25, 0, 0 };
 		gbl_roomButtonPanel.columnWeights = new double[] { 0.0, 0.0,
 				Double.MIN_VALUE };
-		gbl_roomButtonPanel.rowWeights = new double[] { 0.0, 0.0,
+		gbl_roomButtonPanel.rowWeights = new double[] { 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		roomButtonPanel.setLayout(gbl_roomButtonPanel);
 
-		JButton buttonroomAddButton = new JButton("Hinzufügen");
-		GridBagConstraints gbc_buttonroomAddButton = new GridBagConstraints();
-		gbc_buttonroomAddButton.fill = GridBagConstraints.BOTH;
-		gbc_buttonroomAddButton.insets = new Insets(0, 0, 5, 5);
-		gbc_buttonroomAddButton.gridx = 0;
-		gbc_buttonroomAddButton.gridy = 0;
-		roomButtonPanel.add(buttonroomAddButton, gbc_buttonroomAddButton);
+		JButton newSlotButton = new JButton("Neuer Slot");
+		newSlotButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				newSlotGui.addSlot();
+			}
+		});
+		
+		GridBagConstraints gbc_newSlotButton = new GridBagConstraints();
+		gbc_newSlotButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_newSlotButton.insets = new Insets(0, 0, 5, 5);
+		gbc_newSlotButton.gridx = 0;
+		gbc_newSlotButton.gridy = 0;
+		roomButtonPanel.add(newSlotButton, gbc_newSlotButton);
+
+		JButton newRoomButton = new JButton("Neuer Raum");
+		GridBagConstraints gbc_newRoomButton = new GridBagConstraints();
+		gbc_newRoomButton.fill = GridBagConstraints.BOTH;
+		gbc_newRoomButton.insets = new Insets(0, 0, 5, 0);
+		gbc_newRoomButton.gridx = 1;
+		gbc_newRoomButton.gridy = 0;
+		roomButtonPanel.add(newRoomButton, gbc_newRoomButton);
 
 		JButton roomDeleteButton = new JButton("Löschen");
 		GridBagConstraints gbc_roomDeleteButton = new GridBagConstraints();
 		gbc_roomDeleteButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_roomDeleteButton.insets = new Insets(0, 0, 5, 0);
-		gbc_roomDeleteButton.gridx = 1;
-		gbc_roomDeleteButton.gridy = 0;
+		gbc_roomDeleteButton.insets = new Insets(0, 0, 5, 5);
+		gbc_roomDeleteButton.gridx = 0;
+		gbc_roomDeleteButton.gridy = 1;
 		roomButtonPanel.add(roomDeleteButton, gbc_roomDeleteButton);
 
 		JButton roomEditButton = new JButton("Bearbeiten");
 		GridBagConstraints gbc_roomEditButton = new GridBagConstraints();
+		gbc_roomEditButton.insets = new Insets(0, 0, 5, 0);
 		gbc_roomEditButton.fill = GridBagConstraints.BOTH;
-		gbc_roomEditButton.gridwidth = 2;
-		gbc_roomEditButton.gridx = 0;
+		gbc_roomEditButton.gridx = 1;
 		gbc_roomEditButton.gridy = 1;
 		roomButtonPanel.add(roomEditButton, gbc_roomEditButton);
 
@@ -282,7 +291,6 @@ public class Gui extends JFrame {
 		GridBagConstraints gbc_optionPanel = new GridBagConstraints();
 		gbc_optionPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_optionPanel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_optionPanel.anchor = GridBagConstraints.NORTH;
 		gbc_optionPanel.gridx = 2;
 		gbc_optionPanel.gridy = 0;
 		getContentPane().add(optionPanel, gbc_optionPanel);
@@ -341,8 +349,9 @@ public class Gui extends JFrame {
 		optionPanel.add(exitOptionLabel, gbc_exitOptionLabel);
 
 		JComboBox<String> exitOptionComboBox = new JComboBox<String>();
-		exitOptionComboBox.setModel(new DefaultComboBoxModel<String>(new String[] {
-				"manueller Abbruch", "feste Zeit", "feste Anzahl" }));
+		exitOptionComboBox.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "manueller Abbruch", "feste Zeit",
+						"feste Anzahl" }));
 		GridBagConstraints gbc_exitOptionComboBox = new GridBagConstraints();
 		gbc_exitOptionComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_exitOptionComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -355,19 +364,23 @@ public class Gui extends JFrame {
 		JButton startButton = new JButton("Berechnung beginnen");
 		GridBagConstraints gbc_startButton = new GridBagConstraints();
 		gbc_startButton.insets = new Insets(0, 0, 5, 0);
-		gbc_startButton.fill = GridBagConstraints.BOTH;
+		gbc_startButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_startButton.gridwidth = 3;
 		gbc_startButton.gridx = 0;
 		gbc_startButton.gridy = 1;
 		getContentPane().add(startButton, gbc_startButton);
 
 	}
-	
+
 	/**
 	 * @return the selected row in the table of the participants
 	 */
-	public static int getselectedParticipantRow(){
+	public static int getselectedParticipantRow() {
 		return participantTable.getSelectedRow();
+	}
+	
+	public static JTree getRoomTree(){
+		return roomTree;
 	}
 
 }
