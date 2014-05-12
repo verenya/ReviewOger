@@ -10,7 +10,7 @@ import java.io.File;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 
-public class readParticipantsAction extends AbstractAction {
+public class ReadParticipantsAction extends AbstractAction {
 
 	private static final long serialVersionUID = 195034471242396979L;
 

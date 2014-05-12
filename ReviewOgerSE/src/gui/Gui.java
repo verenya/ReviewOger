@@ -3,7 +3,7 @@ package gui;
 import gui.actions.AddParticipantAction;
 import gui.actions.DeleteParticipantAction;
 import gui.actions.EditParticipantAction;
-import gui.actions.readParticipantsAction;
+import gui.actions.ReadParticipantsAction;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,8 +15,6 @@ import javax.swing.JTextField;
 
 import data.ParticipantTableModel;
 import data.RoomTreeModel;
-import data.Slot;
-
 import javax.swing.JLabel;
 
 import java.awt.GridBagLayout;
@@ -34,8 +32,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 
 public class Gui extends JFrame {
 	/**
@@ -54,7 +50,6 @@ public class Gui extends JFrame {
 	 */
 	public Gui() {
 
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 967, 414);
 
@@ -62,48 +57,17 @@ public class Gui extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		JMenu mnFile = new JMenu("File");
+		JMenu mnFile = new JMenu("Datei");
 		menuBar.add(mnFile);
 
 		JMenuItem menuSave = new JMenuItem("Speichern");
 		mnFile.add(menuSave);
 
 		JMenuItem menuLoadParticipant = new JMenuItem(
-				new readParticipantsAction());
+				new ReadParticipantsAction());
 		menuLoadParticipant.setText("Teilnehmer einlesen");
 		mnFile.add(menuLoadParticipant);
 
-		JMenu menuEdit = new JMenu("Edit");
-		menuBar.add(menuEdit);
-
-		JMenu menuParticipant = new JMenu("Teilnehmer");
-		menuEdit.add(menuParticipant);
-
-		JMenuItem menuAddParticipant = new JMenuItem(new AddParticipantAction());
-		menuAddParticipant.setText("hinzufügen");
-		menuParticipant.add(menuAddParticipant);
-
-		JMenuItem menuDeleteParticipant = new JMenuItem(
-				new DeleteParticipantAction());
-		menuParticipant.add(menuDeleteParticipant);
-		menuDeleteParticipant.setText("Löschen");
-
-		JMenuItem menuEditParticipant = new JMenuItem(
-				new EditParticipantAction());
-		menuParticipant.add(menuEditParticipant);
-		menuEditParticipant.setText("Bearbeiten");
-
-		JMenu menuRoom = new JMenu("Raum");
-		menuEdit.add(menuRoom);
-
-		JMenuItem menuAddRoom = new JMenuItem("hinzufügen");
-		menuRoom.add(menuAddRoom);
-
-		JMenuItem menuDeleteRoom = new JMenuItem("löschen");
-		menuRoom.add(menuDeleteRoom);
-
-		JMenuItem menuEditRoom = new JMenuItem("bearbeiten");
-		menuRoom.add(menuEditRoom);
 
 		// participant panel
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -228,7 +192,7 @@ public class Gui extends JFrame {
 		gbc_roomScrollPane.gridy = 0;
 		panel.add(roomScrollPane, gbc_roomScrollPane);
 
-roomTree = new JTree(RoomTreeModel.getModel());
+		roomTree = new JTree(RoomTreeModel.getModel());
 		roomScrollPane.setViewportView(roomTree);
 
 		JPanel roomButtonPanel = new JPanel();
@@ -250,11 +214,10 @@ roomTree = new JTree(RoomTreeModel.getModel());
 		JButton newSlotButton = new JButton("Neuer Slot");
 		newSlotButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				newSlotGui.addSlot();
+				NewSlotGui.addSlot();
 			}
 		});
-		
+
 		GridBagConstraints gbc_newSlotButton = new GridBagConstraints();
 		gbc_newSlotButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_newSlotButton.insets = new Insets(0, 0, 5, 5);
@@ -263,6 +226,11 @@ roomTree = new JTree(RoomTreeModel.getModel());
 		roomButtonPanel.add(newSlotButton, gbc_newSlotButton);
 
 		JButton newRoomButton = new JButton("Neuer Raum");
+		newRoomButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewRoomGui.addRoom();
+			}
+		});
 		GridBagConstraints gbc_newRoomButton = new GridBagConstraints();
 		gbc_newRoomButton.fill = GridBagConstraints.BOTH;
 		gbc_newRoomButton.insets = new Insets(0, 0, 5, 0);
@@ -378,8 +346,8 @@ roomTree = new JTree(RoomTreeModel.getModel());
 	public static int getselectedParticipantRow() {
 		return participantTable.getSelectedRow();
 	}
-	
-	public static JTree getRoomTree(){
+
+	public static JTree getRoomTree() {
 		return roomTree;
 	}
 
