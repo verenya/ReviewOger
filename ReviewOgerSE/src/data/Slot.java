@@ -13,19 +13,17 @@ import java.util.List;
 public class Slot {
 	
 	public Slot(Date newDate){
-		System.out.println(newDate.toString());
-		calendar.setTime(newDate);
-		System.out.println(calendar.toString());
+		date.setTime(newDate);
 	}
 
 	List<Room> roomsAtDate = new ArrayList<Room>();
-	GregorianCalendar calendar;
+	GregorianCalendar date = new GregorianCalendar();
 
 	public String getDate(){
-		String day = Integer.toString(calendar.get( Calendar.DAY_OF_MONTH));
-		//TODO hier ist das problem mit der NPE!!!
-		String month = Integer.toString(calendar.get( Calendar.MONTH));
-		String year = Integer.toString(calendar.get( Calendar.YEAR));
+		String day = Integer.toString(date.get( Calendar.DAY_OF_MONTH));
+		String month = Integer.toString(date.get( Calendar.MONTH));
+		String year = Integer.toString(date.get( Calendar.YEAR));
+		System.out.println(day + "." + month + "." + year);
 		return day + "." + month + "." + year;
 	}
 }
