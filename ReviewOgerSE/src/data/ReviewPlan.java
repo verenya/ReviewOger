@@ -13,7 +13,7 @@ public class ReviewPlan {
 	
 	public List<Review> reviews = new ArrayList<Review>();
 	
-	public List<Slot> slots = new ArrayList<Slot>();
+	static public List<Slot> slots = new ArrayList<Slot>();
 	
 
 	

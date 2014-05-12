@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import data.ReviewPlan;
 import data.RoomTreeModel;
 import data.Slot;
 
@@ -104,6 +105,7 @@ public class NewSlotGui {
 							.getRoot()).add(new DefaultMutableTreeNode(slot
 							.getFormatedDate()));
 					Gui.getRoomTree().updateUI();
+					ReviewPlan.slots.add(slot);
 					slotFrame.dispose();
 				}
 			}
