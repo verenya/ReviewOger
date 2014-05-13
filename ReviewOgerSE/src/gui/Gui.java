@@ -51,7 +51,7 @@ public class Gui extends JFrame {
 	public Gui() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 967, 414);
+		setBounds(100, 100, 1000, 414);
 
 		// Menu
 		JMenuBar menuBar = new JMenuBar();

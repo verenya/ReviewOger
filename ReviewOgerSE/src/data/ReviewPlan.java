@@ -12,9 +12,6 @@ import java.util.List;
 public class ReviewPlan {
 	
 	public List<Review> reviews = new ArrayList<Review>();
-	
-	static public List<Slot> slots = new ArrayList<Slot>();
-	
 
 	
 	public static int maxNumberOfReviews;

@@ -20,9 +20,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import data.ReviewPlan;
 import data.RoomTreeModel;
 import data.Slot;
+import data.SlotNode;
 
 public class NewSlotGui {
 
@@ -101,11 +101,11 @@ public class NewSlotGui {
 
 				if (!parseFailed) {
 					Slot slot = new Slot(date, beginTime, endTime);
+					SlotNode newSlotNode = new SlotNode();
+					newSlotNode.setUserObject(slot);
 					((DefaultMutableTreeNode) RoomTreeModel.getModel()
-							.getRoot()).add(new DefaultMutableTreeNode(slot
-							.getFormatedDate()));
+							.getRoot()).add(newSlotNode);
 					Gui.getRoomTree().updateUI();
-					ReviewPlan.slots.add(slot);
 					slotFrame.dispose();
 				}
 			}
