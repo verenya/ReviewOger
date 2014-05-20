@@ -7,7 +7,6 @@ package data;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -26,18 +25,18 @@ public class Slot {
 	GregorianCalendar endTime = new GregorianCalendar();
 
 	/**
-	 * @return the date of the review formated as dd:mm:yy
+	 * @return the date of the slot formated as dd:MM:yy hh:mm to hh:mm
 	 */
 	public String getFormatedDate(){
 		
-		DateFormat dateFormatter = new SimpleDateFormat("dd:mm:yy");
-		String completeDate = dateFormatter.format(date.getTime());
+		DateFormat dateFormatter = new SimpleDateFormat("dd.MM.yy");
+		String dateString = dateFormatter.format(date.getTime());
 		
 		DateFormat beginFormatter = new SimpleDateFormat("HH:mm");
 		String begin = beginFormatter.format(beginTime.getTime());
 		
 		DateFormat endFormatter = new SimpleDateFormat("HH:mm");
 		String end = endFormatter.format(endTime.getTime());
-		return completeDate + " von " + begin + " Uhr bis " + end + " Uhr";
+		return dateString + " von " + begin + " Uhr bis " + end + " Uhr";
 	}
 }

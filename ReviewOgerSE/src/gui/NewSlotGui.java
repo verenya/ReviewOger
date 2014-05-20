@@ -62,6 +62,8 @@ public class NewSlotGui {
 		JButton doneButton = new JButton("OK");
 		doneButton.addActionListener(new AbstractAction() {
 
+			private static final long serialVersionUID = 2483720398415164553L;
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
