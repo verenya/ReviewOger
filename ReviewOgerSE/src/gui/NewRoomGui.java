@@ -30,96 +30,108 @@ public class NewRoomGui {
 	 */
 	public static void addRoom() {
 
-		final JFrame roomFrame = new JFrame();
+		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
+				.getRoomTree().getLastSelectedPathComponent();
 
-		final DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+		// not possible to add something to a leaf
+		if (!selectedNode.isLeaf()) {
 
-		roomFrame.setLayout(new GridLayout(5, 2));
-		roomFrame.setTitle("Neuer Raum");
-		Dimension minimumSize = new Dimension(250, 200);
-		roomFrame.setMinimumSize(minimumSize);
+			final JFrame roomFrame = new JFrame();
 
-		JLabel RoomLabel = new JLabel("Raum:");
-		roomFrame.add(RoomLabel);
+			final DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
-		final JTextField roomField = new JTextField();
-		roomFrame.add(roomField);
+			roomFrame.setLayout(new GridLayout(5, 2));
+			roomFrame.setTitle("Neuer Raum");
+			Dimension minimumSize = new Dimension(250, 200);
+			roomFrame.setMinimumSize(minimumSize);
 
-		JLabel beginLabel = new JLabel("Beginn:");
-		roomFrame.add(beginLabel);
+			JLabel RoomLabel = new JLabel("Raum:");
+			roomFrame.add(RoomLabel);
 
-		final JTextField beginField = new JTextField();
-		roomFrame.add(beginField);
+			final JTextField roomField = new JTextField();
+			roomFrame.add(roomField);
 
-		JLabel endLabel = new JLabel("Ende:");
-		roomFrame.add(endLabel);
+			JLabel beginLabel = new JLabel("Beginn:");
+			roomFrame.add(beginLabel);
 
-		final JTextField endField = new JTextField();
-		roomFrame.add(endField);
-		
-		JLabel hasBeamerLabel = new JLabel("Beamer: ");
-		roomFrame.add(hasBeamerLabel);
-		
-		final JCheckBox hasBeamerBox = new JCheckBox();
-		roomFrame.add(hasBeamerBox);
+			final JTextField beginField = new JTextField();
+			roomFrame.add(beginField);
 
-		JButton doneButton = new JButton("OK");
-		doneButton.addActionListener(new AbstractAction() {
+			JLabel endLabel = new JLabel("Ende:");
+			roomFrame.add(endLabel);
 
-			private static final long serialVersionUID = 2483720398415164553L;
+			final JTextField endField = new JTextField();
+			roomFrame.add(endField);
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			JLabel hasBeamerLabel = new JLabel("Beamer: ");
+			roomFrame.add(hasBeamerLabel);
 
-				boolean parseFailed = false;
+			final JCheckBox hasBeamerBox = new JCheckBox();
+			roomFrame.add(hasBeamerBox);
 
-				String roomString = roomField.getText();
-				Date beginTime = null;
-				Date endTime = null;
-				
-				Boolean hasBeamer = hasBeamerBox.isSelected();
+			JButton doneButton = new JButton("OK");
+			doneButton.addActionListener(new AbstractAction() {
 
-				try {
-					beginTime = timeFormat.parse(beginField.getText());
-				} catch (ParseException e) {
-					JOptionPane.showMessageDialog(null,
-							"Angfangszeit muss die Form HH:mm haben",
-							"Anfangszeit nicht erkannt",
-							JOptionPane.ERROR_MESSAGE);
-					parseFailed = true;
+				private static final long serialVersionUID = 2483720398415164553L;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					boolean parseFailed = false;
+
+					String roomString = roomField.getText();
+					Date beginTime = null;
+					Date endTime = null;
+
+					Boolean hasBeamer = hasBeamerBox.isSelected();
+
+					try {
+						beginTime = timeFormat.parse(beginField.getText());
+					} catch (ParseException e) {
+						JOptionPane.showMessageDialog(null,
+								"Angfangszeit muss die Form HH:mm haben",
+								"Anfangszeit nicht erkannt",
+								JOptionPane.ERROR_MESSAGE);
+						parseFailed = true;
+					}
+
+					try {
+						endTime = timeFormat.parse(endField.getText());
+					} catch (ParseException e) {
+						JOptionPane.showMessageDialog(null,
+								"Endzeit muss die Form HH:mm haben",
+								"Endzeit nicht erkannt",
+								JOptionPane.ERROR_MESSAGE);
+						parseFailed = true;
+					}
+
+					if (!parseFailed) {
+						Room room = new Room(roomString, hasBeamer, beginTime,
+								endTime);
+
+						RoomNode newRoomNode = new RoomNode();
+						newRoomNode.setUserObject(room);
+
+						DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
+								.getRoomTree().getLastSelectedPathComponent();
+
+						selectedNode.add(newRoomNode);
+						Gui.getRoomTree().updateUI();
+						roomFrame.dispose();
+					}
 				}
 
-				try {
-					endTime = timeFormat.parse(endField.getText());
-				} catch (ParseException e) {
-					JOptionPane.showMessageDialog(null,
-							"Endzeit muss die Form HH:mm haben",
-							"Endzeit nicht erkannt", JOptionPane.ERROR_MESSAGE);
-					parseFailed = true;
-				}
+			});
+			roomFrame.add(doneButton);
 
-				if (!parseFailed) {
-					Room room = new Room(roomString, hasBeamer, beginTime, endTime);
-
-					RoomNode newRoomNode = new RoomNode();
-					newRoomNode.setUserObject(room);
-					
-					DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)
-		                       Gui.getRoomTree().getLastSelectedPathComponent();
-					
-					selectedNode.add(newRoomNode);
-					Gui.getRoomTree().updateUI();
-					roomFrame.dispose();
-				}
-			}
-
-		});
-		roomFrame.add(doneButton);
-
-		roomFrame.setVisible(true);
-		roomFrame.pack();
+			roomFrame.setVisible(true);
+			roomFrame.pack();
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"Kann keine Räume zu Räumen hinzufügen", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 
 	}
-
 
 }

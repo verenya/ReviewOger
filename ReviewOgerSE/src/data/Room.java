@@ -43,6 +43,22 @@ public class Room {
 		this.hasBeamer = hasBeamer;
 	}
 	
+	public Date getBeginTime() {
+		return beginTime.getTime();
+	}
+	
+	public Date getEndTime(){
+		return endTime.getTime();
+	}
+	
+	public void setbeginTime(Date beginTime){
+		this.beginTime.setTime(beginTime);
+	}
+	
+	public void setendTime(Date endTime){
+		this.endTime.setTime(endTime);
+	}
+	
 	
 	/**
 	 * @return the date of the review formated as x.xxx hh:mm to hh:mm
@@ -58,5 +74,7 @@ public class Room {
 		
 		return roomID + " von " + begin + " Uhr bis " + end + " Uhr";
 	}
+
+
 
 }

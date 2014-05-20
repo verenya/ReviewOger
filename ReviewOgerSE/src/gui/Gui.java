@@ -3,7 +3,9 @@ package gui;
 import gui.actions.AddParticipantAction;
 import gui.actions.DeleteParticipantAction;
 import gui.actions.EditParticipantAction;
+import gui.actions.EditRoomAction;
 import gui.actions.ReadParticipantsAction;
+import gui.actions.deleteTreeAction;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,6 +17,7 @@ import javax.swing.JTextField;
 
 import data.ParticipantTableModel;
 import data.RoomTreeModel;
+
 import javax.swing.JLabel;
 
 import java.awt.GridBagLayout;
@@ -238,7 +241,8 @@ public class Gui extends JFrame {
 		gbc_newRoomButton.gridy = 0;
 		roomButtonPanel.add(newRoomButton, gbc_newRoomButton);
 
-		JButton roomDeleteButton = new JButton("Löschen");
+		JButton roomDeleteButton = new JButton(new deleteTreeAction());
+		roomDeleteButton.setText("Löschen");
 		GridBagConstraints gbc_roomDeleteButton = new GridBagConstraints();
 		gbc_roomDeleteButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_roomDeleteButton.insets = new Insets(0, 0, 5, 5);
@@ -246,7 +250,8 @@ public class Gui extends JFrame {
 		gbc_roomDeleteButton.gridy = 1;
 		roomButtonPanel.add(roomDeleteButton, gbc_roomDeleteButton);
 
-		JButton roomEditButton = new JButton("Bearbeiten");
+		JButton roomEditButton = new JButton(new EditRoomAction());
+		roomEditButton.setText("Bearbeiten");
 		GridBagConstraints gbc_roomEditButton = new GridBagConstraints();
 		gbc_roomEditButton.insets = new Insets(0, 0, 5, 0);
 		gbc_roomEditButton.fill = GridBagConstraints.BOTH;
