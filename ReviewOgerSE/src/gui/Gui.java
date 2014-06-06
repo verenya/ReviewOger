@@ -7,7 +7,9 @@ import gui.actions.EditRoomAction;
 import gui.actions.ReadParticipantsAction;
 import gui.actions.deleteTreeAction;
 
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -35,6 +37,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import logic.Matcher;
 
 public class Gui extends JFrame {
 	/**
@@ -342,6 +347,22 @@ public class Gui extends JFrame {
 		gbc_startButton.gridx = 0;
 		gbc_startButton.gridy = 1;
 		getContentPane().add(startButton, gbc_startButton);
+		
+		startButton.addActionListener(new AbstractAction(){
+			private static final long serialVersionUID = -6539453133180730039L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				boolean optionsOk = checkOptions();
+				if(optionsOk){
+					Matcher matcher = new Matcher();
+					ExecutingFrame frame = new ExecutingFrame();
+					frame.showFrame(matcher);
+				}
+				
+			}
+			
+		});
 
 	}
 
@@ -354,6 +375,26 @@ public class Gui extends JFrame {
 
 	public static JTree getRoomTree() {
 		return roomTree;
+	}
+	
+	private boolean checkOptions(){
+		//no participants
+		if(ParticipantTableModel.getInstance().isEmpty()){
+			JOptionPane.showMessageDialog(null,
+					"Es muss mindestens einen Teilnehmer geben!",
+					"Teilnehmerliste leer",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		//no reviews
+		if(!RoomTreeModel.hasReviews()){
+			JOptionPane.showMessageDialog(null,
+					"Es muss mindestens ein Review geben!",
+					"Keine Reviews",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 
 }

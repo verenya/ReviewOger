@@ -33,8 +33,19 @@ public class NewRoomGui {
 		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
 				.getRoomTree().getLastSelectedPathComponent();
 
+		if (selectedNode == null) {
+			JOptionPane.showMessageDialog(null, "Bitte Slot markieren",
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+
+		else if (selectedNode.isRoot()) {
+			JOptionPane.showMessageDialog(null,
+					"Kann keine Räume zur Wurzel hinzufügen", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
 		// not possible to add something to a leaf
-		if (!selectedNode.isLeaf()) {
+		else if (!selectedNode.isLeaf()) {
 
 			final JFrame roomFrame = new JFrame();
 

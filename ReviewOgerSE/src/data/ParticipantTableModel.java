@@ -117,5 +117,9 @@ public class ParticipantTableModel extends AbstractTableModel {
 	public Participant getParticipantAt(int index) {
 		return participants.get(index);
 	}
+	
+	public boolean isEmpty(){
+		return participants.isEmpty();
+	}
 
 }

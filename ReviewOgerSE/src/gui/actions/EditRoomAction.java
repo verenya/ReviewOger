@@ -5,7 +5,6 @@ import gui.Gui;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,14 +16,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import data.Participant;
-import data.ParticipantTableModel;
 import data.Room;
-import data.RoomNode;
 
 public class EditRoomAction extends AbstractAction {
 
@@ -112,7 +107,6 @@ public class EditRoomAction extends AbstractAction {
 				}
 
 				if (!parseFailed) {
-					//TODO update selected room
 					selectedRoom.setHasBeamer(hasBeamer);
 					selectedRoom.setRoomID(roomString);
 					selectedRoom.setbeginTime(beginTime);

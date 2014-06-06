@@ -90,7 +90,7 @@ public class EditParticipantAction extends AbstractAction {
 				}
 				if (numberError) {
 					JOptionPane.showMessageDialog(null,
-							"The grupp must be a number!", "Group error",
+							"Die Gruppe muss eine Zahl sein!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					selectedParticipant.setFirstName(firstName);
