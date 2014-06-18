@@ -1,5 +1,5 @@
 /**
- * This class holds the root node of the room tree model
+ * This class holds the root node of the room tree model. A singleton.
  */
 package data;
 
@@ -12,6 +12,9 @@ public class RoomTreeModel {
 
 	private static DefaultTreeModel instance = null;
 
+	/**
+	 * Private constructor
+	 */
 	private RoomTreeModel() {
 	}
 

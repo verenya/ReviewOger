@@ -11,7 +11,8 @@ import java.util.GregorianCalendar;
 
 public class Room {
 
-	public Room(String roomNumber, boolean hasBeamer, Date beginTime, Date endTime) {
+	public Room(String roomNumber, boolean hasBeamer, Date beginTime,
+			Date endTime) {
 		this.roomID = roomNumber;
 		this.hasBeamer = hasBeamer;
 		this.beginTime.setTime(beginTime);
@@ -42,39 +43,35 @@ public class Room {
 	public void setHasBeamer(boolean hasBeamer) {
 		this.hasBeamer = hasBeamer;
 	}
-	
+
 	public Date getBeginTime() {
 		return beginTime.getTime();
 	}
-	
-	public Date getEndTime(){
+
+	public Date getEndTime() {
 		return endTime.getTime();
 	}
-	
-	public void setbeginTime(Date beginTime){
+
+	public void setbeginTime(Date beginTime) {
 		this.beginTime.setTime(beginTime);
 	}
-	
-	public void setendTime(Date endTime){
+
+	public void setendTime(Date endTime) {
 		this.endTime.setTime(endTime);
 	}
-	
-	
+
 	/**
 	 * @return the date of the review formated as x.xxx hh:mm to hh:mm
 	 */
-	public String getFormatedDate(){
-		
-	
+	public String getFormatedDate() {
+
 		DateFormat beginFormatter = new SimpleDateFormat("HH:mm");
 		String begin = beginFormatter.format(beginTime.getTime());
-		
+
 		DateFormat endFormatter = new SimpleDateFormat("HH:mm");
 		String end = endFormatter.format(endTime.getTime());
-		
+
 		return roomID + " von " + begin + " Uhr bis " + end + " Uhr";
 	}
-
-
 
 }

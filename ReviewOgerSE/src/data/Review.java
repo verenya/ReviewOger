@@ -9,8 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Review {
-	
-	public Review(Participant author){
+
+	public Review(Participant author) {
 		this.author = author;
 		this.groupNumber = author.getGroupNumber();
 	}
@@ -31,7 +31,7 @@ public class Review {
 	private GregorianCalendar dateAndTime;
 	// The room in which the review should be conducted
 	private Room assignedRoom;
-	//The group number of the reviewed group
+	// The group number of the reviewed group
 	private int groupNumber;
 
 	public Participant getAuthor() {
@@ -84,7 +84,9 @@ public class Review {
 
 	/**
 	 * 
-	 * Adds a specific participant to the review. Returns false, if participant is already in the review as a reviewer, else true.
+	 * Adds a specific participant to the review. Returns false, if participant
+	 * is already in the review as a reviewer, else true.
+	 * 
 	 * @param newReviewer
 	 * @return false, if already a reviewer in this review, else true
 	 */

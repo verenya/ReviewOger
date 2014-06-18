@@ -1,3 +1,6 @@
+/**
+ * This class shows a frame with a progress bar while Oger is running
+ */
 package gui;
 
 import java.util.concurrent.ExecutionException;
@@ -12,6 +15,10 @@ import logic.Matcher;
 
 public class ExecutingFrame {
 
+	/**
+	 * @param matcher
+	 *            the matcher which does the calculation
+	 */
 	public void showFrame(Matcher matcher) {
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		Future<Integer> future = executorService.submit(matcher);

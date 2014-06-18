@@ -8,6 +8,10 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * @author verena
+ * 
+ */
 public class ParticipantTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 7633974611670892835L;
@@ -22,6 +26,9 @@ public class ParticipantTableModel extends AbstractTableModel {
 	 */
 	private static ParticipantTableModel instance;
 
+	/**
+	 * private constructor for singleton
+	 */
 	private ParticipantTableModel() {
 	}
 
@@ -117,8 +124,11 @@ public class ParticipantTableModel extends AbstractTableModel {
 	public Participant getParticipantAt(int index) {
 		return participants.get(index);
 	}
-	
-	public boolean isEmpty(){
+
+	/**
+	 * @return true if empty
+	 */
+	public boolean isEmpty() {
 		return participants.isEmpty();
 	}
 

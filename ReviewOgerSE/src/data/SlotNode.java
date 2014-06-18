@@ -1,7 +1,15 @@
+/**
+ * This class represents a node in a tree if this node represents a slot. Slots are no leafs!
+ *
+ */
 package data;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+/**
+ * @author verena
+ *
+ */
 public class SlotNode extends DefaultMutableTreeNode {
 
 	/**

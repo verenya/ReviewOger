@@ -33,7 +33,7 @@ public class EditParticipantAction extends AbstractAction {
 		ParticipantTableModel model = ParticipantTableModel.getInstance();
 		int row = Gui.getselectedParticipantRow();
 		final Participant selectedParticipant = model.getParticipantAt(row);
-		
+
 		final JFrame participantFrame = new JFrame();
 		participantFrame.setLayout(new GridLayout(2, 1));
 		participantFrame.setTitle("Neuer Teilnehmer");
@@ -69,7 +69,8 @@ public class EditParticipantAction extends AbstractAction {
 		inputPane.add(groupLabel);
 
 		final JTextField groupField = new JTextField();
-		groupField.setText(Integer.toString(selectedParticipant.getGroupNumber()));
+		groupField.setText(Integer.toString(selectedParticipant
+				.getGroupNumber()));
 		inputPane.add(groupField);
 
 		JButton doneButton = new JButton("OK");
@@ -97,7 +98,8 @@ public class EditParticipantAction extends AbstractAction {
 					selectedParticipant.setLastName(lastName);
 					selectedParticipant.seteMailAdress(email);
 					selectedParticipant.setGroupNumber(group);
-					ParticipantTableModel model = ParticipantTableModel.getInstance();
+					ParticipantTableModel model = ParticipantTableModel
+							.getInstance();
 					model.fireTableDataChanged();
 					participantFrame.dispose();
 				}

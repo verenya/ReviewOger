@@ -29,7 +29,8 @@ public class Pool {
 		for (Participant p : ParticipantTableModel.getParticipants()) {
 			// must not be the same group as the author and not too many reviews
 			if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
-					&& (p.getNumberOfReviews() < ReviewPlan.maxNumberOfReviews)) {
+					&& (p.getNumberOfReviews() < ReviewPlan.getInstance()
+							.getMaxNumberOfReviews())) {
 				participantList.add(p);
 			}
 		}

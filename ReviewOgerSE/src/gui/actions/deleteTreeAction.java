@@ -21,8 +21,7 @@ public class deleteTreeAction extends AbstractAction {
 		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
 				.getRoomTree().getLastSelectedPathComponent();
 
-		
-		//there must be a selected node and it must not be root
+		// there must be a selected node and it must not be root
 		if (selectedNode != null && !selectedNode.isRoot()) {
 			RoomTreeModel.getInstance().removeNodeFromParent(selectedNode);
 			Gui.getRoomTree().updateUI();

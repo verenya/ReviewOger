@@ -4,21 +4,14 @@
 package logic;
 
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.Callable;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 
 import data.Participant;
 import data.ParticipantTableModel;
 import data.Review;
 import data.ReviewPlan;
-import data.RoomTreeModel;
 
 public class Matcher implements Callable<Integer> {
 
@@ -39,7 +32,14 @@ public class Matcher implements Callable<Integer> {
 		return null;
 	}
 
+	/**
+	 * This method sorts the participants and then creates one review for every
+	 * group
+	 */
 	private void makeList() {
+
+		ReviewPlan plan = ReviewPlan.getInstance();
+
 		List<Participant> participants = ParticipantTableModel
 				.getParticipants();
 		Collections.sort(participants);
@@ -52,7 +52,7 @@ public class Matcher implements Callable<Integer> {
 			// first element
 			if (!iter.hasPrevious()) {
 				Review review = new Review(currentParticipant);
-				ReviewPlan.add(review);
+				plan.add(review);
 
 			} else {
 				Participant previousParticipant = iter.previous();
@@ -62,12 +62,12 @@ public class Matcher implements Callable<Integer> {
 				if (currentParticipant.getGroupNumber() != previousParticipant
 						.getGroupNumber()) {
 					Review review = new Review(currentParticipant);
-					ReviewPlan.add(review);
+					plan.add(review);
 				}
 			}
 		}
 
-		for (Review p : ReviewPlan.reviews) {
+		for (Review p : plan.getReviews()) {
 			System.out.print(p.getGroupNumber());
 		}
 	}

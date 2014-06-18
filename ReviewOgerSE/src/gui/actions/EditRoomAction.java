@@ -1,3 +1,6 @@
+/**
+ * This class provides a gui for editing a room
+ */
 package gui.actions;
 
 import gui.Gui;
@@ -33,10 +36,10 @@ public class EditRoomAction extends AbstractAction {
 		final JFrame roomFrame = new JFrame();
 
 		final DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-		
+
 		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
 				.getRoomTree().getLastSelectedPathComponent();
-		
+
 		final Room selectedRoom = (Room) selectedNode.getUserObject();
 
 		roomFrame.setLayout(new GridLayout(5, 2));
@@ -53,23 +56,24 @@ public class EditRoomAction extends AbstractAction {
 		JLabel beginLabel = new JLabel("Beginn:");
 		roomFrame.add(beginLabel);
 
-		final JTextField beginField = new JTextField(timeFormat.format(selectedRoom.getBeginTime()));
+		final JTextField beginField = new JTextField(
+				timeFormat.format(selectedRoom.getBeginTime()));
 		roomFrame.add(beginField);
 
 		JLabel endLabel = new JLabel("Ende:");
 		roomFrame.add(endLabel);
 
-		final JTextField endField = new JTextField(timeFormat.format(selectedRoom.getEndTime()));
+		final JTextField endField = new JTextField(
+				timeFormat.format(selectedRoom.getEndTime()));
 		roomFrame.add(endField);
 
 		JLabel hasBeamerLabel = new JLabel("Beamer: ");
 		roomFrame.add(hasBeamerLabel);
-		
 
 		final JCheckBox hasBeamerBox = new JCheckBox();
 		hasBeamerBox.setSelected(selectedRoom.isHasBeamer());
 		roomFrame.add(hasBeamerBox);
-		
+
 		JButton doneButton = new JButton("OK");
 		doneButton.addActionListener(new AbstractAction() {
 
@@ -101,8 +105,7 @@ public class EditRoomAction extends AbstractAction {
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(null,
 							"Endzeit muss die Form HH:mm haben",
-							"Endzeit nicht erkannt",
-							JOptionPane.ERROR_MESSAGE);
+							"Endzeit nicht erkannt", JOptionPane.ERROR_MESSAGE);
 					parseFailed = true;
 				}
 
@@ -111,7 +114,7 @@ public class EditRoomAction extends AbstractAction {
 					selectedRoom.setRoomID(roomString);
 					selectedRoom.setbeginTime(beginTime);
 					selectedRoom.setendTime(endTime);
-					
+
 					Gui.getRoomTree().updateUI();
 					roomFrame.dispose();
 				}

@@ -4,7 +4,7 @@
 
 package data;
 
-public class Participant implements Comparable {
+public class Participant implements Comparable<Participant> {
 
 	public Participant(String firstName, String lastName, String eMail,
 			int groupNumber) {
@@ -65,11 +65,10 @@ public class Participant implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		Participant p = (Participant) o;
-		if (p.groupNumber < this.groupNumber) {
+	public int compareTo(Participant o) {
+		if (o.groupNumber < this.groupNumber) {
 			return -1;
-		} else if (p.groupNumber == this.groupNumber) {
+		} else if (o.groupNumber == this.groupNumber) {
 			return 0;
 		} else
 			return 1;

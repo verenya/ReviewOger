@@ -14,9 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -205,8 +202,8 @@ public class Gui extends JFrame {
 
 		roomTree = new JTree(RoomTreeModel.getInstance());
 		roomScrollPane.setViewportView(roomTree);
-		
-		//TODO edit slot
+
+		// TODO edit slot
 
 		JPanel roomButtonPanel = new JPanel();
 		GridBagConstraints gbc_roomButtonPanel = new GridBagConstraints();
@@ -508,6 +505,11 @@ public class Gui extends JFrame {
 		return roomTree;
 	}
 
+	/**
+	 * This method checks if all necessary fields/table are filled
+	 * 
+	 * @return true if everything is ok
+	 */
 	private boolean checkOptions() {
 		String selectedString = exitOptionComboBox.getSelectedItem().toString();
 

@@ -62,16 +62,17 @@ public class FileReader {
 				processLine(scanner.nextLine());
 			} catch (ArrayIndexOutOfBoundsException e) {
 				logText = "Zu wenig Argumente";
-			}catch(NumberFormatException nfe){
+			} catch (NumberFormatException nfe) {
 				logText = "Gruppennummer keine Zahl";
-			}catch(Exception e){
+			} catch (Exception e) {
 				logText = "Unbekannter Fehler";
 			} finally {
 				// error occured
 				if (!logText.equals("")) {
 					// log file if error occurs
 					errorOccured = true;
-					String logPath = filePath.getParent() + "/log" + timeStamp + ".txt";
+					String logPath = filePath.getParent() + "/log" + timeStamp
+							+ ".txt";
 					FileWriter writer;
 					try {
 						writer = new FileWriter(new File(logPath), true);
@@ -97,8 +98,10 @@ public class FileReader {
 
 		if (errorOccured) {
 			JOptionPane.showMessageDialog(null,
-					"Es ist ein Fehler aufgetreten. Details in " + filePath.getParent().toString() + "/log" + timeStamp + ".txt",
-					"Error", JOptionPane.ERROR_MESSAGE);
+					"Es ist ein Fehler aufgetreten. Details in "
+							+ filePath.getParent().toString() + "/log"
+							+ timeStamp + ".txt", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
