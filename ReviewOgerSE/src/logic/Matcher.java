@@ -37,17 +37,26 @@ public class Matcher implements Callable<Integer> {
 	 * group
 	 */
 	private void makeList() {
+		
+		//TODO NPE
 
 		ReviewPlan plan = ReviewPlan.getInstance();
 
-		List<Participant> participants = ParticipantTableModel
+		List<Participant> participants = ParticipantTableModel.getInstance()
 				.getParticipants();
 		Collections.sort(participants);
 		ListIterator<Participant> iter = participants.listIterator();
 
+		Participant currentParticipant = null;
+		Participant previousParticipant = null;
+
 		while (iter.hasNext()) {
-			Participant currentParticipant = iter.next();
-			System.out.print(currentParticipant.getGroupNumber());
+
+			if (iter.hasPrevious()) {
+				previousParticipant = currentParticipant;
+			}
+
+			currentParticipant = iter.next();
 
 			// first element
 			if (!iter.hasPrevious()) {
@@ -55,10 +64,9 @@ public class Matcher implements Callable<Integer> {
 				plan.add(review);
 
 			} else {
-				Participant previousParticipant = iter.previous();
-				// Reset pointer
-				iter.next();
 				// not same group
+				System.out.println(currentParticipant.getFirstName());
+				System.out.println(previousParticipant.getFirstName());
 				if (currentParticipant.getGroupNumber() != previousParticipant
 						.getGroupNumber()) {
 					Review review = new Review(currentParticipant);
@@ -68,7 +76,7 @@ public class Matcher implements Callable<Integer> {
 		}
 
 		for (Review p : plan.getReviews()) {
-			System.out.print(p.getGroupNumber());
+			System.out.println(p.getGroupNumber());
 		}
 	}
 

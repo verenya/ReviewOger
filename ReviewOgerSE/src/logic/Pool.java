@@ -26,7 +26,7 @@ public class Pool {
 	 *         else false
 	 */
 	protected boolean generatePoolForReview(Review review) {
-		for (Participant p : ParticipantTableModel.getParticipants()) {
+		for (Participant p : ParticipantTableModel.getInstance().getParticipants()) {
 			// must not be the same group as the author and not too many reviews
 			if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
 					&& (p.getNumberOfReviews() < ReviewPlan.getInstance()

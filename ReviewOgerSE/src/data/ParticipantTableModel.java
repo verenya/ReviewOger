@@ -91,7 +91,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 	/**
 	 * @return the list with all participants
 	 */
-	public static List<Participant> getParticipants() {
+	public List<Participant> getParticipants() {
 		return participants;
 	}
 
