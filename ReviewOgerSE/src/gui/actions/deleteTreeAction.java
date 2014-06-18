@@ -24,7 +24,7 @@ public class deleteTreeAction extends AbstractAction {
 		
 		//there must be a selected node and it must not be root
 		if (selectedNode != null && !selectedNode.isRoot()) {
-			RoomTreeModel.getModel().removeNodeFromParent(selectedNode);
+			RoomTreeModel.getInstance().removeNodeFromParent(selectedNode);
 			Gui.getRoomTree().updateUI();
 		}
 	}

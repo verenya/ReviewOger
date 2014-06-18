@@ -5,24 +5,33 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javax.swing.JFrame;
+import javax.swing.JProgressBar;
+
 import logic.Matcher;
 
 public class ExecutingFrame {
-	
-	public void showFrame(Matcher matcher){
-		ExecutorService es = Executors.newCachedThreadPool();
-		Future<Integer> fo = es.submit(matcher);
-		while(!fo.isDone()){
-			//wait till finished
+
+	public void showFrame(Matcher matcher) {
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		Future<Integer> future = executorService.submit(matcher);
+		while (!future.isDone()) {
+			// wait till finished
 		}
-		
+
 		try {
-			System.out.println(fo.get());
-			//TODO
+			System.out.println(future.get());
+			// TODO
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		JProgressBar progressBar = new JProgressBar(1, 100);
+		JFrame f = new JFrame();
+		f.add(progressBar);
+		f.pack();
+		f.setVisible(true);
 	}
-	
+
 }

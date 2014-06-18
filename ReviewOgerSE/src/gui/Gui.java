@@ -7,39 +7,37 @@ import gui.actions.EditRoomAction;
 import gui.actions.ReadParticipantsAction;
 import gui.actions.deleteTreeAction;
 
-import javax.swing.AbstractAction;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-
-import data.ParticipantTableModel;
-import data.RoomTreeModel;
-
-import javax.swing.JLabel;
-
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
+import javax.swing.AbstractAction;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.ListSelectionModel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.ListSelectionModel;
 
 import logic.Matcher;
+import data.ParticipantTableModel;
+import data.RoomTreeModel;
 
 public class Gui extends JFrame {
 	/**
@@ -49,6 +47,12 @@ public class Gui extends JFrame {
 	private JTextField reviewerNumberTextField;
 	private static JTable participantTable;
 	private static JTree roomTree;
+	private JTextField amountRoundsTextField;
+	private final JComboBox<String> exitOptionComboBox;
+	private JTextField hourTextField;
+	private JTextField minuteTextField;
+	private JCheckBox scribeIsAuthorCheckbox;
+	private JCheckBox moderatorNotReviewerGroupCheckbox;
 
 	/**
 	 * Creates the main frame. There are five main components. The menu bar. The
@@ -75,7 +79,6 @@ public class Gui extends JFrame {
 				new ReadParticipantsAction());
 		menuLoadParticipant.setText("Teilnehmer einlesen");
 		mnFile.add(menuLoadParticipant);
-
 
 		// participant panel
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -200,8 +203,10 @@ public class Gui extends JFrame {
 		gbc_roomScrollPane.gridy = 0;
 		panel.add(roomScrollPane, gbc_roomScrollPane);
 
-		roomTree = new JTree(RoomTreeModel.getModel());
+		roomTree = new JTree(RoomTreeModel.getInstance());
 		roomScrollPane.setViewportView(roomTree);
+		
+		//TODO edit slot
 
 		JPanel roomButtonPanel = new JPanel();
 		GridBagConstraints gbc_roomButtonPanel = new GridBagConstraints();
@@ -256,7 +261,7 @@ public class Gui extends JFrame {
 		roomButtonPanel.add(roomDeleteButton, gbc_roomDeleteButton);
 
 		JButton roomEditButton = new JButton(new EditRoomAction());
-		roomEditButton.setText("Bearbeiten");
+		roomEditButton.setText("Raum Bearbeiten");
 		GridBagConstraints gbc_roomEditButton = new GridBagConstraints();
 		gbc_roomEditButton.insets = new Insets(0, 0, 5, 0);
 		gbc_roomEditButton.fill = GridBagConstraints.BOTH;
@@ -274,11 +279,11 @@ public class Gui extends JFrame {
 		getContentPane().add(optionPanel, gbc_optionPanel);
 		GridBagLayout gbl_optionPanel = new GridBagLayout();
 		gbl_optionPanel.columnWidths = new int[] { 123, 39, -18, 0 };
-		gbl_optionPanel.rowHeights = new int[] { 43, 0, 0, 0, 32, 0, 0 };
+		gbl_optionPanel.rowHeights = new int[] { 43, 0, 0, 0, 0, 0, 0, 32, 0, 0 };
 		gbl_optionPanel.columnWeights = new double[] { 1.0, 1.0, 1.0,
 				Double.MIN_VALUE };
 		gbl_optionPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, Double.MIN_VALUE };
+				0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		optionPanel.setLayout(gbl_optionPanel);
 
 		JLabel reviewerLabel = new JLabel("  Anzahl Gutachter: ");
@@ -298,7 +303,7 @@ public class Gui extends JFrame {
 		gbc_reviewerNumberTextField.gridy = 1;
 		optionPanel.add(reviewerNumberTextField, gbc_reviewerNumberTextField);
 
-		JCheckBox scribeIsAuthorCheckbox = new JCheckBox("Notar ist Author");
+		scribeIsAuthorCheckbox = new JCheckBox("Notar ist Author");
 		GridBagConstraints gbc_scribeIsAuthorCheckbox = new GridBagConstraints();
 		gbc_scribeIsAuthorCheckbox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_scribeIsAuthorCheckbox.insets = new Insets(0, 0, 5, 5);
@@ -307,7 +312,7 @@ public class Gui extends JFrame {
 		gbc_scribeIsAuthorCheckbox.gridy = 2;
 		optionPanel.add(scribeIsAuthorCheckbox, gbc_scribeIsAuthorCheckbox);
 
-		JCheckBox moderatorNotReviewerGroupCheckbox = new JCheckBox(
+		moderatorNotReviewerGroupCheckbox = new JCheckBox(
 				"Moderator nicht aus Gutachter-Gruppe");
 		GridBagConstraints gbc_moderatorNotReviewerGroupCheckbox = new GridBagConstraints();
 		gbc_moderatorNotReviewerGroupCheckbox.fill = GridBagConstraints.HORIZONTAL;
@@ -326,17 +331,139 @@ public class Gui extends JFrame {
 		gbc_exitOptionLabel.gridy = 4;
 		optionPanel.add(exitOptionLabel, gbc_exitOptionLabel);
 
-		JComboBox<String> exitOptionComboBox = new JComboBox<String>();
-		exitOptionComboBox.setModel(new DefaultComboBoxModel<String>(
-				new String[] { "manueller Abbruch", "feste Zeit",
-						"feste Anzahl" }));
+		final JLabel amountRoundsLabel = new JLabel("  Anzahl Ausführungen:");
+		GridBagConstraints gbc_amountRoundsLabel = new GridBagConstraints();
+		gbc_amountRoundsLabel.fill = GridBagConstraints.BOTH;
+		gbc_amountRoundsLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_amountRoundsLabel.gridx = 0;
+		gbc_amountRoundsLabel.gridy = 6;
+
+		amountRoundsTextField = new JTextField();
+		GridBagConstraints gbc_amountRoundsTextField = new GridBagConstraints();
+		gbc_amountRoundsTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_amountRoundsTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_amountRoundsTextField.gridx = 1;
+		gbc_amountRoundsTextField.gridy = 6;
+
+		amountRoundsTextField.setColumns(10);
+
+		final JLabel fixedTimeLabel = new JLabel("  Abbruchzeit:");
+		GridBagConstraints gbc_fixedTimeLabel = new GridBagConstraints();
+		gbc_fixedTimeLabel.fill = GridBagConstraints.BOTH;
+		gbc_fixedTimeLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_fixedTimeLabel.gridx = 0;
+		gbc_fixedTimeLabel.gridy = 7;
+
+		exitOptionComboBox = new JComboBox<String>();
+		exitOptionComboBox.setModel(new DefaultComboBoxModel(new String[] {
+				"feste Anzahl", "manueller Abbruch", "feste Zeit" }));
 		GridBagConstraints gbc_exitOptionComboBox = new GridBagConstraints();
-		gbc_exitOptionComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_exitOptionComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_exitOptionComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_exitOptionComboBox.gridwidth = 2;
 		gbc_exitOptionComboBox.gridx = 0;
 		gbc_exitOptionComboBox.gridy = 5;
 		optionPanel.add(exitOptionComboBox, gbc_exitOptionComboBox);
+
+		JPanel panel_1 = new JPanel();
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 1;
+		gbc_panel_1.gridy = 7;
+		optionPanel.add(panel_1, gbc_panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[] { 26, 31, 21, 25, 0 };
+		gbl_panel_1.rowHeights = new int[] { 19, 0 };
+		gbl_panel_1.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0,
+				Double.MIN_VALUE };
+		gbl_panel_1.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+		panel_1.setLayout(gbl_panel_1);
+
+		final JLabel hourLabel = new JLabel(" h:");
+		GridBagConstraints gbc_hourLAbel = new GridBagConstraints();
+		gbc_hourLAbel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_hourLAbel.insets = new Insets(0, 0, 0, 5);
+		gbc_hourLAbel.gridx = 0;
+		gbc_hourLAbel.gridy = 0;
+		panel_1.add(hourLabel, gbc_hourLAbel);
+
+		hourTextField = new JTextField();
+		hourTextField.setText("01");
+		GridBagConstraints gbc_hourTextField = new GridBagConstraints();
+		gbc_hourTextField.fill = GridBagConstraints.BOTH;
+		gbc_hourTextField.insets = new Insets(0, 0, 0, 5);
+		gbc_hourTextField.gridx = 1;
+		gbc_hourTextField.gridy = 0;
+		panel_1.add(hourTextField, gbc_hourTextField);
+		hourTextField.setColumns(10);
+
+		final JLabel minuteLabel = new JLabel(" m:");
+		GridBagConstraints gbc_minuteLabel = new GridBagConstraints();
+		gbc_minuteLabel.fill = GridBagConstraints.BOTH;
+		gbc_minuteLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_minuteLabel.gridx = 2;
+		gbc_minuteLabel.gridy = 0;
+		panel_1.add(minuteLabel, gbc_minuteLabel);
+
+		minuteTextField = new JTextField();
+		minuteTextField.setText("00");
+		GridBagConstraints gbc_minuteTextField = new GridBagConstraints();
+		gbc_minuteTextField.fill = GridBagConstraints.BOTH;
+		gbc_minuteTextField.gridx = 3;
+		gbc_minuteTextField.gridy = 0;
+		panel_1.add(minuteTextField, gbc_minuteTextField);
+		minuteTextField.setColumns(10);
+
+		fixedTimeLabel.setEnabled(false);
+		hourLabel.setEnabled(false);
+		minuteLabel.setEnabled(false);
+		hourTextField.setEnabled(false);
+		minuteTextField.setEnabled(false);
+
+		exitOptionComboBox.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				// only for selection events
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
+					String selectedString = exitOptionComboBox
+							.getSelectedItem().toString();
+					// select and reselect gui elements
+					if (selectedString.equals("feste Anzahl")) {
+						amountRoundsLabel.setEnabled(true);
+						amountRoundsTextField.setEditable(true);
+						fixedTimeLabel.setEnabled(false);
+						hourLabel.setEnabled(false);
+						minuteLabel.setEnabled(false);
+						hourTextField.setEnabled(false);
+						minuteTextField.setEnabled(false);
+
+					} else if (selectedString.equals("manueller Abbruch")) {
+						amountRoundsLabel.setEnabled(false);
+						amountRoundsTextField.setEditable(false);
+						fixedTimeLabel.setEnabled(false);
+						hourLabel.setEnabled(false);
+						minuteLabel.setEnabled(false);
+						hourTextField.setEnabled(false);
+						minuteTextField.setEnabled(false);
+
+					} else if (selectedString.equals("feste Zeit")) {
+						amountRoundsLabel.setEnabled(false);
+						amountRoundsTextField.setEditable(false);
+						fixedTimeLabel.setEnabled(true);
+						hourLabel.setEnabled(true);
+						minuteLabel.setEnabled(true);
+						hourTextField.setEnabled(true);
+						minuteTextField.setEnabled(true);
+					}
+				}
+			}
+		});
+
+		optionPanel.add(amountRoundsLabel, gbc_amountRoundsLabel);
+		optionPanel.add(amountRoundsTextField, gbc_amountRoundsTextField);
+
+		optionPanel.add(fixedTimeLabel, gbc_fixedTimeLabel);
 
 		// start button
 		JButton startButton = new JButton("Berechnung beginnen");
@@ -347,21 +474,25 @@ public class Gui extends JFrame {
 		gbc_startButton.gridx = 0;
 		gbc_startButton.gridy = 1;
 		getContentPane().add(startButton, gbc_startButton);
-		
-		startButton.addActionListener(new AbstractAction(){
+
+		startButton.addActionListener(new AbstractAction() {
 			private static final long serialVersionUID = -6539453133180730039L;
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				boolean optionsOk = checkOptions();
-				if(optionsOk){
-					Matcher matcher = new Matcher();
+				if (optionsOk) {
+					String selectedString = exitOptionComboBox
+							.getSelectedItem().toString();
+					Matcher matcher = new Matcher(selectedString,
+							scribeIsAuthorCheckbox.isSelected(),
+							moderatorNotReviewerGroupCheckbox.isSelected());
 					ExecutingFrame frame = new ExecutingFrame();
 					frame.showFrame(matcher);
 				}
-				
+
 			}
-			
+
 		});
 
 	}
@@ -376,24 +507,83 @@ public class Gui extends JFrame {
 	public static JTree getRoomTree() {
 		return roomTree;
 	}
-	
-	private boolean checkOptions(){
-		//no participants
-		if(ParticipantTableModel.getInstance().isEmpty()){
+
+	private boolean checkOptions() {
+		String selectedString = exitOptionComboBox.getSelectedItem().toString();
+
+		// no rounds
+		if (selectedString.equals("feste Anzahl")) {
+			try {
+				int rounds = Integer.parseInt(amountRoundsTextField.getText());
+				if (rounds <= 0) {
+					JOptionPane.showMessageDialog(null,
+							"Anzahl Runden muss >0 sein!",
+							"Anzahl Runden Error", JOptionPane.ERROR_MESSAGE);
+					return false;
+				}
+			} catch (NumberFormatException fne) {
+				JOptionPane.showMessageDialog(null,
+						"Anzahl Runden muss eine Zahl sein!",
+						"Anzahl Runden Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+
+		}
+
+		// no time
+		if (selectedString.equals("feste Zeit")) {
+			try {
+				int hours = Integer.parseInt(hourTextField.getText());
+				int minutes = Integer.parseInt(minuteTextField.getText());
+
+				if (hours == 0 && minutes == 0) {
+					JOptionPane.showMessageDialog(null,
+							"Zeit darf nicht 0 sein!", "Zeit 0",
+							JOptionPane.ERROR_MESSAGE);
+					return false;
+				}
+
+			} catch (NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null,
+						"Gewählte Zeit muss eine Zahl sein!", "Zeit Error",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+
+		// no participants
+		if (ParticipantTableModel.getInstance().isEmpty()) {
 			JOptionPane.showMessageDialog(null,
 					"Es muss mindestens einen Teilnehmer geben!",
-					"Teilnehmerliste leer",
-					JOptionPane.ERROR_MESSAGE);
+					"Teilnehmerliste leer", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		//no reviews
-		if(!RoomTreeModel.hasReviews()){
+
+		// no reviews
+		if (!RoomTreeModel.hasReviews()) {
 			JOptionPane.showMessageDialog(null,
-					"Es muss mindestens ein Review geben!",
-					"Keine Reviews",
+					"Es muss mindestens ein Review geben!", "Keine Reviews",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
+
+		// no reviewers
+		String reviewerText = reviewerNumberTextField.getText();
+		try {
+			int reviewerNumber = Integer.parseInt(reviewerText);
+			if (reviewerNumber <= 0) {
+				JOptionPane.showMessageDialog(null,
+						"Anzahl Gutachter muss >0 sein!",
+						"Anzahl Gutachter Error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} catch (NumberFormatException nfe) {
+			JOptionPane.showMessageDialog(null,
+					"Anzahl Gutachter muss eine Zahl sein!",
+					"Anzahl Gutachter Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
 		return true;
 	}
 

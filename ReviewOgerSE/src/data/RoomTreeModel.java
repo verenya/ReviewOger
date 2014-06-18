@@ -10,28 +10,36 @@ import javax.swing.tree.DefaultTreeModel;
 
 public class RoomTreeModel {
 
-	// TODO
-	static DefaultTreeModel model = new DefaultTreeModel(new SlotNode());
+	private static DefaultTreeModel instance = null;
+
+	private RoomTreeModel() {
+	}
 
 	/**
 	 * @return the current model
 	 */
-	public static DefaultTreeModel getModel() {
-		return model;
+	public static DefaultTreeModel getInstance() {
+		if (instance == null) {
+			instance = new DefaultTreeModel(new SlotNode());
+		}
+		return instance;
+
 	}
 
 	/**
 	 * @return true, if any reviews exist
 	 */
 	public static boolean hasReviews() {
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-		 Enumeration<DefaultMutableTreeNode> currentNode = root.preorderEnumeration();
-		    while(currentNode.hasMoreElements()){
-		      if((currentNode.nextElement()).isLeaf()){
-		    	  return true;
-		      }
-		    }
-		    return false;
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) instance
+				.getRoot();
+		Enumeration<DefaultMutableTreeNode> currentNode = root
+				.preorderEnumeration();
+		while (currentNode.hasMoreElements()) {
+			if ((currentNode.nextElement()).isLeaf()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

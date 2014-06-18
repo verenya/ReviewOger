@@ -11,8 +11,14 @@ import java.util.List;
 
 public class ReviewPlan {
 	
-	public List<Review> reviews = new ArrayList<Review>();
+	
+	
+	public static List<Review> reviews = new ArrayList<Review>();
 
 	
 	public static int maxNumberOfReviews;
+	
+	public static void add(Review review) {
+		reviews.add(review);
+	}
 }

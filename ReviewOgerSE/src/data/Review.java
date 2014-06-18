@@ -9,6 +9,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Review {
+	
+	public Review(Participant author){
+		this.author = author;
+		this.groupNumber = author.getGroupNumber();
+	}
 
 	// The author of the reviewed artifact
 	private Participant author;
@@ -26,6 +31,8 @@ public class Review {
 	private GregorianCalendar dateAndTime;
 	// The room in which the review should be conducted
 	private Room assignedRoom;
+	//The group number of the reviewed group
+	private int groupNumber;
 
 	public Participant getAuthor() {
 		return author;
@@ -112,6 +119,14 @@ public class Review {
 
 	public void setAssignedRoom(Room assignedRoom) {
 		this.assignedRoom = assignedRoom;
+	}
+
+	public int getGroupNumber() {
+		return groupNumber;
+	}
+
+	public void setGroupNumber(int groupNumber) {
+		this.groupNumber = groupNumber;
 	}
 
 }

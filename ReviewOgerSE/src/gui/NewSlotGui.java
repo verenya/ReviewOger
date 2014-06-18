@@ -107,7 +107,7 @@ public class NewSlotGui {
 						Slot slot = new Slot(date, beginTime, endTime);
 						SlotNode newSlotNode = new SlotNode();
 						newSlotNode.setUserObject(slot);
-						((DefaultMutableTreeNode) RoomTreeModel.getModel()
+						((DefaultMutableTreeNode) RoomTreeModel.getInstance()
 								.getRoot()).add(newSlotNode);
 						Gui.getRoomTree().updateUI();
 						slotFrame.dispose();
