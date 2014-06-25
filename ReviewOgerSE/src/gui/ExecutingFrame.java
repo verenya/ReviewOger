@@ -21,7 +21,7 @@ public class ExecutingFrame {
 	 */
 	public void showFrame(Matcher matcher) {
 		ExecutorService executorService = Executors.newCachedThreadPool();
-		Future<Integer> future = executorService.submit(matcher);
+		Future<String> future = executorService.submit(matcher);
 		while (!future.isDone()) {
 			// wait till finished
 		}
