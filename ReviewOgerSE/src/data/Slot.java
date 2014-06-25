@@ -39,4 +39,8 @@ public class Slot {
 		String end = endFormatter.format(endTime.getTime());
 		return dateString + " von " + begin + " Uhr bis " + end + " Uhr";
 	}
+	
+	public void addRoom(Room room){
+		roomsAtDate.add(room);
+	}
 }

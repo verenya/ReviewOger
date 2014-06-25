@@ -19,12 +19,12 @@ public class ParticipantTableModel extends AbstractTableModel {
 	/**
 	 * All participants
 	 */
-	private static List<Participant> participants = new ArrayList<Participant>();
+	private List<Participant> participants = new ArrayList<Participant>();
 
 	/**
 	 * an instance of the model to use the singleton pattern
 	 */
-	private static ParticipantTableModel instance;
+	private static  ParticipantTableModel instance;
 
 	/**
 	 * private constructor for singleton

@@ -30,7 +30,7 @@ public class RoomTreeModel {
 	}
 
 	/**
-	 * @return true, if any reviews exist
+	 * @return true, if any review exists
 	 */
 	public static boolean hasReviews() {
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) instance
