@@ -483,7 +483,8 @@ public class Gui extends JFrame {
 							.getSelectedItem().toString();
 					Matcher matcher = new Matcher(selectedString,
 							scribeIsAuthorCheckbox.isSelected(),
-							moderatorNotReviewerGroupCheckbox.isSelected());
+							moderatorNotReviewerGroupCheckbox.isSelected(),
+							Integer.parseInt(reviewerNumberTextField.getText()));
 					ExecutingFrame frame = new ExecutingFrame();
 					frame.showFrame(matcher);
 				}
