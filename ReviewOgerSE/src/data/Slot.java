@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class Slot {
+public class Slot implements Comparable<Slot> {
 
 	public Slot(Date date, Date beginTime, Date endTime) {
 		this.date.setTime(date);
@@ -39,8 +39,24 @@ public class Slot {
 		String end = endFormatter.format(endTime.getTime());
 		return dateString + " von " + begin + " Uhr bis " + end + " Uhr";
 	}
-	
-	public void addRoom(Room room){
+
+	public void addRoom(Room room) {
 		roomsAtDate.add(room);
+	}
+
+	public List<Room> getRooms() {
+		return roomsAtDate;
+	}
+
+	@Override
+	public int compareTo(Slot arg0) {
+		// sorted by room size
+		if (this.roomsAtDate.size() < arg0.roomsAtDate.size()) {
+			return 1;
+		}
+		if (this.roomsAtDate.size() > arg0.roomsAtDate.size()) {
+			return -1;
+		}
+		return 0;
 	}
 }

@@ -21,6 +21,7 @@ public class Room {
 
 	private GregorianCalendar beginTime = new GregorianCalendar();
 	private GregorianCalendar endTime = new GregorianCalendar();
+	private Review review;
 
 	// Is the unique ID of a location
 	private String roomID;
@@ -59,6 +60,8 @@ public class Room {
 	public void setendTime(Date endTime) {
 		this.endTime.setTime(endTime);
 	}
+	
+	
 
 	/**
 	 * @return the date of the review formated as x.xxx hh:mm to hh:mm
@@ -72,6 +75,14 @@ public class Room {
 		String end = endFormatter.format(endTime.getTime());
 
 		return roomID + " von " + begin + " Uhr bis " + end + " Uhr";
+	}
+
+	public Review getReview() {
+		return review;
+	}
+
+	public void setReview(Review review) {
+		this.review = review;
 	}
 
 }

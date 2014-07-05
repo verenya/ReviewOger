@@ -19,7 +19,7 @@ public class RandomFunctions {
 	 *            The pool with the participants
 	 * @return A randomly selected participant
 	 */
-	protected Participant selectParticipantFromPool(Pool pool) {
+	public static Participant selectParticipantFromPool(Pool pool) {
 		Random random = new Random();
 		// get a random index between 0 and the current pool size -1
 		int randomIndex = random.nextInt(pool.getCurrentPoolsize());
@@ -34,7 +34,7 @@ public class RandomFunctions {
 	 *            The current list of reviews
 	 * @return A shuffled list of reviews
 	 */
-	protected ReviewPlan shuffleReviews(ReviewPlan workingReviewPlan) {
+	public static ReviewPlan shuffleReviews(ReviewPlan workingReviewPlan) {
 		return null;
 		// TODO
 	}

@@ -74,4 +74,8 @@ public class Participant implements Comparable<Participant> {
 			return 1;
 	}
 
+	public void increaseParticipation() {
+		numberOfReviews++;
+	}
+
 }

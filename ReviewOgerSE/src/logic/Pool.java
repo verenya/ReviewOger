@@ -12,10 +12,7 @@ import data.ReviewPlan;
 
 public class Pool {
 
-	/**
-	 * The possible participants for a review
-	 */
-	private ArrayList<Participant> participantList = new ArrayList<Participant>();
+	static ArrayList<Participant> participantList = new ArrayList<Participant>();
 
 	/**
 	 * Generates a pool of possible participants for the given review
@@ -25,28 +22,18 @@ public class Pool {
 	 * @return True if enough participants for all free positions are found,
 	 *         else false
 	 */
-	protected boolean generatePoolForReview(Review review) {
-		for (Participant p : ParticipantTableModel.getInstance().getParticipants()) {
+	public ArrayList<Participant> generatePoolForReview(Review review) {
+
+		for (Participant p : ParticipantTableModel.getInstance()
+				.getParticipants()) {
 			// must not be the same group as the author and not too many reviews
 			if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
-					&& (p.getNumberOfReviews() < ReviewPlan.getInstance()
-							.getMaxNumberOfReviews())) {
+					&& (p.getNumberOfReviews() < 2)) {
 				participantList.add(p);
 			}
 		}
 
-		// number of reviewers + moderator
-		if (review.getAuthorIsScribe()) {
-			if (participantList.size() >= review.getNumberOfReviewers() + 1) {
-				return true;
-			}
-			// //number of reviewers + moderator + scribe
-		} else {
-			if (participantList.size() >= review.getNumberOfReviewers() + 2) {
-				return true;
-			}
-		}
-		return false;
+		return participantList;
 	}
 
 	/**
