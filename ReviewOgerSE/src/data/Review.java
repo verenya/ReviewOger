@@ -131,4 +131,7 @@ public class Review {
 		this.groupNumber = groupNumber;
 	}
 
+	public List<Participant> getReviewers() {
+		return reviewers;
+	}
 }

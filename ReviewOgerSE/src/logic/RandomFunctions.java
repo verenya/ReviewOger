@@ -19,11 +19,28 @@ public class RandomFunctions {
 	 *            The pool with the participants
 	 * @return A randomly selected participant
 	 */
-	public static Participant selectParticipantFromPool(Pool pool) {
+	public static Participant selectReviewerFromPool(Pool pool) {
 		Random random = new Random();
 		// get a random index between 0 and the current pool size -1
-		int randomIndex = random.nextInt(pool.getCurrentPoolsize());
-		return pool.getPool().get(randomIndex);
+		int randomIndex = random.nextInt(pool.getCurrentReviewerPoolsize());
+		Participant reviewer = pool.getReviewers().get(randomIndex);
+		pool.removeParticipant(reviewer);
+		return reviewer;
+	}
+
+	/**
+	 * This function randomly selects a moderator from the given pool and
+	 * returns it.
+	 * 
+	 * @param pool
+	 *            The pool with the moderators
+	 * @return A randomly selected moderator
+	 */
+	public static Participant selectModeratorFromPool(Pool pool) {
+		Random random = new Random();
+		// get a random index between 0 and the current pool size -1
+		int randomIndex = random.nextInt(pool.getCurrentModeratorPoolsize());
+		return pool.getModerators().get(randomIndex);
 	}
 
 	/**
