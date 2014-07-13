@@ -23,7 +23,7 @@ import data.RoomTreeModel;
 import data.Slot;
 import data.SlotNode;
 
-public class Matcher implements Callable<String> {
+public class Matcher implements Callable<ArrayList<Review>> {
 
 	public Matcher(String exitSelection, boolean scribeIsAuthor,
 			boolean moderatorNotReviewerGroup, int amountReviewers) {
@@ -35,9 +35,10 @@ public class Matcher implements Callable<String> {
 	private boolean scribeIsAuthor = true;
 	private boolean moderatorNotReviewerGroup = true;
 	private int amountReviewers;
-	// private int fillUp = 0;
 
 	private boolean secondTry = false;
+
+	private boolean firstRound = true;
 
 	List<Slot> slots = new ArrayList<Slot>();
 
@@ -46,23 +47,26 @@ public class Matcher implements Callable<String> {
 	 * 
 	 * @return A review plan with a solution
 	 */
-	public ReviewPlan MatchReview() {
+	public ArrayList<Review> MatchReview() {
+		// first try so list has to be made manually
+		if (firstRound) {
+			// list of reviews with assigned author
+			makeList();
+		}
 
-		// list of reviews with assigned author
-		makeList();
-
-		boolean groupsOk = calculateReviewers();
+		amountReviewers = calculateReviewers();
 		// Problem with the group calculation
-		if (!groupsOk) {
+		if (amountReviewers == 0) {
 			return null;
+		} else {
+
 		}
 
 		// make a list of all slots in the tree
 		sortSlots();
 
 		// fill current slot, as slots are ordered in sortSlots(), the method
-		// begins with the
-		// largest slot
+		// begins with the largest slot
 		for (Slot s : slots) {
 			fillSlot(s);
 		}
@@ -72,17 +76,22 @@ public class Matcher implements Callable<String> {
 
 		// every review is matched
 		if (tempReviews.isEmpty()) {
-			System.out.println("extra");
-			matchExtraReviewers();
+			// left participants must be matched
+			boolean extraOk = matchExtraReviewers();
+			if (!extraOk) {
+				System.out.println("error extra matching");
+				firstRound = false;
+				return null;
+			}
 
 			// shuffle
 		} else {
-			System.out.println("error");
-			RandomFunctions.shuffleReviews(plan);
+			System.out.println("error shuffle");
+			firstRound = false;
+			return null;
 		}
 
-		// TODO
-		return null;
+		return ReviewPlan.getInstance().getReviews();
 	}
 
 	/**
@@ -125,8 +134,10 @@ public class Matcher implements Callable<String> {
 	/**
 	 * This method calculates the mount of reviewers based on the amount of
 	 * groups
+	 * 
+	 * @return the calculated number of reviewers
 	 */
-	private boolean calculateReviewers() {
+	private int calculateReviewers() {
 		List<Participant> participants = ParticipantTableModel.getInstance()
 				.getParticipants();
 		ReviewPlan plan = ReviewPlan.getInstance();
@@ -168,10 +179,10 @@ public class Matcher implements Callable<String> {
 			JOptionPane.showMessageDialog(null,
 					"Zu viele Teilnehmer allein in Gruppe. Bitte ändern",
 					"Error", JOptionPane.ERROR_MESSAGE);
-			return false;
+			return 0;
 
 		}
-		return true;
+		return amountReviewers;
 
 	}
 
@@ -181,7 +192,6 @@ public class Matcher implements Callable<String> {
 	@SuppressWarnings("unchecked")
 	private void sortSlots() {
 		slots.clear();
-		System.out.println(slots.size());
 		DefaultTreeModel model = RoomTreeModel.getInstance();
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
 
@@ -225,24 +235,9 @@ public class Matcher implements Callable<String> {
 			boolean fillOk = fillReview(tempReviews, currentRoom);
 			// fill was not possible so next slot
 			if (!fillOk) {
-				// TODO
-				System.out.println("break");
 				break;
 			}
 			// The review is finished and can be added to the final plan
-			// TODO 
-			System.out.println("fillSlot");
-			System.out.println(tempReviews.get(0).getAuthor().getFirstName());
-			System.out
-					.println(tempReviews.get(0).getModerator().getFirstName());
-			System.out.println(tempReviews.get(0).getScribe().getFirstName());
-			
-			//TODO no reviewers!!
-			//TODO double reviewers
-			for(Participant p : tempReviews.get(0).getReviewers()){
-				System.out.println(p.getFirstName());
-			}
-
 			plan.add(tempReviews.get(0));
 			tempReviews.remove(0);
 		}
@@ -263,10 +258,9 @@ public class Matcher implements Callable<String> {
 		// number of reviewers + moderator
 		if (scribeIsAuthor) {
 			// enough participants -> randomly select participants
-			if (possibleReviewers.size() >= currentReview
-					.getNumberOfReviewers() + 1) {
+			if (possibleReviewers.size() >= amountReviewers + 1) {
 
-				for (int i = 0; i < currentReview.getNumberOfReviewers(); i++) {
+				for (int i = 0; i < amountReviewers; i++) {
 					Participant reviewer = RandomFunctions
 							.selectReviewerFromPool(pool);
 					reviewer.increaseParticipation();
@@ -321,21 +315,18 @@ public class Matcher implements Callable<String> {
 			// //number of reviewers + moderator + scribe
 		} else {
 			// enough participants -> randomly select participants
-			if (possibleReviewers.size() >= currentReview
-					.getNumberOfReviewers() + 2) {
-				
+			if (possibleReviewers.size() >= amountReviewers + 2) {
 
 				Participant scribe = RandomFunctions
 						.selectReviewerFromPool(pool);
 				scribe.increaseParticipation();
 				currentReview.setScribe(scribe);
 
-				for (int i = 0; i < currentReview.getNumberOfReviewers(); i++) {
+				for (int i = 0; i < amountReviewers; i++) {
 					Participant reviewer = RandomFunctions
 							.selectReviewerFromPool(pool);
 					reviewer.increaseParticipation();
 					currentReview.addReviewer(reviewer);
-					System.out.println(reviewer.getFirstName());
 				}
 
 				pool.generatePoolForModerator(currentReview,
@@ -387,31 +378,44 @@ public class Matcher implements Callable<String> {
 	 * This method finds all extra reviewers and matches them to the existing
 	 * reviews
 	 */
-	private void matchExtraReviewers() {
-		// TODO
-		List<Participant> participants = ParticipantTableModel.getInstance()
-				.getParticipants();
+	private boolean matchExtraReviewers() {
 
 		List<Review> reviews = ReviewPlan.getInstance().getReviews();
-		int counter = 0;
-		for (Participant p : participants) {
-			// everybody must participate 2 times
-			if (p.getNumberOfReviews() < 2) {
-				System.out.println("matchExtra: " + p.getFirstName());
-				reviews.get(counter).addReviewer(p);
-				counter++;
+
+		Pool pool = new Pool();
+
+		for (Review currentReview : reviews) {
+			ArrayList<Participant> possibleReviewers = pool
+					.generatePoolForReviewers(currentReview);
+			// reviewers left
+			if (possibleReviewers.size() > 0) {
+
+				Participant reviewer = RandomFunctions
+						.selectReviewerFromPool(pool);
+				currentReview.addReviewer(reviewer);
+
+				// no reviewers left -> error
+			} else {
+				return false;
 			}
 
 		}
 
+		return true;
+
+	}
+
+	public boolean isFirstRound() {
+		return firstRound;
+	}
+
+	public void setFirstRound(boolean firstRound) {
+		this.firstRound = firstRound;
 	}
 
 	@Override
-	public String call() throws Exception {
-		ReviewPlan plan = MatchReview();
-		if (plan == null) {
-			// TODO error
-		}
-		return "Ende";
+	public ArrayList<Review> call() throws Exception {
+		ArrayList<Review> plan = MatchReview();
+		return plan;
 	}
 }

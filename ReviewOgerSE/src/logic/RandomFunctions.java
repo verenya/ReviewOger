@@ -4,9 +4,13 @@
 
 package logic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import data.Participant;
+import data.Review;
 import data.ReviewPlan;
 
 public class RandomFunctions {
@@ -47,12 +51,31 @@ public class RandomFunctions {
 	 * This function must be called if the current order of reviews has no
 	 * solution. The function shuffles the reviews randomly.
 	 * 
-	 * @param workingReviewPlan
+	 * @param notWorkingReviewPlan
 	 *            The current list of reviews
 	 * @return A shuffled list of reviews
 	 */
-	public static ReviewPlan shuffleReviews(ReviewPlan workingReviewPlan) {
-		return null;
+	public static void shuffleReviews(ReviewPlan notWorkingReviewPlan) {
+		List<Review> reviews = notWorkingReviewPlan.getReviews();
+
+		Collections.shuffle(reviews);
+
+		notWorkingReviewPlan.getTempReviews().clear();
+
+		// reset all, add to temporary plan and clear current reviews
+		
+		//TODO currentModificationException
+		for (Review r : reviews) {
+			r.setAssignedRoom(null);
+			r.setDateAndTime(null);
+			r.setModerator(null);
+			r.setScribe(null);
+			r.getReviewers().clear();
+
+			notWorkingReviewPlan.addTemp(r);
+			notWorkingReviewPlan.getReviews().clear();
+		}
+
 		// TODO
 	}
 

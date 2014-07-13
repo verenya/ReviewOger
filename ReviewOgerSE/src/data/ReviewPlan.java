@@ -8,7 +8,6 @@
 package data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ReviewPlan {
 
@@ -25,39 +24,43 @@ public class ReviewPlan {
 		return instance;
 	}
 
-	private List<Review> reviews = new ArrayList<Review>();
-	
-	private List<Review> tempReviews = new ArrayList<Review>();
+	private ArrayList<Review> reviews = new ArrayList<Review>();
 
-	//private int maxNumberOfReviews = 2;
+	private ArrayList<Review> tempReviews = new ArrayList<Review>();
+
+	// private int maxNumberOfReviews = 2;
 
 	public void add(Review review) {
 		reviews.add(review);
 	}
 
-//	public int getMaxNumberOfReviews() {
-//		return maxNumberOfReviews;
-//	}
-//
-//	public void setMaxNumberOfReviews(int maxNumberOfReviews) {
-//		this.maxNumberOfReviews = maxNumberOfReviews;
-//	}
+	// public int getMaxNumberOfReviews() {
+	// return maxNumberOfReviews;
+	// }
+	//
+	// public void setMaxNumberOfReviews(int maxNumberOfReviews) {
+	// this.maxNumberOfReviews = maxNumberOfReviews;
+	// }
 
-	public List<Review> getReviews() {
+	public ArrayList<Review> getReviews() {
 		return reviews;
 	}
-	
+
 	public void addTemp(Review review) {
 		tempReviews.add(review);
 	}
 
-
-	public List<Review> getTempReviews() {
+	public ArrayList<Review> getTempReviews() {
 		return tempReviews;
 	}
-	
-	public void resetLists(){
-		reviews = new ArrayList<Review>();
-		tempReviews = new ArrayList<Review>();
+
+	public void setTempReviews(ArrayList<Review> newReviews) {
+		tempReviews = newReviews;
+	}
+
+	public void resetLists() {
+		reviews.clear();
+		;
+		tempReviews.clear();
 	}
 }

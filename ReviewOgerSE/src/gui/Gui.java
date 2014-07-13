@@ -486,7 +486,12 @@ public class Gui extends JFrame {
 							moderatorNotReviewerGroupCheckbox.isSelected(),
 							Integer.parseInt(reviewerNumberTextField.getText()));
 					ExecutingFrame frame = new ExecutingFrame();
-					frame.showFrame(matcher);
+					dispose();
+					frame.showFrame(matcher, exitOptionComboBox
+							.getSelectedItem().toString(), Integer
+							.parseInt(amountRoundsTextField.getText()), Integer
+							.parseInt(hourTextField.getText()), Integer
+							.parseInt(minuteTextField.getText()));
 				}
 
 			}

@@ -19,14 +19,10 @@ public class Review {
 	private Participant author;
 	// The assigned scribe of the review
 	private Participant scribe;
-	// Determines if author and scribe are two separate rolls or not
-	private boolean authorIsScribe = true;
 	// The assigned moderator of the review
 	private Participant moderator;
 	// The list of reviewers for this review
 	private List<Participant> reviewers = new ArrayList<Participant>();
-	// The amount of reviewers, that should be assigned to the review.
-	private int numberOfReviewers;
 	// Date and time of the review start
 	private GregorianCalendar dateAndTime;
 	// The room in which the review should be conducted
@@ -48,14 +44,6 @@ public class Review {
 
 	public void setScribe(Participant scribe) {
 		this.scribe = scribe;
-	}
-
-	public Boolean getAuthorIsScribe() {
-		return authorIsScribe;
-	}
-
-	public void setAuthorIsScribe(Boolean authorIsScribe) {
-		this.authorIsScribe = authorIsScribe;
 	}
 
 	public Participant getModerator() {
@@ -99,13 +87,13 @@ public class Review {
 		}
 	}
 
-	public int getNumberOfReviewers() {
-		return numberOfReviewers;
-	}
-
-	public void setNumberOfReviewers(int numberOfReviewers) {
-		this.numberOfReviewers = numberOfReviewers;
-	}
+	// public int getNumberOfReviewers() {
+	// return numberOfReviewers;
+	// }
+	//
+	// public void setNumberOfReviewers(int numberOfReviewers) {
+	// this.numberOfReviewers = numberOfReviewers;
+	// }
 
 	public GregorianCalendar getDateAndTime() {
 		return dateAndTime;

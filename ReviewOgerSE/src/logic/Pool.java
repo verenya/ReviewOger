@@ -79,7 +79,7 @@ public class Pool {
 
 		return moderatorList;
 	}
-
+	
 	/**
 	 * Removes the given participant from the pool
 	 * 
