@@ -58,25 +58,26 @@ public class RandomFunctions {
 	public static void shuffleReviews(ReviewPlan notWorkingReviewPlan) {
 		List<Review> reviews = notWorkingReviewPlan.getReviews();
 
-		Collections.shuffle(reviews);
+		int n = reviews.size();
+		Random random = new Random();
+		random.nextInt();
 
 		notWorkingReviewPlan.getTempReviews().clear();
 
-		// reset all, add to temporary plan and clear current reviews
-		
-		//TODO currentModificationException
-		for (Review r : reviews) {
-			r.setAssignedRoom(null);
-			r.setDateAndTime(null);
-			r.setModerator(null);
-			r.setScribe(null);
-			r.getReviewers().clear();
+		// select randomly one review from the left reviews and add it to a new
+		// list
+		for (int i = n; i > 0; i--) {
 
-			notWorkingReviewPlan.addTemp(r);
-			notWorkingReviewPlan.getReviews().clear();
+			Review currentReview = reviews.get(random.nextInt(i));
+			currentReview.setAssignedRoom(null);
+			currentReview.setDateAndTime(null);
+			currentReview.setModerator(null);
+			currentReview.setScribe(null);
+			notWorkingReviewPlan.addTemp(currentReview);
 		}
 
-		// TODO
+		notWorkingReviewPlan.getReviews().clear();
+
 	}
 
 }
