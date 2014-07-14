@@ -3,6 +3,10 @@
  */
 package gui;
 
+import io.FileReader;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -20,6 +24,8 @@ import logic.Matcher;
 import logic.RandomFunctions;
 
 public class ExecutingFrame {
+
+	ArrayList<Review> reviews = new ArrayList<Review>();
 
 	/**
 	 * @param matcher
@@ -58,7 +64,7 @@ public class ExecutingFrame {
 					// wait till finished
 				}
 				try {
-					ArrayList<Review> reviews = future.get();
+					reviews = future.get();
 					// result
 					if (reviews != null) {
 						break;
@@ -71,6 +77,7 @@ public class ExecutingFrame {
 					JOptionPane.showMessageDialog(null,
 							"Fehler bei der Ausführung.", "Fehler",
 							JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
 				}
 
 				progressBar.setValue(i);
@@ -87,6 +94,10 @@ public class ExecutingFrame {
 		else {
 
 		}
+		FileReader fr = new FileReader();
+		fr.printResult(reviews);
 	}
+	
+	//TODO zweiter Durchlauf startet nicht
 
 }

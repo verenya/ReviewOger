@@ -11,12 +11,14 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
 import data.Participant;
 import data.ParticipantTableModel;
+import data.Review;
 
 public class FileReader {
 
@@ -123,5 +125,63 @@ public class FileReader {
 		Participant newParticipant = new Participant(firstName, lastName,
 				email, group);
 		ParticipantTableModel.getInstance().addParticipant(newParticipant);
+	}
+
+	public void printResult(ArrayList<Review> reviews) {
+		long timeStamp = System.currentTimeMillis();
+
+		// TODO Speicherort des Benutzers
+
+		String logPath = "/media/verena/F0CA5804CA57C60E/verena/result" + timeStamp + ".txt";
+		FileWriter writer;
+
+		try {
+			writer = new FileWriter(new File(logPath), true);
+
+			for (Review r : reviews) {
+				String result = "Review Gruppe " + r.getGroupNumber();
+				writer.append(result);
+
+				Participant author = r.getAuthor();
+				result = "Author: " + author.getFirstName() + " "
+						+ author.getLastName() + " " + author.geteMailAdress()
+						+ "Gruppe " + author.getGroupNumber();
+				writer.append(result);
+
+				Participant moderator = r.getModerator();
+				result = "Moderator: " + moderator.getFirstName() + " "
+						+ moderator.getLastName() + " "
+						+ moderator.geteMailAdress() + "Gruppe "
+						+ moderator.getGroupNumber();
+				writer.append(result);
+
+				Participant scribe = r.getScribe();
+				result = "Notar: " + scribe.getFirstName() + " "
+						+ scribe.getLastName() + " " + scribe.geteMailAdress()
+						+ "Gruppe " + scribe.getGroupNumber();
+				writer.append(result);
+
+				for (Participant reviewer : r.getReviewers()) {
+					result = "Gutachter: " + reviewer.getFirstName() + " "
+							+ reviewer.getLastName() + " "
+							+ reviewer.geteMailAdress() + "Gruppe "
+							+ reviewer.getGroupNumber();
+					writer.append(result);
+				}
+
+				result = "*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x";
+				writer.append(result);
+			}
+
+			writer.close();
+		} catch (FileNotFoundException e1) {
+			JOptionPane.showMessageDialog(null,
+					"Konnte Ergebnis-Datei nicht schreiben", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e1) {
+			JOptionPane.showMessageDialog(null,
+					"Konnte Ergebnis-Datei nicht schreiben", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
