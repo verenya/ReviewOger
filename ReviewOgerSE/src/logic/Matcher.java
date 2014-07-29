@@ -52,23 +52,30 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		if (firstRound) {
 			// list of reviews with assigned author
 			makeList();
-		
 
-		amountReviewers = calculateReviewers();
-		// Problem with the group calculation
-		if (amountReviewers == 0) {
-			return null;
+			amountReviewers = calculateReviewers();
+			// Problem with the group calculation
+			if (amountReviewers == 0) {
+				return null;
+			}
+
+			// make a list of all slots in the tree
+			sortSlots();
+
 		} else {
-
-		}
-
-		// make a list of all slots in the tree
-		sortSlots();
+			// reset rooms
+			for (Slot s : slots) {
+				for (Room r : s.getRooms()) {
+					r.setReview(null);
+					;
+				}
+			}
 		}
 
 		// fill current slot, as slots are ordered in sortSlots(), the method
 		// begins with the largest slot
 		for (Slot s : slots) {
+			System.out.println("fillSlots");
 			fillSlot(s);
 		}
 
@@ -228,11 +235,13 @@ public class Matcher implements Callable<ArrayList<Review>> {
 	 *            the current slot
 	 */
 	private void fillSlot(Slot slot) {
+
 		ReviewPlan plan = ReviewPlan.getInstance();
 		List<Review> tempReviews = plan.getTempReviews();
 
 		// fill all rooms in slot
 		for (Room currentRoom : slot.getRooms()) {
+			System.out.println("id "+ currentRoom.getRoomID());
 			boolean fillOk = fillReview(tempReviews, currentRoom);
 			// fill was not possible so next slot
 			if (!fillOk) {
@@ -421,7 +430,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 	@Override
 	public ArrayList<Review> call() throws Exception {
-		ArrayList<Review> plan = MatchReview();
-		return plan;
+		ArrayList<Review> reviews = MatchReview();
+		return reviews;
 	}
 }

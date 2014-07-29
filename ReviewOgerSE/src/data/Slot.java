@@ -59,4 +59,16 @@ public class Slot implements Comparable<Slot> {
 		}
 		return 0;
 	}
+
+	public GregorianCalendar getDate() {
+		return date;
+	}
+
+	public GregorianCalendar getBeginTime() {
+		return beginTime;
+	}
+
+	public GregorianCalendar getEndTime() {
+		return endTime;
+	}
 }

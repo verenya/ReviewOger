@@ -81,8 +81,9 @@ public class ExecutingFrame {
 				}
 
 				progressBar.setValue(i);
-
+				future.cancel(true);
 			}
+
 		}
 
 		// fixed time
@@ -97,7 +98,7 @@ public class ExecutingFrame {
 		FileReader fr = new FileReader();
 		fr.printResult(reviews);
 	}
-	
-	//TODO zweiter Durchlauf startet nicht
+
+	// TODO zweiter Durchlauf startet nicht
 
 }
