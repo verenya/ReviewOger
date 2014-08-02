@@ -277,6 +277,8 @@ public class Matcher implements Callable<ArrayList<Review>> {
 						reviewer.increaseParticipation();
 						currentReview.addReviewer(reviewer);
 					}
+					
+					currentReview.setScribe(currentReview.getAuthor());
 
 					pool.generatePoolForModerator(currentReview,
 							moderatorNotReviewerGroup, possibleReviewers);

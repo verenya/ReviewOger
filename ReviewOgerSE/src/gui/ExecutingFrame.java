@@ -5,8 +5,6 @@ package gui;
 
 import io.FileReader;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -67,6 +65,7 @@ public class ExecutingFrame {
 					reviews = future.get();
 					// result
 					if (reviews != null) {
+						progressBar.setValue(rounds);
 						break;
 
 						// shuffle and try again

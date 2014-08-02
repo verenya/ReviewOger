@@ -132,7 +132,8 @@ public class FileReader {
 
 		// TODO Speicherort des Benutzers
 
-		String logPath = "/media/verena/F0CA5804CA57C60E/verena/result" + timeStamp + ".txt";
+		String logPath = "/media/verena/F0CA5804CA57C60E/verena/result"
+				+ timeStamp + ".txt";
 		FileWriter writer;
 
 		try {
@@ -141,36 +142,42 @@ public class FileReader {
 			for (Review r : reviews) {
 				String result = "Review Gruppe " + r.getGroupNumber();
 				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
 
 				Participant author = r.getAuthor();
 				result = "Author: " + author.getFirstName() + " "
 						+ author.getLastName() + " " + author.geteMailAdress()
-						+ "Gruppe " + author.getGroupNumber();
+						+ "G ruppe " + author.getGroupNumber();
 				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
 
 				Participant moderator = r.getModerator();
 				result = "Moderator: " + moderator.getFirstName() + " "
 						+ moderator.getLastName() + " "
-						+ moderator.geteMailAdress() + "Gruppe "
+						+ moderator.geteMailAdress() + " Gruppe "
 						+ moderator.getGroupNumber();
 				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
 
 				Participant scribe = r.getScribe();
 				result = "Notar: " + scribe.getFirstName() + " "
 						+ scribe.getLastName() + " " + scribe.geteMailAdress()
-						+ "Gruppe " + scribe.getGroupNumber();
+						+ " Gruppe " + scribe.getGroupNumber();
 				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
 
 				for (Participant reviewer : r.getReviewers()) {
 					result = "Gutachter: " + reviewer.getFirstName() + " "
 							+ reviewer.getLastName() + " "
-							+ reviewer.geteMailAdress() + "Gruppe "
+							+ reviewer.geteMailAdress() + " Gruppe "
 							+ reviewer.getGroupNumber();
 					writer.append(result);
+					writer.append((char) Character.LINE_SEPARATOR);
 				}
 
 				result = "*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x";
 				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
 			}
 
 			writer.close();
