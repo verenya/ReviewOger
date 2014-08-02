@@ -111,9 +111,20 @@ public class ParticipantTableModel extends AbstractTableModel {
 	 * @param index
 	 *            the index of the participant
 	 */
-	public void deleteParticipant(int index) {
-		participants.remove(index);
-		fireTableDataChanged();
+	public void deleteParticipants(int[] indexes) {
+		ArrayList<Participant> participantsToRemove = new ArrayList<Participant>();
+		// list of all planned to remove participants
+		for (int index : indexes) {
+			participantsToRemove.add(participants.get(index));
+
+		}
+
+		// now delete them
+		for (Participant p : participantsToRemove) {
+			participants.remove(p);
+			fireTableDataChanged();
+		}
+
 	}
 
 	/**

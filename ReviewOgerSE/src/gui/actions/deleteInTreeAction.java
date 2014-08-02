@@ -5,11 +5,12 @@ import java.awt.event.ActionEvent;
 import gui.Gui;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import data.RoomTreeModel;
 
-public class deleteTreeAction extends AbstractAction {
+public class deleteInTreeAction extends AbstractAction {
 
 	/**
 	 * 
@@ -21,8 +22,10 @@ public class deleteTreeAction extends AbstractAction {
 		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
 				.getRoomTree().getLastSelectedPathComponent();
 
-		// there must be a selected node and it must not be root
-		if (selectedNode != null && !selectedNode.isRoot()) {
+		if (selectedNode.isRoot()) {
+			JOptionPane.showMessageDialog(null,
+					"Die Wurzel kann nicht gelöscht werden");
+		} else {
 			RoomTreeModel.getInstance().removeNodeFromParent(selectedNode);
 			Gui.getRoomTree().updateUI();
 		}

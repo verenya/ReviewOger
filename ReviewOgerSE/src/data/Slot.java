@@ -60,15 +60,27 @@ public class Slot implements Comparable<Slot> {
 		return 0;
 	}
 
-	public GregorianCalendar getDate() {
-		return date;
+	public Date getDate() {
+		return date.getTime();
 	}
 
-	public GregorianCalendar getBeginTime() {
-		return beginTime;
+	public Date getBeginTime() {
+		return beginTime.getTime();
 	}
 
-	public GregorianCalendar getEndTime() {
-		return endTime;
+	public Date getEndTime() {
+		return endTime.getTime();
+	}
+
+	public void setDate(Date date) {
+		this.date.setTime(date);
+	}
+
+	public void setBeginTime(Date beginTime) {
+		this.beginTime.setTime(beginTime);
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime.setTime(endTime);
 	}
 }

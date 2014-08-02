@@ -53,11 +53,11 @@ public class Room {
 		return endTime.getTime();
 	}
 
-	public void setbeginTime(Date beginTime) {
+	public void setBeginTime(Date beginTime) {
 		this.beginTime.setTime(beginTime);
 	}
 
-	public void setendTime(Date endTime) {
+	public void setEndTime(Date endTime) {
 		this.endTime.setTime(endTime);
 	}
 	
@@ -68,11 +68,10 @@ public class Room {
 	 */
 	public String getFormatedDate() {
 
-		DateFormat beginFormatter = new SimpleDateFormat("HH:mm");
-		String begin = beginFormatter.format(beginTime.getTime());
+		DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+		String begin = timeFormatter.format(beginTime.getTime());
 
-		DateFormat endFormatter = new SimpleDateFormat("HH:mm");
-		String end = endFormatter.format(endTime.getTime());
+		String end = timeFormatter.format(endTime.getTime());
 
 		return roomID + " von " + begin + " Uhr bis " + end + " Uhr";
 	}

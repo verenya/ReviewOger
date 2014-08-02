@@ -29,14 +29,33 @@ public class Pool {
 		for (Participant p : ParticipantTableModel.getInstance()
 				.getParticipants()) {
 			// must not be the same group as the author and not too many
-			// reviews
+			// reviews and not in review yet
 			if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
-					&& (p.getNumberOfReviews() < 2)) {
+					&& (p.getNumberOfReviews() < 2)
+					&& !ParticipantInReview(review, p)) {
 				reviewerList.add(p);
 			}
 		}
 
 		return reviewerList;
+	}
+
+	/**
+	 * @param review
+	 * @param participant
+	 * @return true if participant already added
+	 */
+	private boolean ParticipantInReview(Review review, Participant participant) {
+		if (review.getAuthor() == participant) {
+			return true;
+		} else if (review.getModerator() == participant) {
+			return true;
+		} else if (review.getScribe() == participant) {
+			return true;
+		} else if (review.getReviewers().contains(participant)) {
+			return true;
+		}
+		return false;
 	}
 
 	public ArrayList<Participant> generatePoolForModerator(Review review,
@@ -51,7 +70,8 @@ public class Pool {
 				// reviews
 				if (!(participantToAdd.getGroupNumber() == review.getAuthor()
 						.getGroupNumber())
-						&& (participantToAdd.getNumberOfReviews() < 2)) {
+						&& (participantToAdd.getNumberOfReviews() < 2)
+						&& !ParticipantInReview(review, participantToAdd)) {
 
 					// check for the existing reviewers if in same group
 					for (Participant reviewer : reviewers) {
@@ -71,7 +91,8 @@ public class Pool {
 				// must not be the same group as the author and not too many
 				// reviews
 				if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
-						&& (p.getNumberOfReviews() < 2)) {
+						&& (p.getNumberOfReviews() < 2)
+						&& !ParticipantInReview(review, p)) {
 					moderatorList.add(p);
 				}
 			}
@@ -79,7 +100,7 @@ public class Pool {
 
 		return moderatorList;
 	}
-	
+
 	/**
 	 * Removes the given participant from the pool
 	 * 

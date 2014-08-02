@@ -40,92 +40,98 @@ public class EditRoomAction extends AbstractAction {
 		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
 				.getRoomTree().getLastSelectedPathComponent();
 
-		final Room selectedRoom = (Room) selectedNode.getUserObject();
+		if (Room.class.isInstance(selectedNode.getUserObject())) {
 
-		roomFrame.setLayout(new GridLayout(5, 2));
-		roomFrame.setTitle("Raum bearbeiten");
-		Dimension minimumSize = new Dimension(250, 200);
-		roomFrame.setMinimumSize(minimumSize);
+			final Room selectedRoom = (Room) selectedNode.getUserObject();
 
-		JLabel RoomLabel = new JLabel("Raum:");
-		roomFrame.add(RoomLabel);
+			roomFrame.setLayout(new GridLayout(5, 2));
+			roomFrame.setTitle("Raum bearbeiten");
+			Dimension minimumSize = new Dimension(250, 200);
+			roomFrame.setMinimumSize(minimumSize);
 
-		final JTextField roomField = new JTextField(selectedRoom.getRoomID());
-		roomFrame.add(roomField);
+			JLabel RoomLabel = new JLabel("Raum:");
+			roomFrame.add(RoomLabel);
 
-		JLabel beginLabel = new JLabel("Beginn:");
-		roomFrame.add(beginLabel);
+			final JTextField roomField = new JTextField(
+					selectedRoom.getRoomID());
+			roomFrame.add(roomField);
 
-		final JTextField beginField = new JTextField(
-				timeFormat.format(selectedRoom.getBeginTime()));
-		roomFrame.add(beginField);
+			JLabel beginLabel = new JLabel("Beginn:");
+			roomFrame.add(beginLabel);
 
-		JLabel endLabel = new JLabel("Ende:");
-		roomFrame.add(endLabel);
+			final JTextField beginField = new JTextField(
+					timeFormat.format(selectedRoom.getBeginTime()));
+			roomFrame.add(beginField);
 
-		final JTextField endField = new JTextField(
-				timeFormat.format(selectedRoom.getEndTime()));
-		roomFrame.add(endField);
+			JLabel endLabel = new JLabel("Ende:");
+			roomFrame.add(endLabel);
 
-		JLabel hasBeamerLabel = new JLabel("Beamer: ");
-		roomFrame.add(hasBeamerLabel);
+			final JTextField endField = new JTextField(
+					timeFormat.format(selectedRoom.getEndTime()));
+			roomFrame.add(endField);
 
-		final JCheckBox hasBeamerBox = new JCheckBox();
-		hasBeamerBox.setSelected(selectedRoom.isHasBeamer());
-		roomFrame.add(hasBeamerBox);
+			JLabel hasBeamerLabel = new JLabel("Beamer: ");
+			roomFrame.add(hasBeamerLabel);
 
-		JButton doneButton = new JButton("OK");
-		doneButton.addActionListener(new AbstractAction() {
+			final JCheckBox hasBeamerBox = new JCheckBox();
+			hasBeamerBox.setSelected(selectedRoom.isHasBeamer());
+			roomFrame.add(hasBeamerBox);
 
-			private static final long serialVersionUID = 2483720398415164553L;
+			JButton doneButton = new JButton("OK");
+			doneButton.addActionListener(new AbstractAction() {
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+				private static final long serialVersionUID = 2483720398415164553L;
 
-				boolean parseFailed = false;
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
 
-				String roomString = roomField.getText();
-				Date beginTime = null;
-				Date endTime = null;
+					boolean parseFailed = false;
 
-				Boolean hasBeamer = hasBeamerBox.isSelected();
+					String roomString = roomField.getText();
+					Date beginTime = null;
+					Date endTime = null;
 
-				try {
-					beginTime = timeFormat.parse(beginField.getText());
-				} catch (ParseException e) {
-					JOptionPane.showMessageDialog(null,
-							"Angfangszeit muss die Form HH:mm haben",
-							"Anfangszeit nicht erkannt",
-							JOptionPane.ERROR_MESSAGE);
-					parseFailed = true;
+					Boolean hasBeamer = hasBeamerBox.isSelected();
+
+					try {
+						beginTime = timeFormat.parse(beginField.getText());
+					} catch (ParseException e) {
+						JOptionPane.showMessageDialog(null,
+								"Angfangszeit muss die Form HH:mm haben",
+								"Anfangszeit nicht erkannt",
+								JOptionPane.ERROR_MESSAGE);
+						parseFailed = true;
+					}
+
+					try {
+						endTime = timeFormat.parse(endField.getText());
+					} catch (ParseException e) {
+						JOptionPane.showMessageDialog(null,
+								"Endzeit muss die Form HH:mm haben",
+								"Endzeit nicht erkannt",
+								JOptionPane.ERROR_MESSAGE);
+						parseFailed = true;
+					}
+
+					if (!parseFailed) {
+						selectedRoom.setHasBeamer(hasBeamer);
+						selectedRoom.setRoomID(roomString);
+						selectedRoom.setBeginTime(beginTime);
+						selectedRoom.setEndTime(endTime);
+
+						Gui.getRoomTree().updateUI();
+						roomFrame.dispose();
+					}
 				}
 
-				try {
-					endTime = timeFormat.parse(endField.getText());
-				} catch (ParseException e) {
-					JOptionPane.showMessageDialog(null,
-							"Endzeit muss die Form HH:mm haben",
-							"Endzeit nicht erkannt", JOptionPane.ERROR_MESSAGE);
-					parseFailed = true;
-				}
+			});
+			roomFrame.add(doneButton);
 
-				if (!parseFailed) {
-					selectedRoom.setHasBeamer(hasBeamer);
-					selectedRoom.setRoomID(roomString);
-					selectedRoom.setbeginTime(beginTime);
-					selectedRoom.setendTime(endTime);
+			roomFrame.setVisible(true);
+			roomFrame.pack();
 
-					Gui.getRoomTree().updateUI();
-					roomFrame.dispose();
-				}
-			}
-
-		});
-		roomFrame.add(doneButton);
-
-		roomFrame.setVisible(true);
-		roomFrame.pack();
-
+		} else {
+			JOptionPane.showMessageDialog(null, "Kann nur Raum bearbeiten");
+		}
 	}
-
 }

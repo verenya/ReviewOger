@@ -125,6 +125,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			if (i == 0) {
 				Review review = new Review(currentParticipant);
 				review.setAuthor(currentParticipant);
+				currentParticipant.increaseParticipation();
 				plan.addTemp(review);
 			} else {
 				previousParticipant = participants.get(i - 1);
@@ -132,6 +133,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 						.getGroupNumber()) {
 					Review review = new Review(currentParticipant);
 					review.setAuthor(currentParticipant);
+					currentParticipant.increaseParticipation();
 					plan.addTemp(review);
 				}
 			}
@@ -279,6 +281,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 					}
 					
 					currentReview.setScribe(currentReview.getAuthor());
+					
 
 					pool.generatePoolForModerator(currentReview,
 							moderatorNotReviewerGroup, possibleReviewers);

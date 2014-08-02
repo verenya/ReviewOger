@@ -21,9 +21,10 @@ public class DeleteParticipantAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		ParticipantTableModel model = ParticipantTableModel.getInstance();
-		int row = Gui.getselectedParticipantRow();
-		if (row != -1) {
-			model.deleteParticipant(row);
+		int[] rows = Gui.getselectedParticipantRows();
+		//not empty
+		if (rows.length != 0) {
+			model.deleteParticipants(rows);
 		}
 	}
 

@@ -31,84 +31,92 @@ public class EditParticipantAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		ParticipantTableModel model = ParticipantTableModel.getInstance();
-		int row = Gui.getselectedParticipantRow();
-		final Participant selectedParticipant = model.getParticipantAt(row);
+		int[] rows = Gui.getselectedParticipantRows();
 
-		final JFrame participantFrame = new JFrame();
-		participantFrame.setLayout(new GridLayout(2, 1));
-		participantFrame.setTitle("Neuer Teilnehmer");
-		Dimension minimumSize = new Dimension(250, 200);
-		participantFrame.setMinimumSize(minimumSize);
+		if (rows.length >1) {
+			JOptionPane.showMessageDialog(null,
+					"Es kann nur ein Teilnehmer gleichzeitig geändert werden");
+		} else {
 
-		JPanel inputPane = new JPanel();
-		inputPane.setLayout(new GridLayout(4, 2));
-		participantFrame.add(inputPane);
+			final Participant selectedParticipant = model
+					.getParticipantAt(rows[0]);
 
-		JLabel firstNameLabel = new JLabel("Vorname:");
-		inputPane.add(firstNameLabel);
+			final JFrame participantFrame = new JFrame();
+			participantFrame.setLayout(new GridLayout(2, 1));
+			participantFrame.setTitle("Neuer Teilnehmer");
+			Dimension minimumSize = new Dimension(250, 200);
+			participantFrame.setMinimumSize(minimumSize);
 
-		final JTextField firstNameField = new JTextField();
-		firstNameField.setText(selectedParticipant.getFirstName());
-		inputPane.add(firstNameField);
+			JPanel inputPane = new JPanel();
+			inputPane.setLayout(new GridLayout(4, 2));
+			participantFrame.add(inputPane);
 
-		JLabel lastNameLabel = new JLabel("Nachname:");
-		inputPane.add(lastNameLabel);
+			JLabel firstNameLabel = new JLabel("Vorname:");
+			inputPane.add(firstNameLabel);
 
-		final JTextField lastNameField = new JTextField();
-		lastNameField.setText(selectedParticipant.getLastName());
-		inputPane.add(lastNameField);
+			final JTextField firstNameField = new JTextField();
+			firstNameField.setText(selectedParticipant.getFirstName());
+			inputPane.add(firstNameField);
 
-		JLabel emailLabel = new JLabel("E-Mail:");
-		inputPane.add(emailLabel);
+			JLabel lastNameLabel = new JLabel("Nachname:");
+			inputPane.add(lastNameLabel);
 
-		final JTextField emailField = new JTextField();
-		emailField.setText(selectedParticipant.geteMailAdress());
-		inputPane.add(emailField);
+			final JTextField lastNameField = new JTextField();
+			lastNameField.setText(selectedParticipant.getLastName());
+			inputPane.add(lastNameField);
 
-		JLabel groupLabel = new JLabel("Gruppe");
-		inputPane.add(groupLabel);
+			JLabel emailLabel = new JLabel("E-Mail:");
+			inputPane.add(emailLabel);
 
-		final JTextField groupField = new JTextField();
-		groupField.setText(Integer.toString(selectedParticipant
-				.getGroupNumber()));
-		inputPane.add(groupField);
+			final JTextField emailField = new JTextField();
+			emailField.setText(selectedParticipant.geteMailAdress());
+			inputPane.add(emailField);
 
-		JButton doneButton = new JButton("OK");
-		participantFrame.add(doneButton);
+			JLabel groupLabel = new JLabel("Gruppe");
+			inputPane.add(groupLabel);
 
-		doneButton.addActionListener(new ActionListener() {
+			final JTextField groupField = new JTextField();
+			groupField.setText(Integer.toString(selectedParticipant
+					.getGroupNumber()));
+			inputPane.add(groupField);
 
-			public void actionPerformed(ActionEvent e) {
-				String firstName = firstNameField.getText();
-				String lastName = lastNameField.getText();
-				String email = emailField.getText();
-				int group = 0;
-				Boolean numberError = false;
-				try {
-					group = Integer.parseInt(groupField.getText());
-				} catch (NumberFormatException e1) {
-					numberError = true;
+			JButton doneButton = new JButton("OK");
+			participantFrame.add(doneButton);
+
+			doneButton.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					String firstName = firstNameField.getText();
+					String lastName = lastNameField.getText();
+					String email = emailField.getText();
+					int group = 0;
+					Boolean numberError = false;
+					try {
+						group = Integer.parseInt(groupField.getText());
+					} catch (NumberFormatException e1) {
+						numberError = true;
+					}
+					if (numberError) {
+						JOptionPane.showMessageDialog(null,
+								"Die Gruppe muss eine Zahl sein!", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						selectedParticipant.setFirstName(firstName);
+						selectedParticipant.setLastName(lastName);
+						selectedParticipant.seteMailAdress(email);
+						selectedParticipant.setGroupNumber(group);
+						ParticipantTableModel model = ParticipantTableModel
+								.getInstance();
+						model.fireTableDataChanged();
+						participantFrame.dispose();
+					}
 				}
-				if (numberError) {
-					JOptionPane.showMessageDialog(null,
-							"Die Gruppe muss eine Zahl sein!", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				} else {
-					selectedParticipant.setFirstName(firstName);
-					selectedParticipant.setLastName(lastName);
-					selectedParticipant.seteMailAdress(email);
-					selectedParticipant.setGroupNumber(group);
-					ParticipantTableModel model = ParticipantTableModel
-							.getInstance();
-					model.fireTableDataChanged();
-					participantFrame.dispose();
-				}
-			}
 
-		});
+			});
 
-		participantFrame.setVisible(true);
-		participantFrame.pack();
+			participantFrame.setVisible(true);
+			participantFrame.pack();
+		}
 	}
 
 }

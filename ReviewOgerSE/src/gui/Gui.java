@@ -4,8 +4,9 @@ import gui.actions.AddParticipantAction;
 import gui.actions.DeleteParticipantAction;
 import gui.actions.EditParticipantAction;
 import gui.actions.EditRoomAction;
+import gui.actions.EditSlotAction;
 import gui.actions.ReadParticipantsAction;
-import gui.actions.deleteTreeAction;
+import gui.actions.deleteInTreeAction;
 import io.LoadSave;
 
 import java.awt.GridBagConstraints;
@@ -155,7 +156,8 @@ public class Gui extends JFrame {
 		participantPanel.add(participantScrollPane, gbc_participantScrollPane);
 
 		participantTable = new JTable(ParticipantTableModel.getInstance());
-		participantTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		participantTable
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		participantScrollPane.setViewportView(participantTable);
 
 		JPanel participantButtonPanle = new JPanel();
@@ -167,10 +169,10 @@ public class Gui extends JFrame {
 				.add(participantButtonPanle, gbc_participantButtonPanle);
 		GridBagLayout gbl_participantButtonPanle = new GridBagLayout();
 		gbl_participantButtonPanle.columnWidths = new int[] { 115, 136, 0 };
-		gbl_participantButtonPanle.rowHeights = new int[] { 25, 25, 0 };
+		gbl_participantButtonPanle.rowHeights = new int[] { 25, 25, 0, 0 };
 		gbl_participantButtonPanle.columnWeights = new double[] { 0.0, 0.0,
 				Double.MIN_VALUE };
-		gbl_participantButtonPanle.rowWeights = new double[] { 0.0, 0.0,
+		gbl_participantButtonPanle.rowWeights = new double[] { 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		participantButtonPanle.setLayout(gbl_participantButtonPanle);
 
@@ -185,29 +187,51 @@ public class Gui extends JFrame {
 
 		participantAddButton.setText("Hinzufügen");
 
+		JButton participantEditButton = new JButton(new EditParticipantAction());
+		GridBagConstraints gbc_participantEditButton = new GridBagConstraints();
+		gbc_participantEditButton.insets = new Insets(0, 0, 5, 0);
+		gbc_participantEditButton.fill = GridBagConstraints.BOTH;
+		gbc_participantEditButton.gridx = 1;
+		gbc_participantEditButton.gridy = 0;
+		participantButtonPanle.add(participantEditButton,
+				gbc_participantEditButton);
+
+		participantEditButton.setText("Bearbeiten");
+
 		JButton participantDeleteButton = new JButton(
 				new DeleteParticipantAction());
 		GridBagConstraints gbc_participantDeleteButton = new GridBagConstraints();
+		gbc_participantDeleteButton.insets = new Insets(0, 0, 5, 5);
 		gbc_participantDeleteButton.anchor = GridBagConstraints.NORTH;
 		gbc_participantDeleteButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_participantDeleteButton.insets = new Insets(0, 0, 5, 0);
-		gbc_participantDeleteButton.gridx = 1;
-		gbc_participantDeleteButton.gridy = 0;
+		gbc_participantDeleteButton.gridx = 0;
+		gbc_participantDeleteButton.gridy = 1;
 		participantButtonPanle.add(participantDeleteButton,
 				gbc_participantDeleteButton);
 
 		participantDeleteButton.setText("Löschen");
 
-		JButton participantEditButton = new JButton(new EditParticipantAction());
-		GridBagConstraints gbc_participantEditButton = new GridBagConstraints();
-		gbc_participantEditButton.fill = GridBagConstraints.BOTH;
-		gbc_participantEditButton.gridwidth = 2;
-		gbc_participantEditButton.gridx = 0;
-		gbc_participantEditButton.gridy = 1;
-		participantButtonPanle.add(participantEditButton,
-				gbc_participantEditButton);
+		JButton clearButton = new JButton("Alle Löschen");
+		GridBagConstraints gbc_clearButton = new GridBagConstraints();
+		gbc_clearButton.fill = GridBagConstraints.BOTH;
+		gbc_clearButton.insets = new Insets(0, 0, 5, 0);
+		gbc_clearButton.gridx = 1;
+		gbc_clearButton.gridy = 1;
+		participantButtonPanle.add(clearButton, gbc_clearButton);
 
-		participantEditButton.setText("Bearbeiten");
+		clearButton.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ParticipantTableModel.getInstance().clear();
+			}
+
+		});
 
 		// room panel
 		JPanel roomPanel = new JPanel();
@@ -293,14 +317,17 @@ public class Gui extends JFrame {
 		gbc_newRoomButton.gridy = 0;
 		roomButtonPanel.add(newRoomButton, gbc_newRoomButton);
 
-		JButton roomDeleteButton = new JButton(new deleteTreeAction());
-		roomDeleteButton.setText("Löschen");
-		GridBagConstraints gbc_roomDeleteButton = new GridBagConstraints();
-		gbc_roomDeleteButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_roomDeleteButton.insets = new Insets(0, 0, 5, 5);
-		gbc_roomDeleteButton.gridx = 0;
-		gbc_roomDeleteButton.gridy = 1;
-		roomButtonPanel.add(roomDeleteButton, gbc_roomDeleteButton);
+		JButton slotEditButton = new JButton(new EditSlotAction());
+		slotEditButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		slotEditButton.setText("Slot bearbeiten");
+		GridBagConstraints gbc_slotEditButton = new GridBagConstraints();
+		gbc_slotEditButton.insets = new Insets(0, 0, 5, 5);
+		gbc_slotEditButton.gridx = 0;
+		gbc_slotEditButton.gridy = 1;
+		roomButtonPanel.add(slotEditButton, gbc_slotEditButton);
 
 		JButton roomEditButton = new JButton(new EditRoomAction());
 		roomEditButton.setText("Raum Bearbeiten");
@@ -310,6 +337,36 @@ public class Gui extends JFrame {
 		gbc_roomEditButton.gridx = 1;
 		gbc_roomEditButton.gridy = 1;
 		roomButtonPanel.add(roomEditButton, gbc_roomEditButton);
+
+		JButton deleteButton = new JButton(new deleteInTreeAction());
+		deleteButton.setText("Löschen");
+		GridBagConstraints gbc_deleteButton = new GridBagConstraints();
+		gbc_deleteButton.insets = new Insets(0, 0, 0, 5);
+		gbc_deleteButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_deleteButton.gridx = 0;
+		gbc_deleteButton.gridy = 2;
+		roomButtonPanel.add(deleteButton, gbc_deleteButton);
+
+		JButton treeDeleteButton = new JButton("Baum löschen");
+		GridBagConstraints gbc_treeDeleteButton = new GridBagConstraints();
+		gbc_treeDeleteButton.fill = GridBagConstraints.BOTH;
+		gbc_treeDeleteButton.gridx = 1;
+		gbc_treeDeleteButton.gridy = 2;
+		roomButtonPanel.add(treeDeleteButton, gbc_treeDeleteButton);
+
+		treeDeleteButton.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				RoomTreeModel.getInstance().clear();
+			}
+
+		});
 
 		// option panel
 		JPanel optionPanel = new JPanel();
@@ -564,8 +621,8 @@ public class Gui extends JFrame {
 	/**
 	 * @return the selected row in the table of the participants
 	 */
-	public static int getselectedParticipantRow() {
-		return participantTable.getSelectedRow();
+	public static int[] getselectedParticipantRows() {
+		return participantTable.getSelectedRows();
 	}
 
 	public static JTree getRoomTree() {
