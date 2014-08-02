@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
@@ -64,17 +66,32 @@ public class Gui extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 414);
 
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				int showConfirmDialog = JOptionPane.showConfirmDialog(null,
+						"Möchten Sie speichern?");
+				if (showConfirmDialog == JOptionPane.YES_OPTION) {
+					LoadSave.save();
+				}
+			}
+		});
+
 		// Menu
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		JMenu mnFile = new JMenu("Datei");
-		menuBar.add(mnFile);
+		JMenu menuFile = new JMenu("Datei");
+		menuBar.add(menuFile);
 
 		JMenuItem menuSave = new JMenuItem("Speichern");
-		mnFile.add(menuSave);
+		menuFile.add(menuSave);
 
 		menuSave.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -83,10 +100,27 @@ public class Gui extends JFrame {
 
 		});
 
+		JMenuItem menuLoad = new JMenuItem("Laden");
+		menuFile.add(menuLoad);
+
+		menuLoad.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				LoadSave.load();
+			}
+
+		});
+
 		JMenuItem menuLoadParticipant = new JMenuItem(
 				new ReadParticipantsAction());
 		menuLoadParticipant.setText("Teilnehmer einlesen");
-		mnFile.add(menuLoadParticipant);
+		menuFile.add(menuLoadParticipant);
 
 		// participant panel
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -363,8 +397,9 @@ public class Gui extends JFrame {
 		gbc_fixedTimeLabel.gridy = 7;
 
 		exitOptionComboBox = new JComboBox<String>();
-		exitOptionComboBox.setModel(new DefaultComboBoxModel(new String[] {
-				"feste Anzahl", "manueller Abbruch", "feste Zeit" }));
+		exitOptionComboBox.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "feste Anzahl", "manueller Abbruch",
+						"feste Zeit" }));
 		GridBagConstraints gbc_exitOptionComboBox = new GridBagConstraints();
 		gbc_exitOptionComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_exitOptionComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -496,13 +531,28 @@ public class Gui extends JFrame {
 							scribeIsAuthorCheckbox.isSelected(),
 							moderatorNotReviewerGroupCheckbox.isSelected(),
 							Integer.parseInt(reviewerNumberTextField.getText()));
+
+					int amountRounds = 0;
+					int hour = 0;
+					int minute = 0;
+
+					if (!amountRoundsTextField.getText().isEmpty()) {
+						amountRounds = Integer.parseInt(amountRoundsTextField
+								.getText());
+					}
+
+					if (!hourTextField.getText().isEmpty()) {
+						hour = Integer.parseInt(hourTextField.getText());
+					}
+
+					if (!minuteTextField.getText().isEmpty()) {
+						minute = Integer.parseInt(minuteTextField.getText());
+					}
+
 					ExecutingFrame frame = new ExecutingFrame();
 					dispose();
-					frame.showFrame(matcher, exitOptionComboBox
-							.getSelectedItem().toString(), Integer
-							.parseInt(amountRoundsTextField.getText()), Integer
-							.parseInt(hourTextField.getText()), Integer
-							.parseInt(minuteTextField.getText()));
+					frame.showFrame(matcher, selectedString, amountRounds,
+							hour, minute);
 				}
 
 			}

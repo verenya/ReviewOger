@@ -24,7 +24,7 @@ public class ParticipantTableModel extends AbstractTableModel {
 	/**
 	 * an instance of the model to use the singleton pattern
 	 */
-	private static  ParticipantTableModel instance;
+	private static ParticipantTableModel instance;
 
 	/**
 	 * private constructor for singleton
@@ -130,6 +130,11 @@ public class ParticipantTableModel extends AbstractTableModel {
 	 */
 	public boolean isEmpty() {
 		return participants.isEmpty();
+	}
+
+	public void clear() {
+		participants.clear();
+		fireTableDataChanged();
 	}
 
 }

@@ -3,27 +3,35 @@
  */
 package data;
 
+import gui.Gui;
+
 import java.util.Enumeration;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
-public class RoomTreeModel {
+public class RoomTreeModel extends DefaultTreeModel{
 
-	private static DefaultTreeModel instance = null;
+	private RoomTreeModel(TreeNode name) {
+		super(name);
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
-	 * Private constructor
+	 * 
 	 */
-	private RoomTreeModel() {
-	}
+	private static final long serialVersionUID = 1L;
+	private static RoomTreeModel instance = null;
+
+
 
 	/**
 	 * @return the current model
 	 */
-	public static DefaultTreeModel getInstance() {
+	public static RoomTreeModel getInstance() {
 		if (instance == null) {
-			instance = new DefaultTreeModel(new SlotNode());
+			instance = new RoomTreeModel(new SlotNode());
 		}
 		return instance;
 
@@ -43,6 +51,13 @@ public class RoomTreeModel {
 			}
 		}
 		return false;
+	}
+	
+	public void clear(){
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) instance
+				.getRoot();
+		root.removeAllChildren();
+		Gui.getRoomTree().updateUI();
 	}
 
 }
