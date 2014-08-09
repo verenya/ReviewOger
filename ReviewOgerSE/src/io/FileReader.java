@@ -148,9 +148,8 @@ public class FileReader {
 					Participant author = r.getAuthor();
 					result = "Author: " + author.getFirstName() + " "
 							+ author.getLastName() + " "
-							+ author.geteMailAdress() + "G ruppe "
-							+ author.getGroupNumber() + " "
-							+ author.getNumberOfReviews();
+							+ author.geteMailAdress() + " Gruppe "
+							+ author.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
@@ -160,8 +159,7 @@ public class FileReader {
 					result = "Moderator: " + moderator.getFirstName() + " "
 							+ moderator.getLastName() + " "
 							+ moderator.geteMailAdress() + " Gruppe "
-							+ moderator.getGroupNumber() + " "
-							+ moderator.getNumberOfReviews();
+							+ moderator.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
@@ -171,8 +169,7 @@ public class FileReader {
 					result = "Notar: " + scribe.getFirstName() + " "
 							+ scribe.getLastName() + " "
 							+ scribe.geteMailAdress() + " Gruppe "
-							+ scribe.getGroupNumber() + " "
-							+ scribe.getNumberOfReviews();
+							+ scribe.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
@@ -181,8 +178,7 @@ public class FileReader {
 					result = "Gutachter: " + reviewer.getFirstName() + " "
 							+ reviewer.getLastName() + " "
 							+ reviewer.geteMailAdress() + " Gruppe "
-							+ reviewer.getGroupNumber() + " "
-							+ reviewer.getNumberOfReviews();
+							+ reviewer.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}

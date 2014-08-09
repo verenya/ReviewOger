@@ -11,7 +11,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -71,7 +70,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			for (Slot s : slots) {
 				for (Room r : s.getRooms()) {
 					r.setReview(null);
-					
+
 				}
 			}
 		}
@@ -173,30 +172,30 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 		if (!scribeIsAuthor) {
 
-			// for reviewers + author + scribe
+			// for reviewers + author + scribe + moderator
+			// fillable reviews F must be #groups = #tempReviews
+			// #participants P
+			// needed: #reviewers R
+			// 2 * P / R+3 = F
+			// therefore:
+			// R = (2P / F) - 2
+
+			neededReviewers = (2 * participantSize / fillableReviews) - 3;
+
+		} else {
+
+			// for reviewers + author + moderator
 			// fillable reviews F must be #groups = #tempReviews
 			// #participants P
 			// needed: #reviewers R
 			// 2 * P / R+2 = F
 			// therefore:
-			// R = (2P / F) - 2
-
-			neededReviewers = (2 * participantSize / fillableReviews) - 1;
-
-		} else {
-
-			// for reviewers + author
-			// fillable reviews F must be #groups = #tempReviews
-			// #participants P
-			// needed: #reviewers R
-			// 2 * P / R+1 = F
-			// therefore:
 			// R = (2P / F) - 1
 
-			neededReviewers = (2 * participantSize / fillableReviews) ;
+			neededReviewers = (2 * participantSize / fillableReviews) - 2;
 
 		}
-		return 3;
+		return neededReviewers;
 
 	}
 
@@ -249,10 +248,10 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		for (Room currentRoom : slot.getRooms()) {
 			boolean fillOk = fillReview(tempReviews, currentRoom);
 			System.out.println(fillOk);
-			
+
 			// fill was not possible so next slot
 			if (!fillOk) {
-				
+
 				break;
 			}
 			// The review is finished and can be added to the final plan

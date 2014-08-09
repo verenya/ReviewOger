@@ -5,12 +5,17 @@ package gui;
 
 import io.FileReader;
 
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,6 +30,7 @@ public class ExecutingFrame {
 
 	ArrayList<Review> reviews = new ArrayList<Review>();
 	boolean foundSolution = false;
+	boolean stopped = false;
 
 	/**
 	 * @param matcher
@@ -36,9 +42,9 @@ public class ExecutingFrame {
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		ReviewPlan plan = ReviewPlan.getInstance();
 
-		JFrame f = new JFrame();
-		f.setSize(300, 100);
-		f.setTitle("Berechne");
+		JFrame executingFrame = new JFrame();
+		executingFrame.setSize(300, 100);
+		executingFrame.setTitle("Berechne");
 		JPanel progressPanel = new JPanel();
 
 		JProgressBar progressBar = new JProgressBar(1, 100);
@@ -46,9 +52,18 @@ public class ExecutingFrame {
 
 		progressPanel.add(progressBar);
 
-		f.add(progressPanel);
-		f.pack();
-		f.setVisible(true);
+		executingFrame.add(progressPanel);
+		
+		
+		JPanel manualPanel = new JPanel();
+		JButton stopButton = new JButton("Stop");
+		manualPanel.add(stopButton);
+		manualPanel.setVisible(false);
+		
+		executingFrame.add(manualPanel);
+		
+		executingFrame.pack();
+		executingFrame.setVisible(true);
 
 		// fixed rounds
 		if (endingOption.equals("feste Anzahl")) {
@@ -92,21 +107,123 @@ public class ExecutingFrame {
 		// fixed time
 		else if (endingOption.equals("feste Zeit")) {
 
+			int minutesToWait = hours * 60 + minutes;
+
+			progressBar.setMaximum(minutesToWait);
+			progressBar.setMinimum(0);
+
+			Date currentDate = new Date();
+			Date plannedDate = new Date();
+
+			plannedDate.setHours(plannedDate.getHours() + hours);
+			plannedDate.setMinutes(plannedDate.getMinutes() + minutes);
+
+			Date startDate = new Date();
+
+			// wait till wished date arrived
+			while (currentDate.before(plannedDate)) {
+				Future<ArrayList<Review>> future = executorService
+						.submit(matcher);
+				while (!future.isDone()) {
+					// wait till finished
+				}
+				try {
+					reviews = future.get();
+					// result
+					if (reviews != null) {
+						progressBar.setValue(minutesToWait);
+						System.out.println("SOLUTION FOUND");
+						foundSolution = true;
+						break;
+
+						// shuffle and try again
+					} else {
+						progressBar.setValue(progressBar.getValue() + 1);
+						RandomFunctions.shuffleReviews(plan);
+					}
+				} catch (InterruptedException | ExecutionException e) {
+					JOptionPane.showMessageDialog(null,
+							"Fehler bei der Ausführung.", "Fehler",
+							JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+				currentDate = new Date();
+				int minuteDifference = currentDate.getMinutes()
+						- startDate.getMinutes();
+				progressBar.setValue(minuteDifference);
+				future.cancel(true);
+			}
+
 		}
 
 		// manually
 		else {
+			manualPanel.setVisible(true);
+			progressPanel.setVisible(false);
+
+			
+			stopButton.addActionListener(new AbstractAction(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					stopped = true;
+					
+				}
+				
+			});
+			
+
+			
+			while (!stopped) {
+				Future<ArrayList<Review>> future = executorService
+						.submit(matcher);
+				while (!future.isDone()) {
+					// wait till finished
+				}
+				try {
+					reviews = future.get();
+					// result
+					if (reviews != null) {
+						System.out.println("SOLUTION FOUND");
+						foundSolution = true;
+						break;
+
+						// shuffle and try again
+					} else {
+						RandomFunctions.shuffleReviews(plan);
+					}
+				} catch (InterruptedException | ExecutionException e) {
+					JOptionPane.showMessageDialog(null,
+							"Fehler bei der Ausführung.", "Fehler",
+							JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+
+				future.cancel(true);
+			}
 
 		}
 
 		if (!foundSolution) {
 			JOptionPane.showMessageDialog(null, "Konnte keine Lösung finden");
+
+			// show main frame again
+
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						Gui frame = new Gui();
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
 		} else {
+			//TODO show frame and ask for saving place
 			FileReader fr = new FileReader();
 			fr.printResult(reviews);
 		}
 	}
-
-	// TODO zweiter Durchlauf startet nicht
 
 }
