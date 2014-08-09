@@ -24,6 +24,7 @@ import logic.RandomFunctions;
 public class ExecutingFrame {
 
 	ArrayList<Review> reviews = new ArrayList<Review>();
+	boolean foundSolution = false;
 
 	/**
 	 * @param matcher
@@ -66,10 +67,13 @@ public class ExecutingFrame {
 					// result
 					if (reviews != null) {
 						progressBar.setValue(rounds);
+						System.out.println("SOLUTION FOUND");
+						foundSolution = true;
 						break;
 
 						// shuffle and try again
 					} else {
+						progressBar.setValue(progressBar.getValue() + 1);
 						RandomFunctions.shuffleReviews(plan);
 					}
 				} catch (InterruptedException | ExecutionException e) {
@@ -94,8 +98,13 @@ public class ExecutingFrame {
 		else {
 
 		}
-		FileReader fr = new FileReader();
-		fr.printResult(reviews);
+
+		if (!foundSolution) {
+			JOptionPane.showMessageDialog(null, "Konnte keine Lösung finden");
+		} else {
+			FileReader fr = new FileReader();
+			fr.printResult(reviews);
+		}
 	}
 
 	// TODO zweiter Durchlauf startet nicht

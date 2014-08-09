@@ -3,6 +3,8 @@
  */
 package logic;
 
+import io.FileReader;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -26,10 +28,9 @@ import data.SlotNode;
 public class Matcher implements Callable<ArrayList<Review>> {
 
 	public Matcher(String exitSelection, boolean scribeIsAuthor,
-			boolean moderatorNotReviewerGroup, int amountReviewers) {
+			boolean moderatorNotReviewerGroup) {
 		this.moderatorNotReviewerGroup = moderatorNotReviewerGroup;
 		this.scribeIsAuthor = scribeIsAuthor;
-		this.amountReviewers = amountReviewers;
 	}
 
 	private boolean scribeIsAuthor = true;
@@ -54,20 +55,23 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			makeList();
 
 			amountReviewers = calculateReviewers();
-			// Problem with the group calculation
-			if (amountReviewers == 0) {
-				return null;
-			}
+			System.out.println(amountReviewers);
 
 			// make a list of all slots in the tree
 			sortSlots();
 
 		} else {
-			// reset rooms
+
+			resetParticipants();
+
+			// list of reviews with assigned author
+			makeList();
+
+			// reset slots
 			for (Slot s : slots) {
 				for (Room r : s.getRooms()) {
 					r.setReview(null);
-					;
+					
 				}
 			}
 		}
@@ -75,7 +79,6 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		// fill current slot, as slots are ordered in sortSlots(), the method
 		// begins with the largest slot
 		for (Slot s : slots) {
-			System.out.println("fillSlots");
 			fillSlot(s);
 		}
 
@@ -84,6 +87,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 		// every review is matched
 		if (tempReviews.isEmpty()) {
+			System.out.println("all matched");
 			// left participants must be matched
 			boolean extraOk = matchExtraReviewers();
 			if (!extraOk) {
@@ -92,7 +96,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 				return null;
 			}
 
-			// shuffle
+			// shuffle and try again
 		} else {
 			System.out.println("error shuffle");
 			firstRound = false;
@@ -100,6 +104,15 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		}
 
 		return ReviewPlan.getInstance().getReviews();
+	}
+
+	private void resetParticipants() {
+		List<Participant> participants = ParticipantTableModel.getInstance()
+				.getParticipants();
+		for (Participant p : participants) {
+			p.setNumberOfReviews(0);
+		}
+
 	}
 
 	/**
@@ -148,51 +161,42 @@ public class Matcher implements Callable<ArrayList<Review>> {
 	 * @return the calculated number of reviewers
 	 */
 	private int calculateReviewers() {
+
 		List<Participant> participants = ParticipantTableModel.getInstance()
 				.getParticipants();
 		ReviewPlan plan = ReviewPlan.getInstance();
 		List<Review> tempReviews = plan.getTempReviews();
 
-		int fillableReviews = 0;
+		int neededReviewers = 0;
 		int participantSize = participants.size();
-		int amountGroups = tempReviews.size();
+		int fillableReviews = tempReviews.size();
 
-		// needed for first while
-		amountReviewers++;
 		if (!scribeIsAuthor) {
 
-			do {
-				amountReviewers--;
-				// everybody must participate 2 times -> 2* participant size
-				// reviewers + scribe + author = reviewers + 2
-				fillableReviews = (2 * participantSize) / (amountReviewers + 2);
-			} while (fillableReviews < amountGroups);
+			// for reviewers + author + scribe
+			// fillable reviews F must be #groups = #tempReviews
+			// #participants P
+			// needed: #reviewers R
+			// 2 * P / R+2 = F
+			// therefore:
+			// R = (2P / F) - 2
 
-			// The amount of reviewers that must be distributed over the reviews
-			// as there are not enough for each review
-			// fillUp = (2 * participantSize) % (amountReviewers + 2);
+			neededReviewers = (2 * participantSize / fillableReviews) - 1;
 
 		} else {
-			do {
-				amountReviewers--;
-				// everybody must participate 2 times -> 2* participant size
-				// reviewers + author = reviewers + 2
-				fillableReviews = (2 * participantSize) / (amountReviewers + 1);
-			} while (fillableReviews < amountGroups);
 
-			// The amount of reviewers that must be distributed over the reviews
-			// as there are not enough for each review
-			// fillUp = (2 * participantSize) % (amountReviewers + 1);
-		}
+			// for reviewers + author
+			// fillable reviews F must be #groups = #tempReviews
+			// #participants P
+			// needed: #reviewers R
+			// 2 * P / R+1 = F
+			// therefore:
+			// R = (2P / F) - 1
 
-		if (amountReviewers == 0) {
-			JOptionPane.showMessageDialog(null,
-					"Zu viele Teilnehmer allein in Gruppe. Bitte ändern",
-					"Error", JOptionPane.ERROR_MESSAGE);
-			return 0;
+			neededReviewers = (2 * participantSize / fillableReviews) ;
 
 		}
-		return amountReviewers;
+		return 3;
 
 	}
 
@@ -239,18 +243,22 @@ public class Matcher implements Callable<ArrayList<Review>> {
 	private void fillSlot(Slot slot) {
 
 		ReviewPlan plan = ReviewPlan.getInstance();
-		List<Review> tempReviews = plan.getTempReviews();
+		ArrayList<Review> tempReviews = plan.getTempReviews();
 
 		// fill all rooms in slot
 		for (Room currentRoom : slot.getRooms()) {
-			System.out.println("id "+ currentRoom.getRoomID());
 			boolean fillOk = fillReview(tempReviews, currentRoom);
+			System.out.println(fillOk);
+			
 			// fill was not possible so next slot
 			if (!fillOk) {
+				
 				break;
 			}
 			// The review is finished and can be added to the final plan
 			plan.add(tempReviews.get(0));
+			FileReader r = new FileReader();
+			r.printResult(plan.getReviews());
 			tempReviews.remove(0);
 		}
 
@@ -271,6 +279,78 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			// number of reviewers + moderator
 			if (scribeIsAuthor) {
 				// enough participants -> randomly select participants
+				if (possibleReviewers.size() >= amountReviewers) {
+
+					for (int i = 0; i < amountReviewers; i++) {
+						Participant reviewer = RandomFunctions
+								.selectReviewerFromPool(pool);
+						reviewer.increaseParticipation();
+						currentReview.addReviewer(reviewer);
+					}
+
+					currentReview.setScribe(currentReview.getAuthor());
+
+					ArrayList<Participant> possibleModerators = pool
+							.generatePoolForModerator(currentReview,
+									moderatorNotReviewerGroup,
+									currentReview.getReviewers());
+
+					if (possibleModerators.size() > 0) {
+
+						Participant moderator = RandomFunctions
+								.selectModeratorFromPool(pool);
+						moderator.increaseParticipation();
+						currentReview.setModerator(moderator);
+
+						return true;
+					} else {
+						// reset
+						currentRoom.setReview(null);
+						resetReview(currentReview, false, false, true);
+						currentReview.setScribe(null);
+						return false;
+					}
+
+				} else {
+					// we change the review one time then we take the next slot
+					if (!secondTry) {
+						// change first and second place
+
+						// shuffle possible
+						if (tempReviews.size() > 1) {
+
+							currentReview.setAssignedRoom(null);
+							Review temp = tempReviews.get(0);
+							tempReviews.set(0, tempReviews.get(1));
+							tempReviews.set(1, temp);
+
+							secondTry = true;
+
+							return fillReview(tempReviews, currentRoom);
+						}
+
+						// next slot
+						else {
+							// Reset the connections
+							currentRoom.setReview(null);
+							resetReview(currentReview, false, false, false);
+							return false;
+						}
+
+					} else {
+						// We tried one time to shuffle the first two reviews.
+						// Now we take the next slot
+						// Reset the connections
+						currentRoom.setReview(null);
+						resetReview(currentReview, false, false, false);
+						return false;
+					}
+				}
+
+				// //number of reviewers + moderator + scribe
+			} else {
+				// enough participants -> randomly select participants and
+				// scribe
 				if (possibleReviewers.size() >= amountReviewers + 1) {
 
 					for (int i = 0; i < amountReviewers; i++) {
@@ -279,81 +359,30 @@ public class Matcher implements Callable<ArrayList<Review>> {
 						reviewer.increaseParticipation();
 						currentReview.addReviewer(reviewer);
 					}
-					
-					currentReview.setScribe(currentReview.getAuthor());
-					
-
-					pool.generatePoolForModerator(currentReview,
-							moderatorNotReviewerGroup, possibleReviewers);
-					Participant moderator = RandomFunctions
-							.selectModeratorFromPool(pool);
-					moderator.increaseParticipation();
-					currentReview.setModerator(moderator);
-
-					return true;
-
-				} else {
-					// we change the review one time then we take the next slot
-					if (!secondTry) {
-						// change first and second place
-
-						// shuffle possible
-						if (tempReviews.size() > 1) {
-
-							currentReview.setAssignedRoom(null);
-							Review temp = tempReviews.get(0);
-							tempReviews.set(0, tempReviews.get(1));
-							tempReviews.set(1, temp);
-
-							secondTry = true;
-
-							return fillReview(tempReviews, currentRoom);
-						}
-
-						// next slot
-						else {
-							// Reset the connections
-							currentRoom.setReview(null);
-							currentReview.setAssignedRoom(null);
-							return false;
-						}
-
-					} else {
-						// We tried one time to shuffle the first two reviews.
-						// Now
-						// we take the next slot
-						// Reset the connections
-						currentRoom.setReview(null);
-						currentReview.setAssignedRoom(null);
-						return false;
-					}
-				}
-
-				// //number of reviewers + moderator + scribe
-			} else {
-				// enough participants -> randomly select participants
-				if (possibleReviewers.size() >= amountReviewers + 2) {
 
 					Participant scribe = RandomFunctions
 							.selectReviewerFromPool(pool);
 					scribe.increaseParticipation();
 					currentReview.setScribe(scribe);
 
-					for (int i = 0; i < amountReviewers; i++) {
-						Participant reviewer = RandomFunctions
-								.selectReviewerFromPool(pool);
-						reviewer.increaseParticipation();
-						currentReview.addReviewer(reviewer);
+					ArrayList<Participant> possibleModerators = pool
+							.generatePoolForModerator(currentReview,
+									moderatorNotReviewerGroup,
+									currentReview.getReviewers());
+
+					if (possibleModerators.size() > 0) {
+
+						Participant moderator = RandomFunctions
+								.selectModeratorFromPool(pool);
+						moderator.increaseParticipation();
+						currentReview.setModerator(moderator);
+
+						return true;
+					} else {
+						currentRoom.setReview(null);
+						resetReview(currentReview, false, true, true);
+						return false;
 					}
-
-					pool.generatePoolForModerator(currentReview,
-							moderatorNotReviewerGroup, possibleReviewers);
-					Participant moderator = RandomFunctions
-							.selectModeratorFromPool(pool);
-					moderator.increaseParticipation();
-					currentReview.setModerator(moderator);
-
-					return true;
 				} else {
 					// we change the review one time then we take the next slot
 					if (!secondTry) {
@@ -375,7 +404,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 						else {
 							// Reset the connections
 							currentRoom.setReview(null);
-							currentReview.setAssignedRoom(null);
+							resetReview(currentReview, false, false, false);
 							return false;
 						}
 
@@ -385,7 +414,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 						// we take the next slot
 						// Reset the connections
 						currentRoom.setReview(null);
-						currentReview.setAssignedRoom(null);
+						resetReview(currentReview, false, false, false);
 						return false;
 					}
 				}
@@ -394,34 +423,76 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		return false;
 	}
 
+	private void resetReview(Review review, boolean moderatorReset,
+			boolean scribeReset, boolean reviewerReset) {
+		review.setAssignedRoom(null);
+		if (moderatorReset) {
+			review.getModerator().decreaseParticipation();
+		}
+		review.setModerator(null);
+
+		if (scribeReset) {
+			review.getScribe().decreaseParticipation();
+		}
+		review.setScribe(null);
+
+		if (reviewerReset) {
+			for (Participant p : review.getReviewers()) {
+				p.decreaseParticipation();
+			}
+		}
+		review.getReviewers().clear();
+	}
+
 	/**
 	 * This method finds all extra reviewers and matches them to the existing
 	 * reviews
 	 */
 	private boolean matchExtraReviewers() {
 
-		List<Review> reviews = ReviewPlan.getInstance().getReviews();
+		// check if there are missing participants left
+		List<Participant> participants = ParticipantTableModel.getInstance()
+				.getParticipants();
 
-		Pool pool = new Pool();
+		boolean notEnoughParticipations = false;
 
-		for (Review currentReview : reviews) {
-			ArrayList<Participant> possibleReviewers = pool
-					.generatePoolForReviewers(currentReview);
-			// reviewers left
-			if (possibleReviewers.size() > 0) {
-
-				Participant reviewer = RandomFunctions
-						.selectReviewerFromPool(pool);
-				currentReview.addReviewer(reviewer);
-
-				// no reviewers left -> error
-			} else {
+		for (Participant p : participants) {
+			if (p.getNumberOfReviews() < 2) {
+				notEnoughParticipations = true;
+			} else if (p.getNumberOfReviews() > 2) {
+				// error!!
 				return false;
 			}
-
 		}
 
-		return true;
+		if (notEnoughParticipations) {
+			List<Review> reviews = ReviewPlan.getInstance().getReviews();
+
+			Pool pool = new Pool();
+
+			for (Review currentReview : reviews) {
+				ArrayList<Participant> possibleReviewers = pool
+						.generatePoolForReviewers(currentReview);
+				// reviewers left
+				if (possibleReviewers.size() > 0) {
+
+					Participant reviewer = RandomFunctions
+							.selectReviewerFromPool(pool);
+					currentReview.addReviewer(reviewer);
+					reviewer.increaseParticipation();
+
+					// no reviewers left -> error
+				} else {
+					return false;
+				}
+
+			}
+
+			return true;
+		} else {
+			// all have been matched efore
+			return true;
+		}
 
 	}
 

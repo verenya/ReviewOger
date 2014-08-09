@@ -22,7 +22,7 @@ public class Review {
 	// The assigned moderator of the review
 	private Participant moderator;
 	// The list of reviewers for this review
-	private List<Participant> reviewers = new ArrayList<Participant>();
+	private ArrayList<Participant> reviewers = new ArrayList<Participant>();
 	// Date and time of the review start
 	private GregorianCalendar dateAndTime;
 	// The room in which the review should be conducted
@@ -119,7 +119,7 @@ public class Review {
 		this.groupNumber = groupNumber;
 	}
 
-	public List<Participant> getReviewers() {
+	public ArrayList<Participant> getReviewers() {
 		return reviewers;
 	}
 }

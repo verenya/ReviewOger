@@ -54,13 +54,9 @@ public class ReviewPlan {
 		return tempReviews;
 	}
 
-	public void setTempReviews(ArrayList<Review> newReviews) {
-		tempReviews = newReviews;
-	}
 
 	public void resetLists() {
 		reviews.clear();
-		;
 		tempReviews.clear();
 	}
 }

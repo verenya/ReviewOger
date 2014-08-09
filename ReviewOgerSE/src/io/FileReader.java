@@ -144,33 +144,45 @@ public class FileReader {
 				writer.append(result);
 				writer.append((char) Character.LINE_SEPARATOR);
 
-				Participant author = r.getAuthor();
-				result = "Author: " + author.getFirstName() + " "
-						+ author.getLastName() + " " + author.geteMailAdress()
-						+ "G ruppe " + author.getGroupNumber();
-				writer.append(result);
-				writer.append((char) Character.LINE_SEPARATOR);
+				if (r.getAuthor() != null) {
+					Participant author = r.getAuthor();
+					result = "Author: " + author.getFirstName() + " "
+							+ author.getLastName() + " "
+							+ author.geteMailAdress() + "G ruppe "
+							+ author.getGroupNumber() + " "
+							+ author.getNumberOfReviews();
+					writer.append(result);
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
 
-				Participant moderator = r.getModerator();
-				result = "Moderator: " + moderator.getFirstName() + " "
-						+ moderator.getLastName() + " "
-						+ moderator.geteMailAdress() + " Gruppe "
-						+ moderator.getGroupNumber();
-				writer.append(result);
-				writer.append((char) Character.LINE_SEPARATOR);
+				if (r.getModerator() != null) {
+					Participant moderator = r.getModerator();
+					result = "Moderator: " + moderator.getFirstName() + " "
+							+ moderator.getLastName() + " "
+							+ moderator.geteMailAdress() + " Gruppe "
+							+ moderator.getGroupNumber() + " "
+							+ moderator.getNumberOfReviews();
+					writer.append(result);
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
 
-				Participant scribe = r.getScribe();
-				result = "Notar: " + scribe.getFirstName() + " "
-						+ scribe.getLastName() + " " + scribe.geteMailAdress()
-						+ " Gruppe " + scribe.getGroupNumber();
-				writer.append(result);
-				writer.append((char) Character.LINE_SEPARATOR);
+				if (r.getScribe() != null) {
+					Participant scribe = r.getScribe();
+					result = "Notar: " + scribe.getFirstName() + " "
+							+ scribe.getLastName() + " "
+							+ scribe.geteMailAdress() + " Gruppe "
+							+ scribe.getGroupNumber() + " "
+							+ scribe.getNumberOfReviews();
+					writer.append(result);
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
 
 				for (Participant reviewer : r.getReviewers()) {
 					result = "Gutachter: " + reviewer.getFirstName() + " "
 							+ reviewer.getLastName() + " "
 							+ reviewer.geteMailAdress() + " Gruppe "
-							+ reviewer.getGroupNumber();
+							+ reviewer.getGroupNumber() + " "
+							+ reviewer.getNumberOfReviews();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}

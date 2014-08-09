@@ -4,8 +4,6 @@
 
 package logic;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -73,6 +71,7 @@ public class RandomFunctions {
 			currentReview.setDateAndTime(null);
 			currentReview.setModerator(null);
 			currentReview.setScribe(null);
+			currentReview.getReviewers().clear();
 			notWorkingReviewPlan.addTemp(currentReview);
 		}
 

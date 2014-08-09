@@ -46,7 +46,6 @@ public class Gui extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField reviewerNumberTextField;
 	private static JTable participantTable;
 	private static JTree roomTree;
 	private JTextField amountRoundsTextField;
@@ -385,23 +384,6 @@ public class Gui extends JFrame {
 				0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		optionPanel.setLayout(gbl_optionPanel);
 
-		JLabel reviewerLabel = new JLabel("  Anzahl Gutachter: ");
-		GridBagConstraints gbc_reviewerLabel = new GridBagConstraints();
-		gbc_reviewerLabel.fill = GridBagConstraints.BOTH;
-		gbc_reviewerLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_reviewerLabel.gridx = 0;
-		gbc_reviewerLabel.gridy = 1;
-		optionPanel.add(reviewerLabel, gbc_reviewerLabel);
-
-		reviewerNumberTextField = new JTextField();
-		reviewerNumberTextField.setColumns(2);
-		GridBagConstraints gbc_reviewerNumberTextField = new GridBagConstraints();
-		gbc_reviewerNumberTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_reviewerNumberTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_reviewerNumberTextField.gridx = 1;
-		gbc_reviewerNumberTextField.gridy = 1;
-		optionPanel.add(reviewerNumberTextField, gbc_reviewerNumberTextField);
-
 		scribeIsAuthorCheckbox = new JCheckBox("Notar ist Author");
 		GridBagConstraints gbc_scribeIsAuthorCheckbox = new GridBagConstraints();
 		gbc_scribeIsAuthorCheckbox.fill = GridBagConstraints.HORIZONTAL;
@@ -586,8 +568,7 @@ public class Gui extends JFrame {
 							.getSelectedItem().toString();
 					Matcher matcher = new Matcher(selectedString,
 							scribeIsAuthorCheckbox.isSelected(),
-							moderatorNotReviewerGroupCheckbox.isSelected(),
-							Integer.parseInt(reviewerNumberTextField.getText()));
+							moderatorNotReviewerGroupCheckbox.isSelected());
 
 					int amountRounds = 0;
 					int hour = 0;
@@ -690,23 +671,6 @@ public class Gui extends JFrame {
 			JOptionPane.showMessageDialog(null,
 					"Es muss mindestens ein Review geben!", "Keine Reviews",
 					JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-
-		// no reviewers
-		String reviewerText = reviewerNumberTextField.getText();
-		try {
-			int reviewerNumber = Integer.parseInt(reviewerText);
-			if (reviewerNumber <= 0) {
-				JOptionPane.showMessageDialog(null,
-						"Anzahl Gutachter muss >0 sein!",
-						"Anzahl Gutachter Error", JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
-		} catch (NumberFormatException nfe) {
-			JOptionPane.showMessageDialog(null,
-					"Anzahl Gutachter muss eine Zahl sein!",
-					"Anzahl Gutachter Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 

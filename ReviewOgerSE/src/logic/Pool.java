@@ -58,6 +58,14 @@ public class Pool {
 		return false;
 	}
 
+	/**
+	 * @param review
+	 *            the current review to fill
+	 * @param moderatorNotReviewerGroup
+	 * @param reviewers
+	 *            the added reviewers in the review
+	 * @return
+	 */
 	public ArrayList<Participant> generatePoolForModerator(Review review,
 			boolean moderatorNotReviewerGroup, ArrayList<Participant> reviewers) {
 		moderatorList.clear();
@@ -67,7 +75,7 @@ public class Pool {
 			for (Participant participantToAdd : ParticipantTableModel
 					.getInstance().getParticipants()) {
 				// must not be the same group as the author and not too many
-				// reviews
+				// reviews and not already in review
 				if (!(participantToAdd.getGroupNumber() == review.getAuthor()
 						.getGroupNumber())
 						&& (participantToAdd.getNumberOfReviews() < 2)

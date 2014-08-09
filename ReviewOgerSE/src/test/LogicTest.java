@@ -13,7 +13,7 @@ public class LogicTest {
 		// scribe != author
 		//moderator != reviewed group
 		Matcher matcher = new Matcher("manueller Abbruch", false,
-			true, 2);
+			true);
 
 		// Tests
 		//assertEquals(0, matcher.c);
