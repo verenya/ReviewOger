@@ -6,7 +6,6 @@ package data;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class Review {
 
@@ -29,6 +28,7 @@ public class Review {
 	private Room assignedRoom;
 	// The group number of the reviewed group
 	private int groupNumber;
+
 
 	public Participant getAuthor() {
 		return author;
@@ -122,4 +122,5 @@ public class Review {
 	public ArrayList<Participant> getReviewers() {
 		return reviewers;
 	}
+
 }

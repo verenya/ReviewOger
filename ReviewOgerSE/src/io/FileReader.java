@@ -140,7 +140,8 @@ public class FileReader {
 			writer = new FileWriter(new File(logPath), true);
 
 			for (Review r : reviews) {
-				String result = "Review Gruppe " + r.getGroupNumber();
+				String result = "Review Gruppe " + r.getGroupNumber() + " "
+						+ r.getAssignedRoom().getFormatedDate();
 				writer.append(result);
 				writer.append((char) Character.LINE_SEPARATOR);
 

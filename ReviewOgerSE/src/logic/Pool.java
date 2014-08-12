@@ -8,11 +8,18 @@ import java.util.ArrayList;
 import data.Participant;
 import data.ParticipantTableModel;
 import data.Review;
+import data.Room;
+import data.Slot;
 
 public class Pool {
 
 	static ArrayList<Participant> reviewerList = new ArrayList<Participant>();
 	static ArrayList<Participant> moderatorList = new ArrayList<Participant>();
+	Slot slot;
+
+	public Pool(Slot currentSlot) {
+		slot = currentSlot;
+	}
 
 	/**
 	 * Generates a pool of possible participants for the given review
@@ -32,7 +39,7 @@ public class Pool {
 			// reviews and not in review yet
 			if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
 					&& (p.getNumberOfReviews() < 2)
-					&& !ParticipantInReview(review, p)) {
+					&& !ParticipantInReview(review, p) && !ParticipantInSlot(p)) {
 				reviewerList.add(p);
 			}
 		}
@@ -46,15 +53,69 @@ public class Pool {
 	 * @return true if participant already added
 	 */
 	private boolean ParticipantInReview(Review review, Participant participant) {
-		if (review.getAuthor() == participant) {
-			return true;
-		} else if (review.getModerator() == participant) {
-			return true;
-		} else if (review.getScribe() == participant) {
-			return true;
-		} else if (review.getReviewers().contains(participant)) {
-			return true;
+		if (review.getAuthor() != null) {
+			if (review.getAuthor() == participant) {
+				return true;
+			}
 		}
+		if (review.getModerator() != null) {
+			if (review.getModerator() == participant) {
+				return true;
+			}
+		}
+
+		if (review.getScribe() != null) {
+			if (review.getScribe() == participant) {
+				return true;
+			}
+		}
+
+		if (review.getReviewers().size() > 0) {
+			if (review.getReviewers().contains(participant)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param review
+	 * @param participant
+	 * @return true if participant already in slot and therefore at the same
+	 *         time
+	 */
+	private boolean ParticipantInSlot(Participant participant) {
+		for (Room r : slot.getRooms()) {
+			Review review = r.getReview();
+
+			if (review == null) {
+				return false;
+			}
+
+			if (review.getAuthor() != null) {
+				if (review.getAuthor() == participant) {
+					return true;
+				}
+			}
+			if (review.getModerator() != null) {
+				if (review.getModerator() == participant) {
+					return true;
+				}
+			}
+
+			if (review.getScribe() != null) {
+				if (review.getScribe() == participant) {
+					return true;
+				}
+			}
+
+			if (review.getReviewers().size() > 0) {
+				if (review.getReviewers().contains(participant)) {
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
@@ -79,7 +140,8 @@ public class Pool {
 				if (!(participantToAdd.getGroupNumber() == review.getAuthor()
 						.getGroupNumber())
 						&& (participantToAdd.getNumberOfReviews() < 2)
-						&& !ParticipantInReview(review, participantToAdd)) {
+						&& !ParticipantInReview(review, participantToAdd)
+						&& !ParticipantInSlot(participantToAdd)) {
 
 					// check for the existing reviewers if in same group
 					for (Participant reviewer : reviewers) {
@@ -100,7 +162,8 @@ public class Pool {
 				// reviews
 				if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
 						&& (p.getNumberOfReviews() < 2)
-						&& !ParticipantInReview(review, p)) {
+						&& !ParticipantInReview(review, p)
+						&& !ParticipantInSlot(p)) {
 					moderatorList.add(p);
 				}
 			}

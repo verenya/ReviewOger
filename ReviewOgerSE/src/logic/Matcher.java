@@ -223,6 +223,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 				currentRoomNode = (RoomNode) enumRooms.nextElement();
 				Room currentRoom = (Room) currentRoomNode.getUserObject();
 				currentSlot.addRoom(currentRoom);
+				currentRoom.setSlot(currentSlot);
 			}
 
 			slots.add((Slot) currentSlotNode.getUserObject());
@@ -246,7 +247,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 		// fill all rooms in slot
 		for (Room currentRoom : slot.getRooms()) {
-			boolean fillOk = fillReview(tempReviews, currentRoom);
+			boolean fillOk = fillReview(tempReviews, currentRoom, slot);
 			System.out.println(fillOk);
 
 			// fill was not possible so next slot
@@ -256,21 +257,20 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			}
 			// The review is finished and can be added to the final plan
 			plan.add(tempReviews.get(0));
-			FileReader r = new FileReader();
-			r.printResult(plan.getReviews());
 			tempReviews.remove(0);
 		}
 
 	}
 
-	private boolean fillReview(List<Review> tempReviews, Room currentRoom) {
+	private boolean fillReview(List<Review> tempReviews, Room currentRoom,
+			Slot currentSlot) {
 		// take first review and after successfully adding delete it
 		if (tempReviews.size() > 0) {
 			Review currentReview = tempReviews.get(0);
 			currentRoom.setReview(currentReview);
 			currentReview.setAssignedRoom(currentRoom);
 
-			Pool pool = new Pool();
+			Pool pool = new Pool(currentSlot);
 
 			ArrayList<Participant> possibleReviewers = pool
 					.generatePoolForReviewers(currentReview);
@@ -325,7 +325,8 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 							secondTry = true;
 
-							return fillReview(tempReviews, currentRoom);
+							return fillReview(tempReviews, currentRoom,
+									currentSlot);
 						}
 
 						// next slot
@@ -396,7 +397,8 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 							secondTry = true;
 
-							return fillReview(tempReviews, currentRoom);
+							return fillReview(tempReviews, currentRoom,
+									currentSlot);
 						}
 
 						// next slot
@@ -467,9 +469,8 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		if (notEnoughParticipations) {
 			List<Review> reviews = ReviewPlan.getInstance().getReviews();
 
-			Pool pool = new Pool();
-
 			for (Review currentReview : reviews) {
+				Pool pool = new Pool(currentReview.getAssignedRoom().getSlot());
 				ArrayList<Participant> possibleReviewers = pool
 						.generatePoolForReviewers(currentReview);
 				// reviewers left
