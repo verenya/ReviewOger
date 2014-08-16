@@ -127,17 +127,12 @@ public class FileReader {
 		ParticipantTableModel.getInstance().addParticipant(newParticipant);
 	}
 
-	public void printResult(ArrayList<Review> reviews) {
-		long timeStamp = System.currentTimeMillis();
+	public void printResult(ArrayList<Review> reviews, String path) {
 
-		// TODO Speicherort des Benutzers
-
-		String logPath = "/media/verena/F0CA5804CA57C60E/verena/result"
-				+ timeStamp + ".txt";
 		FileWriter writer;
 
 		try {
-			writer = new FileWriter(new File(logPath), true);
+			writer = new FileWriter(new File(path), true);
 
 			for (Review r : reviews) {
 				String result = "Review Gruppe " + r.getGroupNumber() + " "

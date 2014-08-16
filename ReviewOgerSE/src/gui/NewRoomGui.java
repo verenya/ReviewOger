@@ -22,6 +22,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import data.Room;
 import data.RoomNode;
+import data.Slot;
 
 public class NewRoomGui {
 
@@ -30,7 +31,7 @@ public class NewRoomGui {
 	 */
 	public static void addRoom() {
 
-		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
+		final DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
 				.getRoomTree().getLastSelectedPathComponent();
 
 		if (selectedNode == null) {
@@ -50,6 +51,7 @@ public class NewRoomGui {
 			final JFrame roomFrame = new JFrame();
 
 			final DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+			
 
 			roomFrame.setLayout(new GridLayout(5, 2));
 			roomFrame.setTitle("Neuer Raum");
@@ -66,12 +68,14 @@ public class NewRoomGui {
 			roomFrame.add(beginLabel);
 
 			final JTextField beginField = new JTextField();
+			beginField.setText(timeFormat.format(((Slot) selectedNode.getUserObject()).getBeginTime()));
 			roomFrame.add(beginField);
 
 			JLabel endLabel = new JLabel("Ende:");
 			roomFrame.add(endLabel);
 
 			final JTextField endField = new JTextField();
+			endField.setText(timeFormat.format(((Slot) selectedNode.getUserObject()).getEndTime()));
 			roomFrame.add(endField);
 
 			JLabel hasBeamerLabel = new JLabel("Beamer: ");
@@ -123,8 +127,7 @@ public class NewRoomGui {
 						RoomNode newRoomNode = new RoomNode();
 						newRoomNode.setUserObject(room);
 
-						DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
-								.getRoomTree().getLastSelectedPathComponent();
+						
 
 						selectedNode.add(newRoomNode);
 						Gui.getRoomTree().updateUI();

@@ -37,7 +37,7 @@ public class LoadSave {
 	 */
 	public static void save() {
 		// get the selected file
-		File file = showSaveDialog();
+		File file = IODialog.showSaveDialog();
 		// not canceled
 		if (file != null) {
 			DefaultTreeModel treeModel = RoomTreeModel.getInstance();
@@ -170,46 +170,7 @@ public class LoadSave {
 		}
 	}
 
-	/**
-	 * Shows the save dialog and checks if file already exists
-	 * 
-	 * @return the selected file
-	 */
-	private static File showSaveDialog() {
-		JFileChooser fc = new JFileChooser();
-		File file = null;
-		fc.setFileFilter(new DialogFilter());
-		int returnValue = fc.showSaveDialog(null);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			file = fc.getSelectedFile();
-			// correct ending
-			if (!file.getAbsolutePath().endsWith(".xml")) {
-				file = new File(file.getAbsolutePath() + ".xml");
-			}
-			// if file exists, ask if overwrite
-			if (file.exists()) {
-				int result = JOptionPane
-						.showOptionDialog(
-								null,
-								"Die Datei existiert bereits. Möchten Sie überschreiben?",
-								"Warnung", JOptionPane.YES_NO_OPTION,
-								JOptionPane.INFORMATION_MESSAGE, null, null,
-								null);
-				if (result == JOptionPane.YES_OPTION) {
-					return file;
-				} else {
-					// no overwriting -> show open dialog again
-					return showSaveDialog();
-				}
-			} else {
-				return file;
-			}
-		} else {
-			// canceled
-			return null;
-		}
-	}
-
+	
 	public static boolean load() {
 
 		ParticipantTableModel tableModel = ParticipantTableModel.getInstance();
@@ -231,7 +192,7 @@ public class LoadSave {
 
 		// Dialog to choose the XML file to parse
 		JFileChooser fileChoser = new JFileChooser(".xml");
-		fileChoser.setFileFilter(new DialogFilter());
+		fileChoser.setFileFilter(new XmlDialogFilter());
 
 		int result = fileChoser.showOpenDialog(null);
 		switch (result) {
