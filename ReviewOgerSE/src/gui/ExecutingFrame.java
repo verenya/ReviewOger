@@ -11,6 +11,8 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -86,7 +88,6 @@ public class ExecutingFrame {
 					// result
 					if (reviews != null) {
 						progressBar.setValue(rounds);
-						System.out.println("SOLUTION FOUND");
 						foundSolution = true;
 						break;
 
@@ -136,7 +137,6 @@ public class ExecutingFrame {
 					// result
 					if (reviews != null) {
 						progressBar.setValue(minutesToWait);
-						System.out.println("SOLUTION FOUND");
 						foundSolution = true;
 						break;
 
@@ -190,7 +190,6 @@ public class ExecutingFrame {
 					reviews = future.get();
 					// result
 					if (reviews != null) {
-						System.out.println("SOLUTION FOUND");
 						foundSolution = true;
 						break;
 
@@ -248,8 +247,17 @@ public class ExecutingFrame {
 			public void actionPerformed(ActionEvent e) {
 				File file = IODialog.showSaveDialog();
 
+				PrintWriter pw;
+				try {
+					pw = new PrintWriter(file);
+					pw.print("");
+					pw.close();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				if (file != null) {
-					solutionFrame.dispose();
 					FileReader fr = new FileReader();
 					fr.printResult(reviews, file.getAbsolutePath());
 				}
@@ -356,7 +364,7 @@ public class ExecutingFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				noSolutionFrame.dispose();
-				
+
 				// show main frame again
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {

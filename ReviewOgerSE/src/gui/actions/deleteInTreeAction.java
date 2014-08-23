@@ -8,12 +8,13 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import main.Main;
 import data.RoomTreeModel;
 
 public class deleteInTreeAction extends AbstractAction {
 
 	/**
-	 * 
+	 * Deletes the whole review tree
 	 */
 	private static final long serialVersionUID = -2434755481535090453L;
 
@@ -28,6 +29,7 @@ public class deleteInTreeAction extends AbstractAction {
 		} else {
 			RoomTreeModel.getInstance().removeNodeFromParent(selectedNode);
 			Gui.getRoomTree().updateUI();
+			Main.setSaved(false);
 		}
 	}
 }

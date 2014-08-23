@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import main.Main;
 import data.Room;
 
 public class EditRoomAction extends AbstractAction {
@@ -120,6 +121,7 @@ public class EditRoomAction extends AbstractAction {
 						selectedRoom.setEndTime(endTime);
 
 						Gui.getRoomTree().updateUI();
+						Main.setSaved(false);
 						roomFrame.dispose();
 					}
 				}

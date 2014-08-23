@@ -11,16 +11,17 @@ public class IODialog {
 	 * 
 	 * @return the selected file
 	 */
+	//TODO überschreiben tut nicht
 	public static File showSaveDialog() {
 		JFileChooser fc = new JFileChooser();
 		File file = null;
-		fc.setFileFilter(new XmlDialogFilter());
+		fc.setFileFilter(new OgerDialogFilter());
 		int returnValue = fc.showSaveDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			file = fc.getSelectedFile();
 			// correct ending
-			if (!file.getAbsolutePath().endsWith(".xml")) {
-				file = new File(file.getAbsolutePath() + ".xml");
+			if (!file.getAbsolutePath().endsWith(".oger")) {
+				file = new File(file.getAbsolutePath() + ".oger");
 			}
 			// if file exists, ask if overwrite
 			if (file.exists()) {

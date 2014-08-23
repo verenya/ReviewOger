@@ -7,8 +7,11 @@ import io.FileReader;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+
+import main.Main;
 
 public class ReadParticipantsAction extends AbstractAction {
 
@@ -27,7 +30,7 @@ public class ReadParticipantsAction extends AbstractAction {
 			FileReader reader = new FileReader();
 
 			reader.readParticipantList(file.getAbsolutePath());
-
+			Main.setSaved(false);
 		}
 	}
 

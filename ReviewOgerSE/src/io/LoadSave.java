@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import main.Main;
+
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -33,7 +35,7 @@ import data.SlotNode;
 
 public class LoadSave {
 	/**
-	 * Saves the current game to a xml file
+	 * Saves the current status to a oger file
 	 */
 	public static void save() {
 		// get the selected file
@@ -153,10 +155,9 @@ public class LoadSave {
 				slotElement.addContent(allRoomsElement);
 
 				allSlotsElement.addContent(slotElement);
-				
 
 			}
-			
+
 			root.addContent(allSlotsElement);
 
 			try {
@@ -164,25 +165,28 @@ public class LoadSave {
 				XMLOutputter xmlOutputter = new XMLOutputter(
 						Format.getPrettyFormat());
 				xmlOutputter.output(document, new FileOutputStream(file));
+				Main.setSaved(true);
 			} catch (java.io.IOException e) {
 				JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
 			}
 		}
 	}
 
-	
 	public static boolean load() {
 
 		ParticipantTableModel tableModel = ParticipantTableModel.getInstance();
 		RoomTreeModel slotModel = RoomTreeModel.getInstance();
 
-		// current game must be saved
-		int saveResult = JOptionPane.showOptionDialog(null,
-				"Möchten Sie vorher speichern?", "Speichern?",
-				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
-				null, null, null);
-		if (saveResult == JOptionPane.YES_OPTION) {
-			save();
+		if (!Main.isSaved()) {
+
+			// current game must be saved
+			int saveResult = JOptionPane.showOptionDialog(null,
+					"Möchten Sie vorher speichern?", "Speichern?",
+					JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
+					null, null, null);
+			if (saveResult == JOptionPane.YES_OPTION) {
+				save();
+			}
 		}
 
 		Document document = new Document();
@@ -190,9 +194,9 @@ public class LoadSave {
 
 		SAXBuilder saxBuilder = new SAXBuilder();
 
-		// Dialog to choose the XML file to parse
+		// Dialog to choose the oger file to parse
 		JFileChooser fileChoser = new JFileChooser(".xml");
-		fileChoser.setFileFilter(new XmlDialogFilter());
+		fileChoser.setFileFilter(new OgerDialogFilter());
 
 		int result = fileChoser.showOpenDialog(null);
 		switch (result) {
@@ -207,7 +211,7 @@ public class LoadSave {
 				tableModel.clear();
 				slotModel.clear();
 
-				// Create a new JDOM document from a XML file
+				// Create a new JDOM document from a oger file
 				File file = fileChoser.getSelectedFile();
 				document = saxBuilder.build(file);
 			} catch (Exception e) {

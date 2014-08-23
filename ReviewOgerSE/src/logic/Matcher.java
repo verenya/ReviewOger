@@ -54,7 +54,6 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			makeList();
 
 			amountReviewers = calculateReviewers();
-			System.out.println(amountReviewers);
 
 			// make a list of all slots in the tree
 			sortSlots();
@@ -86,18 +85,15 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 		// every review is matched
 		if (tempReviews.isEmpty()) {
-			System.out.println("all matched");
 			// left participants must be matched
 			boolean extraOk = matchExtraReviewers();
 			if (!extraOk) {
-				System.out.println("error extra matching");
 				firstRound = false;
 				return null;
 			}
 
 			// shuffle and try again
 		} else {
-			System.out.println("error shuffle");
 			firstRound = false;
 			return null;
 		}
@@ -248,7 +244,6 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		// fill all rooms in slot
 		for (Room currentRoom : slot.getRooms()) {
 			boolean fillOk = fillReview(tempReviews, currentRoom, slot);
-			System.out.println(fillOk);
 
 			// fill was not possible so next slot
 			if (!fillOk) {

@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.Main;
 import data.Participant;
 import data.ParticipantTableModel;
 
@@ -108,6 +109,7 @@ public class EditParticipantAction extends AbstractAction {
 						ParticipantTableModel model = ParticipantTableModel
 								.getInstance();
 						model.fireTableDataChanged();
+						Main.setSaved(false);
 						participantFrame.dispose();
 					}
 				}

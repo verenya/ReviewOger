@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import main.Main;
 import data.Room;
 import data.RoomNode;
 import data.Slot;
@@ -131,6 +132,7 @@ public class NewRoomGui {
 
 						selectedNode.add(newRoomNode);
 						Gui.getRoomTree().updateUI();
+						Main.setSaved(false);
 						roomFrame.dispose();
 					}
 				}

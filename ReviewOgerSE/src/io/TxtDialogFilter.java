@@ -5,7 +5,7 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * A filter for xml files only
+ * A filter for txt files only
  * 
  * @author Verena Käfer
  * 
@@ -13,7 +13,7 @@ import javax.swing.filechooser.FileFilter;
 public class TxtDialogFilter extends FileFilter {
 
 	/*
-	 * shows only xml files and directories
+	 * shows only txt files and directories
 	 * 
 	 * (non-Javadoc)
 	 * 

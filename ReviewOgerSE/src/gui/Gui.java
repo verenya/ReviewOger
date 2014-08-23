@@ -7,6 +7,7 @@ import gui.actions.EditRoomAction;
 import gui.actions.EditSlotAction;
 import gui.actions.ReadParticipantsAction;
 import gui.actions.deleteInTreeAction;
+import io.EmailDelivery;
 import io.LoadSave;
 
 import java.awt.GridBagConstraints;
@@ -38,6 +39,7 @@ import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 
 import logic.Matcher;
+import main.Main;
 import data.ParticipantTableModel;
 import data.RoomTreeModel;
 
@@ -68,10 +70,12 @@ public class Gui extends JFrame {
 
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
-				int showConfirmDialog = JOptionPane.showConfirmDialog(null,
-						"Möchten Sie speichern?");
-				if (showConfirmDialog == JOptionPane.YES_OPTION) {
-					LoadSave.save();
+				if (!Main.isSaved()) {
+					int showConfirmDialog = JOptionPane.showConfirmDialog(null,
+							"Möchten Sie speichern?");
+					if (showConfirmDialog == JOptionPane.YES_OPTION) {
+						LoadSave.save();
+					}
 				}
 			}
 		});
@@ -121,6 +125,23 @@ public class Gui extends JFrame {
 				new ReadParticipantsAction());
 		menuLoadParticipant.setText("Teilnehmer einlesen");
 		menuFile.add(menuLoadParticipant);
+
+		JMenuItem menuEmail = new JMenuItem("E-Mail versenden");
+		menuFile.add(menuEmail);
+
+		menuEmail.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				EmailDelivery.sendLoadedReviews();
+			}
+
+		});
 
 		// participant panel
 		GridBagLayout gridBagLayout = new GridBagLayout();

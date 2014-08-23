@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -136,15 +137,15 @@ public class FileReader {
 
 			for (Review r : reviews) {
 				String result = "Review Gruppe " + r.getGroupNumber() + " "
-						+ r.getAssignedRoom().getFormatedDate();
+						+ r.getAssignedRoom().getFormatedDate().trim();
 				writer.append(result);
 				writer.append((char) Character.LINE_SEPARATOR);
 
 				if (r.getAuthor() != null) {
 					Participant author = r.getAuthor();
-					result = "Author: " + author.getFirstName() + " "
-							+ author.getLastName() + " "
-							+ author.geteMailAdress() + " Gruppe "
+					result = "Author: " + author.getFirstName().replace(" ", "").trim() + " "
+							+ author.getLastName().replace(" ", "").trim() + " "
+							+ author.geteMailAdress().replace(" ", "").trim() + " Gruppe "
 							+ author.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
@@ -152,9 +153,9 @@ public class FileReader {
 
 				if (r.getModerator() != null) {
 					Participant moderator = r.getModerator();
-					result = "Moderator: " + moderator.getFirstName() + " "
-							+ moderator.getLastName() + " "
-							+ moderator.geteMailAdress() + " Gruppe "
+					result = "Moderator: " + moderator.getFirstName().replace(" ", "").trim() + " "
+							+ moderator.getLastName().replace(" ", "").trim() + " "
+							+ moderator.geteMailAdress().replace(" ", "").trim() + " Gruppe "
 							+ moderator.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
@@ -162,18 +163,18 @@ public class FileReader {
 
 				if (r.getScribe() != null) {
 					Participant scribe = r.getScribe();
-					result = "Notar: " + scribe.getFirstName() + " "
-							+ scribe.getLastName() + " "
-							+ scribe.geteMailAdress() + " Gruppe "
+					result = "Notar: " + scribe.getFirstName().replace(" ", "").trim() + " "
+							+ scribe.getLastName().replace(" ", "").trim() + " "
+							+ scribe.geteMailAdress().replace(" ", "").trim() + " Gruppe "
 							+ scribe.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
 
 				for (Participant reviewer : r.getReviewers()) {
-					result = "Gutachter: " + reviewer.getFirstName() + " "
-							+ reviewer.getLastName() + " "
-							+ reviewer.geteMailAdress() + " Gruppe "
+					result = "Gutachter: " + reviewer.getFirstName().replace(" ", "").trim() + " "
+							+ reviewer.getLastName().replace(" ", "").trim() + " "
+							+ reviewer.geteMailAdress().replace(" ", "").trim() + " Gruppe "
 							+ reviewer.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);

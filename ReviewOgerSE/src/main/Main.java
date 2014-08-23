@@ -1,11 +1,11 @@
 package main;
 
 import gui.Gui;
-import io.EmailDelivery;
-
 import java.awt.EventQueue;
 
 public class Main {
+	
+	private static boolean isSaved = true;
 	/**
 	 * Launch the application.
 	 */
@@ -13,8 +13,6 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EmailDelivery.deliverEmail(null);
-					
 					Gui frame = new Gui();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -22,5 +20,11 @@ public class Main {
 				}
 			}
 		});
+	}
+	public static boolean isSaved() {
+		return isSaved;
+	}
+	public static void setSaved(boolean saved) {
+		isSaved = saved;
 	}
 }

@@ -10,7 +10,7 @@ import javax.swing.filechooser.FileFilter;
  * @author Verena Käfer
  * 
  */
-public class XmlDialogFilter extends FileFilter {
+public class OgerDialogFilter extends FileFilter {
 
 	/*
 	 * shows only xml files and directories
@@ -21,7 +21,7 @@ public class XmlDialogFilter extends FileFilter {
 	 */
 	@Override
 	public boolean accept(File arg0) {
-		if (arg0.getName().endsWith(".xml") || arg0.isDirectory()) {
+		if (arg0.getName().endsWith(".oger") || arg0.isDirectory()) {
 			return true;
 		} else {
 			return false;
@@ -35,7 +35,7 @@ public class XmlDialogFilter extends FileFilter {
 	 */
 	@Override
 	public String getDescription() {
-		return ".xml";
+		return ".oger";
 	}
 
 }

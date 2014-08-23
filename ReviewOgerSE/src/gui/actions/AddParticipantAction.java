@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.Main;
 import data.Participant;
 import data.ParticipantTableModel;
 
@@ -88,6 +89,7 @@ public class AddParticipantAction extends AbstractAction {
 					ParticipantTableModel model = ParticipantTableModel
 							.getInstance();
 					model.addParticipant(addedParticipant);
+					Main.setSaved(false);
 					participantFrame.dispose();
 				}
 			}

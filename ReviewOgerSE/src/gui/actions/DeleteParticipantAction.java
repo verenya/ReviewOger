@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import main.Main;
 import data.ParticipantTableModel;
 
 public class DeleteParticipantAction extends AbstractAction {
@@ -25,6 +26,7 @@ public class DeleteParticipantAction extends AbstractAction {
 		//not empty
 		if (rows.length != 0) {
 			model.deleteParticipants(rows);
+			Main.setSaved(false);
 		}
 	}
 
