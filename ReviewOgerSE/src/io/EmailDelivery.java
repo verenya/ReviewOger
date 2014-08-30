@@ -13,7 +13,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -23,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import data.Review;
 import data.Participant;
@@ -40,13 +40,16 @@ public class EmailDelivery {
 
 	final static JFrame optionFrame = new JFrame();
 
+	static ArrayList<Review> reviews;
+
 	/**
 	 * Opens the e-mails in the standard email program
 	 * 
 	 * @param reviews
 	 *            the list of reviews
 	 */
-	public static void deliverEmail(final ArrayList<Review> reviews) {
+	public static void deliverEmail(final ArrayList<Review> reviewList) {
+		reviews = reviewList;
 
 		optionFrame.setLayout(new GridLayout(2, 1));
 
@@ -159,98 +162,9 @@ public class EmailDelivery {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						textFrame.dispose();
+						showGreetingFrame();
 
-						Desktop desktop;
-						if (Desktop.isDesktopSupported()
-								&& (desktop = Desktop.getDesktop())
-										.isSupported(Desktop.Action.MAIL)) {
-							URI mailto;
-
-							// attach correct participants for every review
-							for (Review currentReview : reviews) {
-								String separateFinalEmailText = finalEmailText
-										+ "<br>Review Gruppe "
-										+ currentReview.getGroupNumber()
-										+ ": Raum "
-										+ currentReview.getAssignedRoom()
-												.getFormatedDate()
-										+ "<br>"
-										+ "Author: "
-										+ currentReview.getAuthor()
-												.getFirstName()
-										+ " "
-										+ currentReview.getAuthor()
-												.getLastName()
-										+ " "
-										+ currentReview.getAuthor()
-												.geteMailAdress()
-										+ "<br>"
-										+ "Moderator:  "
-										+ currentReview.getModerator()
-												.getFirstName()
-										+ " "
-										+ currentReview.getModerator()
-												.getLastName()
-										+ " "
-										+ currentReview.getModerator()
-												.geteMailAdress()
-										+ "<br>"
-										+ "Notar:  "
-										+ currentReview.getScribe()
-												.getFirstName()
-										+ " "
-										+ currentReview.getScribe()
-												.getLastName()
-										+ " "
-										+ currentReview.getScribe()
-												.geteMailAdress() + "<br>";
-
-								for (Participant reviewer : currentReview
-										.getReviewers()) {
-									separateFinalEmailText = separateFinalEmailText
-											+ "Gutachter:  "
-											+ reviewer.getFirstName()
-											+ " "
-											+ reviewer.getLastName()
-											+ " "
-											+ reviewer.geteMailAdress()
-											+ "<br>";
-								}
-								try {
-									String zeilenumbruch = System
-											.getProperty("line.separator");
-
-									separateFinalEmailText = separateFinalEmailText
-											.replace("<html>", "");
-									separateFinalEmailText = separateFinalEmailText
-											.replace("<br>", zeilenumbruch);
-
-									String body = URLEncoder.encode(
-											separateFinalEmailText, "utf-8")
-											.replace("+", "%20");
-
-									String email = currentReview.getModerator()
-											.geteMailAdress();
-
-									mailto = new URI("mailto:" + email
-											+ "?subject=SoPra%20Reviews&body="
-											+ body);
-									desktop.mail(mailto);
-								} catch (URISyntaxException e1) {
-									JOptionPane.showMessageDialog(null,
-											e1.getLocalizedMessage());
-								} catch (IOException e2) {
-									JOptionPane.showMessageDialog(null,
-											e2.getLocalizedMessage());
-								}
-							}
-
-						} else {
-							JOptionPane.showMessageDialog(null,
-									"Konnte kein E-Mail-Prgramm öffnen");
-							textFrame.dispose();
-							optionFrame.setVisible(true);
-						}
 					}
 
 				});
@@ -264,11 +178,256 @@ public class EmailDelivery {
 	}
 
 	/**
+	 * 
+	 */
+	private static void showGreetingFrame() {
+		final JFrame greetingFrame = new JFrame();
+
+		greetingFrame.setLayout(new GridLayout(5, 1));
+
+		JLabel greetingLabel = new JLabel(
+				"Bitte geben Sie eine Grußformel ein:");
+		greetingFrame.add(greetingLabel);
+
+		final JTextField greetingField = new JTextField();
+		greetingFrame.add(greetingField);
+
+		JLabel nameLabel = new JLabel("Bitte geben Sie Ihren Nmen ein:");
+		greetingFrame.add(nameLabel);
+
+		final JTextField nameField = new JTextField();
+		greetingFrame.add(nameField);
+
+		JButton nextButton = new JButton("Weiter");
+		greetingFrame.add(nextButton);
+
+		nextButton.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (nameField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null,
+							"Bitte geben Sie einen Namen ein");
+				} else {
+					greetingFrame.dispose();
+					sendMails(greetingField.getText(),
+							nameField.getText());
+				}
+			}
+
+		});
+
+		greetingFrame.pack();
+		greetingFrame.setVisible(true);
+	}
+
+	private static void sendMails(final String greeting, final String name) {
+
+		final JFrame delayFrame = new JFrame();
+		delayFrame.setLayout(new GridLayout(4, 1));
+
+		JLabel delayLabel1 = new JLabel(
+				"Bei zu schnellem Öffnen der E-Mails kann es zu Prolemen mit dem E-Mail-Programm kommen.");
+		JLabel delayLabel2 = new JLabel(
+				"Bitte geben Sie die Verzögerung zwischen den einzelnen E-Mails in Millisekunden ein:");
+		delayFrame.add(delayLabel1);
+		delayFrame.add(delayLabel2);
+
+		final JTextField delayField = new JTextField("500");
+		delayFrame.add(delayField);
+
+		JButton button = new JButton("Weiter");
+		delayFrame.add(button);
+
+		button.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// check field
+				int delay = 0;
+				try {
+					delay = Integer.parseInt(delayField.getText());
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null,
+							"Verzögerung muss eine Zahl sein");
+				}
+				if (delay < 0) {
+					JOptionPane.showMessageDialog(null,
+							"Verzögerung muss eine Zahl > 0 sein");
+				} else {
+					// Send mails
+					Desktop desktop;
+					if (Desktop.isDesktopSupported()
+							&& (desktop = Desktop.getDesktop())
+									.isSupported(Desktop.Action.MAIL)) {
+						URI mailto;
+
+						// attach correct participants for every review
+						for (Review currentReview : reviews) {
+							String separateFinalEmailText = finalEmailText
+									+ "<br>Review Gruppe "
+									+ currentReview.getGroupNumber()
+									+ ": Raum "
+									+ currentReview.getAssignedRoom()
+											.getFormatedDate()
+									+ "<br>"
+									+ "Author: "
+									+ currentReview.getAuthor().getFirstName()
+									+ " "
+									+ currentReview.getAuthor().getLastName()
+									+ " "
+									+ currentReview.getAuthor()
+											.geteMailAdress()
+									+ "<br>"
+									+ "Moderator:  "
+									+ currentReview.getModerator()
+											.getFirstName()
+									+ " "
+									+ currentReview.getModerator()
+											.getLastName()
+									+ " "
+									+ currentReview.getModerator()
+											.geteMailAdress()
+									+ "<br>"
+									+ "Notar:  "
+									+ currentReview.getScribe().getFirstName()
+									+ " "
+									+ currentReview.getScribe().getLastName()
+									+ " "
+									+ currentReview.getScribe()
+											.geteMailAdress() + "<br>";
+
+							for (Participant reviewer : currentReview
+									.getReviewers()) {
+								separateFinalEmailText = separateFinalEmailText
+										+ "Gutachter:  "
+										+ reviewer.getFirstName() + " "
+										+ reviewer.getLastName() + " "
+										+ reviewer.geteMailAdress() + "<br>";
+							}
+
+							// greeting
+							separateFinalEmailText = separateFinalEmailText
+									+ "<br>";
+							if (!greeting.equals("")) {
+								separateFinalEmailText = separateFinalEmailText
+										+ greeting + "<br>";
+							}
+							separateFinalEmailText = separateFinalEmailText
+									+ name + "<br>";
+
+							try {
+								String zeilenumbruch = System
+										.getProperty("line.separator");
+
+								separateFinalEmailText = separateFinalEmailText
+										.replace("<html>", "");
+								separateFinalEmailText = separateFinalEmailText
+										.replace("<br>", zeilenumbruch);
+
+								String body = URLEncoder.encode(
+										separateFinalEmailText, "utf-8")
+										.replace("+", "%20");
+
+								String email = currentReview.getModerator()
+										.geteMailAdress();
+
+								mailto = new URI("mailto:" + email
+										+ "?subject=SoPra%20Reviews&body="
+										+ body);
+								desktop.mail(mailto);
+
+								try {
+									Thread.sleep(delay);
+								} catch (InterruptedException ex) {
+									Thread.currentThread().interrupt();
+								}
+
+							} catch (URISyntaxException e1) {
+								JOptionPane.showMessageDialog(null,
+										e1.getLocalizedMessage());
+							} catch (IOException e2) {
+								JOptionPane.showMessageDialog(null,
+										e2.getLocalizedMessage());
+							}
+
+						}
+						delayFrame.dispose();
+						showEndFrame(delayFrame);
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Konnte kein E-Mail-Prgramm öffnen");
+						optionFrame.setVisible(true);
+					}
+				}
+			}
+		});
+
+		delayFrame.setVisible(true);
+		delayFrame.pack();
+
+	}
+
+	private static void showEndFrame(final JFrame delayFrame) {
+		final JFrame endFrame = new JFrame();
+		endFrame.setLayout(new GridLayout(1, 2));
+
+		JButton endButton = new JButton("Beenden");
+		endFrame.add(endButton);
+
+		endButton.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				endFrame.dispose();
+
+			}
+		});
+
+		JButton againButton = new JButton("Neuer Versuch");
+		endFrame.add(againButton);
+
+		againButton.addActionListener(new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				endFrame.dispose();
+				delayFrame.setVisible(true);
+
+			}
+		});
+
+		endFrame.setVisible(true);
+		endFrame.pack();
+	}
+
+	/**
 	 * This function loads a saved result and sends the e-mails
 	 */
-	public static void sendLoadedReviews() {
+	public static boolean sendLoadedReviews() {
 		JFileChooser fileChooser = new JFileChooser(".xml");
-		fileChooser.setFileFilter(new OgerDialogFilter());
+		fileChooser.setFileFilter(new TxtDialogFilter());
 
 		int result = fileChooser.showOpenDialog(null);
 		switch (result) {
@@ -278,7 +437,10 @@ public class EmailDelivery {
 			optionFrame.setVisible(false);
 
 			loadReview(fileChooser);
+			return true;
 
+		default:
+			return false;
 		}
 	}
 
@@ -300,14 +462,12 @@ public class EmailDelivery {
 		Review review = null;
 		Room room = null;
 		int i = 0;
-		
+
 		while (scanner.hasNextLine()) {
 			i++;
 			System.out.println(i);
 			String currentLine = scanner.nextLine();
 
-
-			
 			if (!currentLine.startsWith("*x")) {
 
 				if (currentLine.startsWith("Review")) {
@@ -322,14 +482,14 @@ public class EmailDelivery {
 						Date end = timeFormat.parse(splitReview[9]);
 						room = new Room(splitReview[4], false, begin, end);
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null,
+								"Fehler beim Einlesen");
 					}
 
 				} else {
-					//role first last email group number
+					// role first last email group number
 					String[] split = currentLine.split(" ");
-					
+
 					Participant current = new Participant(split[1], split[2],
 							split[3], Integer.parseInt(split[5]));
 

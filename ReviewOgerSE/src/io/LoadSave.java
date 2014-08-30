@@ -39,7 +39,7 @@ public class LoadSave {
 	 */
 	public static void save() {
 		// get the selected file
-		File file = IODialog.showSaveDialog();
+		File file = IODialog.showSaveDialog(".oger");
 		// not canceled
 		if (file != null) {
 			DefaultTreeModel treeModel = RoomTreeModel.getInstance();

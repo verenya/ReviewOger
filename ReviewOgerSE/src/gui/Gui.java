@@ -57,13 +57,22 @@ public class Gui extends JFrame {
 	private JCheckBox scribeIsAuthorCheckbox;
 	private JCheckBox moderatorNotReviewerGroupCheckbox;
 
+	private static Gui instance = null;
+
+	public static Gui getInstance() {
+		if (instance == null) {
+			instance = new Gui();
+		}
+		return instance;
+	}
+
 	/**
 	 * Creates the main frame. There are five main components. The menu bar. The
 	 * participant panel which shows the list of current participants and
 	 * methods to edit it. The room panel which shows the current rooms. The
 	 * option panel with available options. The start button.
 	 */
-	public Gui() {
+	private Gui() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 414);
@@ -138,7 +147,10 @@ public class Gui extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				EmailDelivery.sendLoadedReviews();
+
+				if (EmailDelivery.sendLoadedReviews()) {
+					dispose();
+				}
 			}
 
 		});

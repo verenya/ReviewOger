@@ -245,19 +245,18 @@ public class ExecutingFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				File file = IODialog.showSaveDialog();
-
-				PrintWriter pw;
-				try {
-					pw = new PrintWriter(file);
-					pw.print("");
-					pw.close();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
+				File file = IODialog.showSaveDialog(".txt");
 				if (file != null) {
+					PrintWriter pw;
+					try {
+						pw = new PrintWriter(file);
+						pw.print("");
+						pw.close();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
 					FileReader fr = new FileReader();
 					fr.printResult(reviews, file.getAbsolutePath());
 				}
@@ -365,17 +364,7 @@ public class ExecutingFrame {
 			public void actionPerformed(ActionEvent e) {
 				noSolutionFrame.dispose();
 
-				// show main frame again
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							Gui frame = new Gui();
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				Gui.getInstance().setVisible(true);
 			}
 
 		});

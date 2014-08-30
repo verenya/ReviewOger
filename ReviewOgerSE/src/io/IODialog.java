@@ -11,17 +11,20 @@ public class IODialog {
 	 * 
 	 * @return the selected file
 	 */
-	//TODO überschreiben tut nicht
-	public static File showSaveDialog() {
+	public static File showSaveDialog(String ending) {
 		JFileChooser fc = new JFileChooser();
 		File file = null;
-		fc.setFileFilter(new OgerDialogFilter());
+		if (ending.equals(".txt")) {
+			fc.setFileFilter(new TxtDialogFilter());
+		} else {
+			fc.setFileFilter(new OgerDialogFilter());
+		}
 		int returnValue = fc.showSaveDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			file = fc.getSelectedFile();
 			// correct ending
-			if (!file.getAbsolutePath().endsWith(".oger")) {
-				file = new File(file.getAbsolutePath() + ".oger");
+			if (!file.getAbsolutePath().endsWith(ending)) {
+				file = new File(file.getAbsolutePath() + ending);
 			}
 			// if file exists, ask if overwrite
 			if (file.exists()) {
@@ -36,7 +39,7 @@ public class IODialog {
 					return file;
 				} else {
 					// no overwriting -> show open dialog again
-					return showSaveDialog();
+					return showSaveDialog(ending);
 				}
 			} else {
 				return file;

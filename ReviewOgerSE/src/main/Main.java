@@ -4,8 +4,10 @@ import gui.Gui;
 import java.awt.EventQueue;
 
 public class Main {
-	
+
 	private static boolean isSaved = true;
+	static Gui gui;
+
 	/**
 	 * Launch the application.
 	 */
@@ -13,18 +15,25 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Gui frame = new Gui();
-					frame.setVisible(true);
+					gui = Gui.getInstance();
+					gui.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
+
 	public static boolean isSaved() {
 		return isSaved;
 	}
+
 	public static void setSaved(boolean saved) {
 		isSaved = saved;
+		if (saved == true) {
+			gui.setTitle("Gespeichert");
+		} else {
+			gui.setTitle("Nicht gespeichert");
+		}
 	}
 }
