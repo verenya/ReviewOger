@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -101,7 +100,7 @@ public class FileReader {
 
 		if (errorOccured) {
 			JOptionPane.showMessageDialog(null,
-					"Es ist ein Fehler aufgetreten. Details in "
+					"Es ist ein Fehler aufgetreten. Bitte verwenden Sie ein \";\" als Separator. Details in "
 							+ filePath.getParent().toString() + "/log"
 							+ timeStamp + ".txt", "Error",
 					JOptionPane.ERROR_MESSAGE);
