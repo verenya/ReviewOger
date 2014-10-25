@@ -192,7 +192,7 @@ public class EmailDelivery {
 		final JTextField greetingField = new JTextField();
 		greetingFrame.add(greetingField);
 
-		JLabel nameLabel = new JLabel("Bitte geben Sie Ihren Nmen ein:");
+		JLabel nameLabel = new JLabel("Bitte geben Sie Ihren Namen ein:");
 		greetingFrame.add(nameLabel);
 
 		final JTextField nameField = new JTextField();
@@ -215,8 +215,7 @@ public class EmailDelivery {
 							"Bitte geben Sie einen Namen ein");
 				} else {
 					greetingFrame.dispose();
-					sendMails(greetingField.getText(),
-							nameField.getText());
+					sendMails(greetingField.getText(), nameField.getText());
 				}
 			}
 
@@ -435,18 +434,21 @@ public class EmailDelivery {
 		case JFileChooser.APPROVE_OPTION:
 
 			optionFrame.setVisible(false);
-
-			loadReview(fileChooser);
-			return true;
+			boolean noError = loadReview(fileChooser);
+			if (noError) {
+				return true;
+			}
+			return false;
 
 		default:
 			return false;
 		}
 	}
 
-	private static void loadReview(JFileChooser fileChooser) {
+	private static boolean loadReview(JFileChooser fileChooser) {
 		Scanner scanner = null;
 		ArrayList<Review> reviews = new ArrayList<Review>();
+		boolean error = false;
 		try {
 
 			scanner = new Scanner(fileChooser.getSelectedFile(),
@@ -454,16 +456,18 @@ public class EmailDelivery {
 		} catch (IOException io) {
 			JOptionPane.showMessageDialog(null, "Fehler beim Öffnen der Datei",
 					"Öffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+			error = true;
 		} catch (IllegalArgumentException iae) {
 			JOptionPane.showMessageDialog(null, "Encoding falsch",
 					"Einlesen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+			error = true;
 		}
 
 		Review review = null;
 		Room room = null;
 		int i = 0;
 
-		while (scanner.hasNextLine()) {
+		while (scanner.hasNextLine() && !error) {
 			i++;
 			System.out.println(i);
 			String currentLine = scanner.nextLine();
@@ -484,32 +488,41 @@ public class EmailDelivery {
 					} catch (ParseException e) {
 						JOptionPane.showMessageDialog(null,
 								"Fehler beim Einlesen");
+						error = true;
 					}
 
 				} else {
 					// role first last email group number
 					String[] split = currentLine.split(" ");
 
-					Participant current = new Participant(split[1], split[2],
-							split[3], Integer.parseInt(split[5]));
+					try {
 
-					if (currentLine.startsWith("Author")) {
-						review = new Review(current);
-						review.setGroupNumber(current.getGroupNumber());
-						review.setAssignedRoom(room);
+						Participant current = new Participant(split[1],
+								split[2], split[3], Integer.parseInt(split[5]));
+
+						if (currentLine.startsWith("Author")) {
+							review = new Review(current);
+							review.setGroupNumber(current.getGroupNumber());
+							review.setAssignedRoom(room);
+						}
+
+						if (currentLine.startsWith("Moderator")) {
+							review.setModerator(current);
+						}
+
+						if (currentLine.startsWith("Notar")) {
+							review.setScribe(current);
+						}
+
+						if (currentLine.startsWith("Gutachter")) {
+							review.addReviewer(current);
+						}
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null,
+								"Fehler beim Einlesen");
+						error = true;
 					}
 
-					if (currentLine.startsWith("Moderator")) {
-						review.setModerator(current);
-					}
-
-					if (currentLine.startsWith("Notar")) {
-						review.setScribe(current);
-					}
-
-					if (currentLine.startsWith("Gutachter")) {
-						review.addReviewer(current);
-					}
 				}
 			} else {
 				// separator
@@ -518,8 +531,10 @@ public class EmailDelivery {
 			}
 
 		}
-
-		deliverEmail(reviews);
-
+		if (!error) {
+			deliverEmail(reviews);
+			return true;
+		}
+		return false;
 	}
 }

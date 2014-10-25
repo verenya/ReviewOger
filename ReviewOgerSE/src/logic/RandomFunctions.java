@@ -68,7 +68,6 @@ public class RandomFunctions {
 
 			Review currentReview = reviews.get(random.nextInt(i));
 			currentReview.setAssignedRoom(null);
-			currentReview.setDateAndTime(null);
 			currentReview.setModerator(null);
 			currentReview.setScribe(null);
 			currentReview.getReviewers().clear();

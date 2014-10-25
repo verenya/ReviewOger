@@ -74,7 +74,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			}
 		}
 
-		// fill current slot, as slots are ordered in sortSlots(), the method
+		// fill current slot. As slots are ordered in sortSlots(), the method
 		// begins with the largest slot
 		for (Slot s : slots) {
 			fillSlot(s);
@@ -106,6 +106,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 				.getParticipants();
 		for (Participant p : participants) {
 			p.setNumberOfReviews(0);
+			p.resetReviews();
 		}
 
 	}
@@ -133,6 +134,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			if (i == 0) {
 				Review review = new Review(currentParticipant);
 				review.setAuthor(currentParticipant);
+				currentParticipant.addReview(review);
 				currentParticipant.increaseParticipation();
 				plan.addTemp(review);
 			} else {
@@ -141,7 +143,9 @@ public class Matcher implements Callable<ArrayList<Review>> {
 						.getGroupNumber()) {
 					Review review = new Review(currentParticipant);
 					review.setAuthor(currentParticipant);
+					review.setAuthor(currentParticipant);
 					currentParticipant.increaseParticipation();
+					currentParticipant.addReview(review);
 					plan.addTemp(review);
 				}
 			}
@@ -235,6 +239,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 	 * 
 	 * @param slot
 	 *            the current slot
+	 * @param slots
 	 */
 	private void fillSlot(Slot slot) {
 
@@ -243,180 +248,209 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 		// fill all rooms in slot
 		for (Room currentRoom : slot.getRooms()) {
-			boolean fillOk = fillReview(tempReviews, currentRoom, slot);
+			Review currentReview = fillReview(tempReviews, currentRoom, slot);
 
 			// fill was not possible so next slot
-			if (!fillOk) {
+			if (currentReview == null) {
 
 				break;
 			}
 			// The review is finished and can be added to the final plan
-			plan.add(tempReviews.get(0));
-			tempReviews.remove(0);
+			plan.add(currentReview);
+			tempReviews.remove(currentReview);
 		}
 
 	}
 
-	private boolean fillReview(List<Review> tempReviews, Room currentRoom,
+	private Review fillReview(List<Review> tempReviews, Room currentRoom,
 			Slot currentSlot) {
-		// take first review and after successfully adding delete it
+		// take first review and after successfully adding, delete it
 		if (tempReviews.size() > 0) {
-			Review currentReview = tempReviews.get(0);
-			currentRoom.setReview(currentReview);
-			currentReview.setAssignedRoom(currentRoom);
 
-			Pool pool = new Pool(currentSlot);
+			Participant author = null;
+			Review currentReview = null;
 
-			ArrayList<Participant> possibleReviewers = pool
-					.generatePoolForReviewers(currentReview);
-
-			// number of reviewers + moderator
-			if (scribeIsAuthor) {
-				// enough participants -> randomly select participants
-				if (possibleReviewers.size() >= amountReviewers) {
-
-					for (int i = 0; i < amountReviewers; i++) {
-						Participant reviewer = RandomFunctions
-								.selectReviewerFromPool(pool);
-						reviewer.increaseParticipation();
-						currentReview.addReviewer(reviewer);
-					}
-
-					currentReview.setScribe(currentReview.getAuthor());
-
-					ArrayList<Participant> possibleModerators = pool
-							.generatePoolForModerator(currentReview,
-									moderatorNotReviewerGroup,
-									currentReview.getReviewers());
-
-					if (possibleModerators.size() > 0) {
-
-						Participant moderator = RandomFunctions
-								.selectModeratorFromPool(pool);
-						moderator.increaseParticipation();
-						currentReview.setModerator(moderator);
-
-						return true;
-					} else {
-						// reset
-						currentRoom.setReview(null);
-						resetReview(currentReview, false, false, true);
-						currentReview.setScribe(null);
-						return false;
-					}
-
+			// check for current slot if new author is in it
+			for (Review r : tempReviews) {
+				author = r.getAuthor();
+				if (!Pool.ParticipantInSlot(author, currentSlot)) {
+					currentReview = r;
+					break;
 				} else {
-					// we change the review one time then we take the next slot
-					if (!secondTry) {
-						// change first and second place
+					author = null;
+				}
+			}
 
-						// shuffle possible
-						if (tempReviews.size() > 1) {
+			if (author != null) {
+				currentRoom.setReview(currentReview);
+				currentReview.setAssignedRoom(currentRoom);
 
-							currentReview.setAssignedRoom(null);
-							Review temp = tempReviews.get(0);
-							tempReviews.set(0, tempReviews.get(1));
-							tempReviews.set(1, temp);
+				Pool pool = new Pool(currentSlot);
 
-							secondTry = true;
+				ArrayList<Participant> possibleReviewers = pool
+						.generatePoolForReviewers(currentReview);
 
-							return fillReview(tempReviews, currentRoom,
-									currentSlot);
+				// number of reviewers + moderator
+				if (scribeIsAuthor) {
+					// enough participants -> randomly select participants
+					if (possibleReviewers.size() >= amountReviewers) {
+
+						for (int i = 0; i < amountReviewers; i++) {
+							Participant reviewer = RandomFunctions
+									.selectReviewerFromPool(pool);
+							reviewer.increaseParticipation();
+							reviewer.addReview(currentReview);
+							currentReview.addReviewer(reviewer);
 						}
 
-						// next slot
-						else {
-							// Reset the connections
+						currentReview.setScribe(currentReview.getAuthor());
+
+						ArrayList<Participant> possibleModerators = pool
+								.generatePoolForModerator(currentReview,
+										moderatorNotReviewerGroup,
+										currentReview.getReviewers());
+
+						if (possibleModerators.size() > 0) {
+
+							Participant moderator = RandomFunctions
+									.selectModeratorFromPool(pool);
+							moderator.increaseParticipation();
+							moderator.addReview(currentReview);
+							currentReview.setModerator(moderator);
+
+							return currentReview;
+						} else {
+							// reset
 							currentRoom.setReview(null);
-							resetReview(currentReview, false, false, false);
-							return false;
+							resetReview(currentReview, false, false, true);
+							currentReview.setScribe(null);
+							return null;
 						}
 
 					} else {
-						// We tried one time to shuffle the first two reviews.
+						// we change the review one time then we take the
+						// next slot
+						// if (!secondTry) {
+						// // change first and second place
+						//
+						// // shuffle possible
+						// if (tempReviews.size() > 1) {
+						//
+						// currentReview.setAssignedRoom(null);
+						// Review temp = tempReviews.get(0);
+						// tempReviews.set(0, tempReviews.get(1));
+						// tempReviews.set(1, temp);
+						//
+						// secondTry = true;
+						//
+						// return fillReview(tempReviews, currentRoom,
+						// currentSlot);
+						// }
+						//
+						// // next slot
+						// else {
+						// // Reset the connections
+						// currentRoom.setReview(null);
+						// resetReview(currentReview, false, false,
+						// false);
+						// return false;
+						// }
+						//
+						// } else {
+						// We tried one time to shuffle the first two
+						// reviews.
 						// Now we take the next slot
 						// Reset the connections
 						currentRoom.setReview(null);
 						resetReview(currentReview, false, false, false);
-						return false;
-					}
-				}
-
-				// //number of reviewers + moderator + scribe
-			} else {
-				// enough participants -> randomly select participants and
-				// scribe
-				if (possibleReviewers.size() >= amountReviewers + 1) {
-
-					for (int i = 0; i < amountReviewers; i++) {
-						Participant reviewer = RandomFunctions
-								.selectReviewerFromPool(pool);
-						reviewer.increaseParticipation();
-						currentReview.addReviewer(reviewer);
+						return null;
+						// }
 					}
 
-					Participant scribe = RandomFunctions
-							.selectReviewerFromPool(pool);
-					scribe.increaseParticipation();
-					currentReview.setScribe(scribe);
-
-					ArrayList<Participant> possibleModerators = pool
-							.generatePoolForModerator(currentReview,
-									moderatorNotReviewerGroup,
-									currentReview.getReviewers());
-
-					if (possibleModerators.size() > 0) {
-
-						Participant moderator = RandomFunctions
-								.selectModeratorFromPool(pool);
-						moderator.increaseParticipation();
-						currentReview.setModerator(moderator);
-
-						return true;
-					} else {
-						currentRoom.setReview(null);
-						resetReview(currentReview, false, true, true);
-						return false;
-					}
+					// //number of reviewers + moderator + scribe
 				} else {
-					// we change the review one time then we take the next slot
-					if (!secondTry) {
-						// change first and second place
-						// shuffle possible
-						if (tempReviews.size() > 1) {
+					// enough participants -> randomly select participants
+					// and
+					// scribe
+					if (possibleReviewers.size() >= amountReviewers + 1) {
 
-							currentReview.setAssignedRoom(null);
-							Review temp = tempReviews.get(0);
-							tempReviews.set(0, tempReviews.get(1));
-							tempReviews.set(1, temp);
-
-							secondTry = true;
-
-							return fillReview(tempReviews, currentRoom,
-									currentSlot);
+						for (int i = 0; i < amountReviewers; i++) {
+							Participant reviewer = RandomFunctions
+									.selectReviewerFromPool(pool);
+							reviewer.increaseParticipation();
+							reviewer.addReview(currentReview);
+							currentReview.addReviewer(reviewer);
 						}
 
-						// next slot
-						else {
-							// Reset the connections
+						Participant scribe = RandomFunctions
+								.selectReviewerFromPool(pool);
+						scribe.increaseParticipation();
+						scribe.addReview(currentReview);
+						currentReview.setScribe(scribe);
+
+						ArrayList<Participant> possibleModerators = pool
+								.generatePoolForModerator(currentReview,
+										moderatorNotReviewerGroup,
+										currentReview.getReviewers());
+
+						if (possibleModerators.size() > 0) {
+
+							Participant moderator = RandomFunctions
+									.selectModeratorFromPool(pool);
+							moderator.increaseParticipation();
+							moderator.addReview(currentReview);
+							currentReview.setModerator(moderator);
+
+							return currentReview;
+						} else {
 							currentRoom.setReview(null);
-							resetReview(currentReview, false, false, false);
-							return false;
+							resetReview(currentReview, false, true, true);
+							return null;
 						}
-
 					} else {
-						// We tried one time to shuffle the first two reviews.
+						// we change the review one time then we take the
+						// next slot
+						// if (!secondTry) {
+						// // change first and second place
+						// // shuffle possible
+						// if (tempReviews.size() > 1) {
+						//
+						// currentReview.setAssignedRoom(null);
+						// Review temp = tempReviews.get(0);
+						// tempReviews.set(0, tempReviews.get(1));
+						// tempReviews.set(1, temp);
+						//
+						// secondTry = true;
+						//
+						// return fillReview(tempReviews, currentRoom,
+						// currentSlot);
+						// }
+						//
+						// // next slot
+						// else {
+						// // Reset the connections
+						// currentRoom.setReview(null);
+						// resetReview(currentReview, false, false,
+						// false);
+						// return false;
+						// }
+						//
+						// } else {
+						// We tried one time to shuffle the first two
+						// reviews.
 						// Now
 						// we take the next slot
 						// Reset the connections
 						currentRoom.setReview(null);
 						resetReview(currentReview, false, false, false);
-						return false;
+						return null;
+						// }
 					}
 				}
 			}
+
 		}
-		return false;
+		return null;
 	}
 
 	private void resetReview(Review review, boolean moderatorReset,
@@ -475,6 +509,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 							.selectReviewerFromPool(pool);
 					currentReview.addReviewer(reviewer);
 					reviewer.increaseParticipation();
+					reviewer.addReview(currentReview);
 
 					// no reviewers left -> error
 				} else {

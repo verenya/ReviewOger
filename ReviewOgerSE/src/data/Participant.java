@@ -4,6 +4,8 @@
 
 package data;
 
+import java.util.ArrayList;
+
 public class Participant implements Comparable<Participant> {
 
 	public Participant(String firstName, String lastName, String eMail,
@@ -20,6 +22,8 @@ public class Participant implements Comparable<Participant> {
 	private String firstName;
 	private String lastName;
 	private String eMailAdress;
+
+	private ArrayList<Review> reviews = new ArrayList<Review>();
 
 	// The SoPra group number
 	private int groupNumber;
@@ -77,9 +81,24 @@ public class Participant implements Comparable<Participant> {
 	public void increaseParticipation() {
 		numberOfReviews++;
 	}
-	
+
 	public void decreaseParticipation() {
 		numberOfReviews--;
 	}
 
+	public ArrayList<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(ArrayList<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public void addReview(Review review) {
+		reviews.add(review);
+	}
+
+	public void resetReviews(){
+		reviews.clear();
+	}
 }

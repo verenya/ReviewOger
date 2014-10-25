@@ -22,8 +22,6 @@ public class Review {
 	private Participant moderator;
 	// The list of reviewers for this review
 	private ArrayList<Participant> reviewers = new ArrayList<Participant>();
-	// Date and time of the review start
-	private GregorianCalendar dateAndTime;
 	// The room in which the review should be conducted
 	private Room assignedRoom;
 	// The group number of the reviewed group
@@ -87,21 +85,8 @@ public class Review {
 		}
 	}
 
-	// public int getNumberOfReviewers() {
-	// return numberOfReviewers;
-	// }
-	//
-	// public void setNumberOfReviewers(int numberOfReviewers) {
-	// this.numberOfReviewers = numberOfReviewers;
-	// }
 
-	public GregorianCalendar getDateAndTime() {
-		return dateAndTime;
-	}
-
-	public void setDateAndTime(GregorianCalendar dateAndTime) {
-		this.dateAndTime = dateAndTime;
-	}
+	
 
 	public Room getAssignedRoom() {
 		return assignedRoom;

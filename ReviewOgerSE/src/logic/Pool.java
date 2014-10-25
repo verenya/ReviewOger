@@ -1,13 +1,20 @@
 /**
+
+
+ * 
+ * 
  * This class represents one pool for a review. A pool holds all participants which can be added to a review. These participants have no other review in the same time slot, have not the same group as the author of the review and have not participated in the maximum amount of reviews for each participabt.  
  */
 package logic;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import data.Participant;
 import data.ParticipantTableModel;
 import data.Review;
+import data.ReviewPlan;
 import data.Room;
 import data.Slot;
 
@@ -39,7 +46,9 @@ public class Pool {
 			// reviews and not in review yet
 			if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
 					&& (p.getNumberOfReviews() < 2)
-					&& !ParticipantInReview(review, p) && !ParticipantInSlot(p)) {
+					&& !ParticipantInReview(review, p)
+					&& !ParticipantInSlot(p, slot)
+					&& !overLappingTime(review, p)) {
 				reviewerList.add(p);
 			}
 		}
@@ -84,7 +93,7 @@ public class Pool {
 	 * @return true if participant already in slot and therefore at the same
 	 *         time
 	 */
-	private boolean ParticipantInSlot(Participant participant) {
+	public static boolean ParticipantInSlot(Participant participant, Slot slot) {
 		for (Room r : slot.getRooms()) {
 			Review review = r.getReview();
 
@@ -119,6 +128,35 @@ public class Pool {
 		return false;
 	}
 
+	private boolean overLappingTime(Review currentReview,
+			Participant participant) {
+
+		for (Review r : participant.getReviews()) {
+			Room room = r.getAssignedRoom();
+
+			// it is possible, that the participant i san author which has no
+			// room yet. This will be checked when the room ist set
+			if (room != null) {
+
+				Date testBegin = r.getAssignedRoom().getBeginTime();
+				Date testEnd = r.getAssignedRoom().getEndTime();
+				Date currentBegin = currentReview.getAssignedRoom()
+						.getBeginTime();
+				Date currentEnd = currentReview.getAssignedRoom().getEndTime();
+
+				if (currentBegin.after(testBegin)
+						&& currentBegin.before(testEnd)) {
+					return true;
+				}
+				if (currentEnd.before(testEnd) && currentEnd.after(testBegin)) {
+					return true;
+					
+				}
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * @param review
 	 *            the current review to fill
@@ -141,7 +179,8 @@ public class Pool {
 						.getGroupNumber())
 						&& (participantToAdd.getNumberOfReviews() < 2)
 						&& !ParticipantInReview(review, participantToAdd)
-						&& !ParticipantInSlot(participantToAdd)) {
+						&& !ParticipantInSlot(participantToAdd, slot)
+						&& !overLappingTime(review, participantToAdd)) {
 
 					// check for the existing reviewers if in same group
 					for (Participant reviewer : reviewers) {
@@ -163,7 +202,8 @@ public class Pool {
 				if (!(p.getGroupNumber() == review.getAuthor().getGroupNumber())
 						&& (p.getNumberOfReviews() < 2)
 						&& !ParticipantInReview(review, p)
-						&& !ParticipantInSlot(p)) {
+						&& !ParticipantInSlot(p, slot)
+						&& !overLappingTime(review, p)) {
 					moderatorList.add(p);
 				}
 			}
