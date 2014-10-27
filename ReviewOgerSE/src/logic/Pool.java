@@ -150,7 +150,7 @@ public class Pool {
 				}
 				if (currentEnd.before(testEnd) && currentEnd.after(testBegin)) {
 					return true;
-					
+
 				}
 			}
 		}
@@ -183,11 +183,17 @@ public class Pool {
 						&& !overLappingTime(review, participantToAdd)) {
 
 					// check for the existing reviewers if in same group
+					boolean match = false;
 					for (Participant reviewer : reviewers) {
-						if (reviewer.getGroupNumber() != participantToAdd
+						if (reviewer.getGroupNumber() == participantToAdd
 								.getGroupNumber()) {
-							moderatorList.add(participantToAdd);
+							match = true;
+
 						}
+
+					}
+					if (!match) {
+						moderatorList.add(participantToAdd);
 					}
 
 				}

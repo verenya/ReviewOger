@@ -3,8 +3,6 @@
  */
 package logic;
 
-import io.FileReader;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -32,8 +30,8 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		this.scribeIsAuthor = scribeIsAuthor;
 	}
 
-	private boolean scribeIsAuthor = true;
-	private boolean moderatorNotReviewerGroup = true;
+	private boolean scribeIsAuthor ;
+	private boolean moderatorNotReviewerGroup ;
 	private int amountReviewers;
 
 	private boolean secondTry = false;

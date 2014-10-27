@@ -28,19 +28,12 @@ public class ReviewPlan {
 
 	private ArrayList<Review> tempReviews = new ArrayList<Review>();
 
-	// private int maxNumberOfReviews = 2;
 
 	public void add(Review review) {
 		reviews.add(review);
 	}
 
-	// public int getMaxNumberOfReviews() {
-	// return maxNumberOfReviews;
-	// }
-	//
-	// public void setMaxNumberOfReviews(int maxNumberOfReviews) {
-	// this.maxNumberOfReviews = maxNumberOfReviews;
-	// }
+
 
 	public ArrayList<Review> getReviews() {
 		return reviews;
