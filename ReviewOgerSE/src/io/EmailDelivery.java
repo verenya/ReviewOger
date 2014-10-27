@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import data.Review;
 import data.Participant;
 import data.Room;
+import data.Slot;
 
 /**
  * This class holds the functionality for the delivery of the emails to every
@@ -278,6 +279,9 @@ public class EmailDelivery {
 									+ currentReview.getGroupNumber()
 									+ ": Raum "
 									+ currentReview.getAssignedRoom()
+											.getRoomID()
+									+ " am "
+									+ currentReview.getAssignedRoom().getSlot()
 											.getFormatedDate()
 									+ "<br>"
 									+ "Author: "
@@ -469,7 +473,6 @@ public class EmailDelivery {
 
 		while (scanner.hasNextLine() && !error) {
 			i++;
-			System.out.println(i);
 			String currentLine = scanner.nextLine();
 
 			if (!currentLine.startsWith("*x")) {
@@ -478,13 +481,17 @@ public class EmailDelivery {
 
 					String[] splitReview = currentLine.split(" ");
 					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+					SimpleDateFormat dateFormat = new SimpleDateFormat(
+							"mm.dd.yy");
 					// review group number room number from time clock to time
 					// clock
 					Date begin;
 					try {
+						Date date = dateFormat.parse(splitReview[4]);
 						begin = timeFormat.parse(splitReview[6]);
 						Date end = timeFormat.parse(splitReview[9]);
-						room = new Room(splitReview[4], false, begin, end);
+						room = new Room(splitReview[13], false, begin, end);
+						room.setSlot(new Slot(date, begin, end));
 					} catch (ParseException e) {
 						JOptionPane.showMessageDialog(null,
 								"Fehler beim Einlesen");

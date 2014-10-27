@@ -99,11 +99,14 @@ public class FileReader {
 		}
 
 		if (errorOccured) {
-			JOptionPane.showMessageDialog(null,
-					"Es ist ein Fehler aufgetreten. Bitte verwenden Sie ein \";\" als Separator. Details in "
-							+ filePath.getParent().toString() + "/log"
-							+ timeStamp + ".txt", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Es ist ein Fehler aufgetreten. Bitte verwenden Sie ein \";\" als Separator. Details in "
+									+ filePath.getParent().toString()
+									+ "/log"
+									+ timeStamp + ".txt", "Error",
+							JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
@@ -135,8 +138,8 @@ public class FileReader {
 			writer = new FileWriter(new File(path), true);
 
 			for (Review r : reviews) {
-				String result = "Review Gruppe " + r.getGroupNumber() + " "
-						+ r.getAssignedRoom().getFormatedDate().trim();
+				String result = "Review Gruppe " + r.getGroupNumber() + " am "
+						+ r.getAssignedRoom().getSlot().getFormatedDate().trim() + " in Raum " + r.getAssignedRoom().getRoomID();
 				writer.append(result);
 				writer.append((char) Character.LINE_SEPARATOR);
 
