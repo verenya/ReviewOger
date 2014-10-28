@@ -498,6 +498,9 @@ public class EmailDelivery {
 						error = true;
 					}
 
+				} else if (currentLine.startsWith("Beamer")) {
+					// do nothing
+
 				} else {
 					// role first last email group number
 					String[] split = currentLine.split(" ");

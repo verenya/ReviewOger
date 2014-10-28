@@ -142,6 +142,11 @@ public class FileReader {
 						+ r.getAssignedRoom().getSlot().getFormatedDate().trim() + " in Raum " + r.getAssignedRoom().getRoomID();
 				writer.append(result);
 				writer.append((char) Character.LINE_SEPARATOR);
+				
+				if(!r.getAssignedRoom().isHasBeamer()){
+					writer.append("Beamer benötigt");
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
 
 				if (r.getAuthor() != null) {
 					Participant author = r.getAuthor();
