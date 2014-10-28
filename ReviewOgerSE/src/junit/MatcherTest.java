@@ -1,8 +1,10 @@
 package junit;
 
 import static org.junit.Assert.*;
-
+import io.FileReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,7 +46,10 @@ public class MatcherTest {
 		// scribe != author
 		// moderator != reviewed group
 		Matcher matcher = new Matcher("manueller Abbruch", false, true);
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 1000; i++) {
+			if (i != 0) {
+				matcher.setFirstRound(false);
+			}
 			ArrayList<Review> result = matcher.MatchReview();
 
 			// we must have a result
@@ -58,14 +63,121 @@ public class MatcherTest {
 						assertNotEquals(review.getModerator().getGroupNumber(),
 								p.getGroupNumber());
 					}
+
+					// not in same review twice
+					for (Participant p : ParticipantTableModel.getInstance()
+							.getParticipants()) {
+						for (Review r : p.getReviews()) {
+							FileReader fr = new FileReader();
+							if (p.getReviews().lastIndexOf(r) != p.getReviews()
+									.indexOf(r)) {
+								File file = new File(
+										"/home/verena/Desktop/h.txt");
+								PrintWriter pw;
+								if (file.exists()) {
+									try {
+										pw = new PrintWriter(file);
+										pw.print("");
+										pw.close();
+									} catch (FileNotFoundException e1) {
+										
+										e1.printStackTrace();
+									}
+								}
+								fr.printResult(result,
+										"/home/verena/Desktop/h.txt");
+							}
+							assertEquals(p.getReviews().lastIndexOf(r), p
+									.getReviews().indexOf(r));
+						}
+					}
+
+					// not in same slot twice
+					for (Participant p : ParticipantTableModel.getInstance()
+							.getParticipants()) {
+						for (Review r : p.getReviews()) {
+							// all reviews in list after current review
+							for (int j = p.getReviews().indexOf(r) + 1; j < p
+									.getReviews().size(); j++) {
+								assertTrue(r.getAssignedRoom().getSlot() != p
+										.getReviews().get(j).getAssignedRoom()
+										.getSlot());
+							}
+
+						}
+
+					}
+
+					// not too many reviews
+					for (Participant p : ParticipantTableModel.getInstance()
+							.getParticipants()) {
+						assertTrue(p.getNumberOfReviews() == 2);
+					}
+
+					// no overlapping time
+					for (Participant p : ParticipantTableModel.getInstance()
+							.getParticipants()) {
+						for (Review r : p.getReviews()) {
+							// all reviews in list after current review
+							for (int j = p.getReviews().indexOf(r) + 1; j < p
+									.getReviews().size(); j++) {
+								assertFalse((r
+										.getAssignedRoom()
+										.getBeginTime()
+										.after(p.getReviews().get(j)
+												.getAssignedRoom()
+												.getBeginTime()) && (r
+										.getAssignedRoom().getBeginTime()
+										.before(p.getReviews().get(j)
+												.getAssignedRoom().getEndTime()))));
+
+								assertFalse((r
+										.getAssignedRoom()
+										.getEndTime()
+										.after(p.getReviews().get(j)
+												.getAssignedRoom()
+												.getBeginTime()) && (r
+										.getAssignedRoom().getEndTime()
+										.before(p.getReviews().get(j)
+												.getAssignedRoom().getEndTime()))));
+							}
+
+						}
+
+					}
+
 				}
 			} else {
 				errorCount++;
+				i--;
 			}
 		}
 
 		System.out.print(errorCount);
-		assertFalse(errorCount == 50);
+
+		// scribe == author
+		// moderator != reviewed group
+		Matcher matcher2 = new Matcher("manueller Abbruch", true, true);
+		for (int i = 0; i < 1000; i++) {
+			if (i != 0) {
+				matcher2.setFirstRound(false);
+			}
+			ArrayList<Review> result = matcher2.MatchReview();
+
+			// we must have a result
+			if (result != null) {
+				for (Review review : result) {
+					// scribe == author
+					assertSame(review.getScribe(), review.getAuthor());
+
+				}
+			} else {
+				errorCount++;
+				i--;
+			}
+		}
+
+		System.out.print(errorCount);
 
 	}
 

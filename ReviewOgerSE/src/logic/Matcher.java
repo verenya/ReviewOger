@@ -299,6 +299,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 							reviewer.increaseParticipation();
 							reviewer.addReview(currentReview);
 							currentReview.addReviewer(reviewer);
+							possibleReviewers.remove(reviewer);
 						}
 
 						currentReview.setScribe(currentReview.getAuthor());
@@ -378,6 +379,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 							reviewer.increaseParticipation();
 							reviewer.addReview(currentReview);
 							currentReview.addReviewer(reviewer);
+							possibleReviewers.remove(reviewer);
 						}
 
 						Participant scribe = RandomFunctions
