@@ -38,7 +38,7 @@ public class Room {
 		this.roomID = roomID;
 	}
 
-	public boolean isHasBeamer() {
+	public boolean hasBeamer() {
 		return hasBeamer;
 	}
 
@@ -63,7 +63,7 @@ public class Room {
 	}
 
 	/**
-	 * @return the date of the review formated as x.xxx hh:mm to hh:mm
+	 * @return the date of the review formated as room x.xxx from hh:mm to hh:mm
 	 */
 	public String getFormatedDate() {
 

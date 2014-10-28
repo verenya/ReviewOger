@@ -1,3 +1,6 @@
+/**
+ * This class holds a dialog for the selection of files
+ */
 package io;
 
 import java.io.File;

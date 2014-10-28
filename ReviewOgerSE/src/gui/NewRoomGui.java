@@ -52,7 +52,6 @@ public class NewRoomGui {
 			final JFrame roomFrame = new JFrame();
 
 			final DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-			
 
 			roomFrame.setLayout(new GridLayout(5, 2));
 			roomFrame.setTitle("Neuer Raum");
@@ -69,14 +68,16 @@ public class NewRoomGui {
 			roomFrame.add(beginLabel);
 
 			final JTextField beginField = new JTextField();
-			beginField.setText(timeFormat.format(((Slot) selectedNode.getUserObject()).getBeginTime()));
+			beginField.setText(timeFormat.format(((Slot) selectedNode
+					.getUserObject()).getBeginTime()));
 			roomFrame.add(beginField);
 
 			JLabel endLabel = new JLabel("Ende:");
 			roomFrame.add(endLabel);
 
 			final JTextField endField = new JTextField();
-			endField.setText(timeFormat.format(((Slot) selectedNode.getUserObject()).getEndTime()));
+			endField.setText(timeFormat.format(((Slot) selectedNode
+					.getUserObject()).getEndTime()));
 			roomFrame.add(endField);
 
 			JLabel hasBeamerLabel = new JLabel("Beamer: ");
@@ -127,8 +128,6 @@ public class NewRoomGui {
 
 						RoomNode newRoomNode = new RoomNode();
 						newRoomNode.setUserObject(room);
-
-						
 
 						selectedNode.add(newRoomNode);
 						Gui.getRoomTree().updateUI();

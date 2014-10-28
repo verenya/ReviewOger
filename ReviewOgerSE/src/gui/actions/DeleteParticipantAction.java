@@ -23,7 +23,7 @@ public class DeleteParticipantAction extends AbstractAction {
 	public void actionPerformed(ActionEvent arg0) {
 		ParticipantTableModel model = ParticipantTableModel.getInstance();
 		int[] rows = Gui.getselectedParticipantRows();
-		//not empty
+		// not empty
 		if (rows.length != 0) {
 			model.deleteParticipants(rows);
 			Main.setSaved(false);

@@ -1,3 +1,6 @@
+/**
+ * This class holds the functionality of loading and saving participants, slots and rooms 
+ */
 package io;
 
 import gui.Gui;
@@ -35,7 +38,7 @@ import data.SlotNode;
 
 public class LoadSave {
 	/**
-	 * Saves the current status to a oger file
+	 * Saves the current status to a .oger file
 	 */
 	public static void save() {
 		// get the selected file
@@ -127,7 +130,7 @@ public class LoadSave {
 					Element roomElement = new Element("Raum");
 
 					Attribute beamerAttribute;
-					if (currentRoom.isHasBeamer()) {
+					if (currentRoom.hasBeamer()) {
 						beamerAttribute = new Attribute("Beamer", "true");
 					} else {
 						beamerAttribute = new Attribute("Beamer", "false");
@@ -172,7 +175,10 @@ public class LoadSave {
 		}
 	}
 
-	public static boolean load() {
+	/**
+	 * loads a .oger file
+	 */
+	public static void load() {
 
 		ParticipantTableModel tableModel = ParticipantTableModel.getInstance();
 		RoomTreeModel slotModel = RoomTreeModel.getInstance();
@@ -201,10 +207,6 @@ public class LoadSave {
 		int result = fileChoser.showOpenDialog(null);
 		switch (result) {
 
-		case JFileChooser.CANCEL_OPTION:
-			return false;
-		case JFileChooser.ERROR_OPTION:
-			return false;
 		case JFileChooser.APPROVE_OPTION:
 			try {
 				// clear models
@@ -355,7 +357,6 @@ public class LoadSave {
 			}
 
 		}
-		return true;
 
 	}
 }

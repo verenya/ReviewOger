@@ -18,6 +18,7 @@ public class RoomNode extends DefaultMutableTreeNode {
 	 * @see javax.swing.tree.DefaultMutableTreeNode#isLeaf()
 	 */
 	public boolean isLeaf() {
+		// rooms must be leafes
 		return true;
 	}
 

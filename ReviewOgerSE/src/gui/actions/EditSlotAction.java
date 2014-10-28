@@ -132,7 +132,7 @@ public class EditSlotAction extends AbstractAction {
 			roomFrame.setVisible(true);
 			roomFrame.pack();
 
-		}else{
+		} else {
 			JOptionPane.showMessageDialog(null, "Kann nur Slot bearbeiten");
 		}
 	}

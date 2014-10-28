@@ -20,7 +20,7 @@ import data.Participant;
 import data.ParticipantTableModel;
 import data.Review;
 
-public class FileReader {
+public class FileProcessor {
 
 	private Path filePath;
 	private final static Charset ENCODING = StandardCharsets.UTF_8;
@@ -143,7 +143,7 @@ public class FileReader {
 				writer.append(result);
 				writer.append((char) Character.LINE_SEPARATOR);
 				
-				if(!r.getAssignedRoom().isHasBeamer()){
+				if(!r.getAssignedRoom().hasBeamer()){
 					writer.append("Beamer benötigt");
 					writer.append((char) Character.LINE_SEPARATOR);
 				}

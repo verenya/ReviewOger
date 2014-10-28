@@ -30,12 +30,14 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		this.scribeIsAuthor = scribeIsAuthor;
 	}
 
-	private boolean scribeIsAuthor ;
-	private boolean moderatorNotReviewerGroup ;
+	private boolean scribeIsAuthor;
+	private boolean moderatorNotReviewerGroup;
 	private int amountReviewers;
 
-	private boolean secondTry = false;
-
+	/**
+	 * true for the first try ever, as then the lists must be created, false
+	 * later
+	 */
 	private boolean firstRound = true;
 
 	List<Slot> slots = new ArrayList<Slot>();
@@ -43,7 +45,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 	/**
 	 * This function matches all participants to the reviews
 	 * 
-	 * @return A review plan with a solution
+	 * @return A review plan with a solution, null if no solution waa found
 	 */
 	public ArrayList<Review> MatchReview() {
 		// first try so list has to be made manually
@@ -137,6 +139,8 @@ public class Matcher implements Callable<ArrayList<Review>> {
 				plan.addTemp(review);
 			} else {
 				previousParticipant = participants.get(i - 1);
+				// check if the own group was already added, if no make new
+				// review
 				if (currentParticipant.getGroupNumber() != previousParticipant
 						.getGroupNumber()) {
 					Review review = new Review(currentParticipant);
@@ -268,7 +272,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			Participant author = null;
 			Review currentReview = null;
 
-			// check for current slot if new author is in it
+			// check for current slot if new author is already in it
 			for (Review r : tempReviews) {
 				author = r.getAuthor();
 				if (!Pool.ParticipantInSlot(author, currentSlot)) {
@@ -327,38 +331,6 @@ public class Matcher implements Callable<ArrayList<Review>> {
 						}
 
 					} else {
-						// we change the review one time then we take the
-						// next slot
-						// if (!secondTry) {
-						// // change first and second place
-						//
-						// // shuffle possible
-						// if (tempReviews.size() > 1) {
-						//
-						// currentReview.setAssignedRoom(null);
-						// Review temp = tempReviews.get(0);
-						// tempReviews.set(0, tempReviews.get(1));
-						// tempReviews.set(1, temp);
-						//
-						// secondTry = true;
-						//
-						// return fillReview(tempReviews, currentRoom,
-						// currentSlot);
-						// }
-						//
-						// // next slot
-						// else {
-						// // Reset the connections
-						// currentRoom.setReview(null);
-						// resetReview(currentReview, false, false,
-						// false);
-						// return false;
-						// }
-						//
-						// } else {
-						// We tried one time to shuffle the first two
-						// reviews.
-						// Now we take the next slot
 						// Reset the connections
 						currentRoom.setReview(null);
 						resetReview(currentReview, false, false, false);
@@ -369,8 +341,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 					// //number of reviewers + moderator + scribe
 				} else {
 					// enough participants -> randomly select participants
-					// and
-					// scribe
+					// and scribe
 					if (possibleReviewers.size() >= amountReviewers + 1) {
 
 						for (int i = 0; i < amountReviewers; i++) {
@@ -408,38 +379,6 @@ public class Matcher implements Callable<ArrayList<Review>> {
 							return null;
 						}
 					} else {
-						// we change the review one time then we take the
-						// next slot
-						// if (!secondTry) {
-						// // change first and second place
-						// // shuffle possible
-						// if (tempReviews.size() > 1) {
-						//
-						// currentReview.setAssignedRoom(null);
-						// Review temp = tempReviews.get(0);
-						// tempReviews.set(0, tempReviews.get(1));
-						// tempReviews.set(1, temp);
-						//
-						// secondTry = true;
-						//
-						// return fillReview(tempReviews, currentRoom,
-						// currentSlot);
-						// }
-						//
-						// // next slot
-						// else {
-						// // Reset the connections
-						// currentRoom.setReview(null);
-						// resetReview(currentReview, false, false,
-						// false);
-						// return false;
-						// }
-						//
-						// } else {
-						// We tried one time to shuffle the first two
-						// reviews.
-						// Now
-						// we take the next slot
 						// Reset the connections
 						currentRoom.setReview(null);
 						resetReview(currentReview, false, false, false);
@@ -450,9 +389,22 @@ public class Matcher implements Callable<ArrayList<Review>> {
 			}
 
 		}
+		// no result
 		return null;
 	}
 
+	/**
+	 * Resets the connections of a review
+	 * 
+	 * @param review
+	 *            the review
+	 * @param moderatorReset
+	 *            true if moderator should be reseted
+	 * @param scribeReset
+	 *            true if the scribe should be reseted
+	 * @param reviewerReset
+	 *            tru if the reviewers should be reseted
+	 */
 	private void resetReview(Review review, boolean moderatorReset,
 			boolean scribeReset, boolean reviewerReset) {
 		review.setAssignedRoom(null);
@@ -534,6 +486,11 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		this.firstRound = firstRound;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.concurrent.Callable#call()
+	 */
 	@Override
 	public ArrayList<Review> call() throws Exception {
 		ArrayList<Review> reviews = MatchReview();

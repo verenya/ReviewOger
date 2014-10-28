@@ -179,7 +179,7 @@ public class EmailDelivery {
 	}
 
 	/**
-	 * 
+	 * Shows a frame to insert a greeting and a name
 	 */
 	private static void showGreetingFrame() {
 		final JFrame greetingFrame = new JFrame();
@@ -226,6 +226,15 @@ public class EmailDelivery {
 		greetingFrame.setVisible(true);
 	}
 
+	/**
+	 * Shows a frame on how many miliseconds delay the emails should be opened
+	 * with
+	 * 
+	 * @param greeting
+	 *            the selected greeting
+	 * @param name
+	 *            the selected name
+	 */
 	private static void sendMails(final String greeting, final String name) {
 
 		final JFrame delayFrame = new JFrame();
@@ -382,6 +391,12 @@ public class EmailDelivery {
 
 	}
 
+	/**
+	 * Shows the frame after trying to send the emails
+	 * 
+	 * @param delayFrame
+	 *            the previous opened frame
+	 */
 	private static void showEndFrame(final JFrame delayFrame) {
 		final JFrame endFrame = new JFrame();
 		endFrame.setLayout(new GridLayout(1, 2));
@@ -427,6 +442,8 @@ public class EmailDelivery {
 
 	/**
 	 * This function loads a saved result and sends the e-mails
+	 * 
+	 * @return true if the delivery was successful
 	 */
 	public static boolean sendLoadedReviews() {
 		JFileChooser fileChooser = new JFileChooser(".xml");
@@ -449,6 +466,11 @@ public class EmailDelivery {
 		}
 	}
 
+	/**
+	 * @param fileChooser
+	 *            the filechoser for the file
+	 * @return true if the loading was successful
+	 */
 	private static boolean loadReview(JFileChooser fileChooser) {
 		Scanner scanner = null;
 		ArrayList<Review> reviews = new ArrayList<Review>();
@@ -469,10 +491,9 @@ public class EmailDelivery {
 
 		Review review = null;
 		Room room = null;
-		int i = 0;
 
 		while (scanner.hasNextLine() && !error) {
-			i++;
+
 			String currentLine = scanner.nextLine();
 
 			if (!currentLine.startsWith("*x")) {

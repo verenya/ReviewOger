@@ -1,3 +1,6 @@
+/**
+ * the main class
+ */
 package main;
 
 import gui.Gui;
@@ -28,6 +31,10 @@ public class Main {
 		return isSaved;
 	}
 
+	/**
+	 * @param saved
+	 *            sets if the current status is saved
+	 */
 	public static void setSaved(boolean saved) {
 		isSaved = saved;
 		if (saved == true) {

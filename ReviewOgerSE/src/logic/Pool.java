@@ -9,12 +9,9 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 import data.Participant;
 import data.ParticipantTableModel;
 import data.Review;
-import data.ReviewPlan;
 import data.Room;
 import data.Slot;
 
@@ -128,6 +125,14 @@ public class Pool {
 		return false;
 	}
 
+	/**
+	 * @param currentReview
+	 *            the current review
+	 * @param participant
+	 *            the current participant
+	 * @return true if one of the existing reviews of the participant overlaps
+	 *         with the current review
+	 */
 	private boolean overLappingTime(Review currentReview,
 			Participant participant) {
 

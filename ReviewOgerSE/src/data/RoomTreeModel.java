@@ -11,11 +11,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
-public class RoomTreeModel extends DefaultTreeModel{
+public class RoomTreeModel extends DefaultTreeModel {
 
 	private RoomTreeModel(TreeNode name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -23,8 +22,6 @@ public class RoomTreeModel extends DefaultTreeModel{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static RoomTreeModel instance = null;
-
-
 
 	/**
 	 * @return the current model
@@ -52,8 +49,11 @@ public class RoomTreeModel extends DefaultTreeModel{
 		}
 		return false;
 	}
-	
-	public void clear(){
+
+	/**
+	 * delete all slots and rooms in the model
+	 */
+	public void clear() {
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) instance
 				.getRoot();
 		root.removeAllChildren();

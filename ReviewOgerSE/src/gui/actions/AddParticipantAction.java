@@ -1,5 +1,5 @@
 /**
- * This class holds an abstract action which is called when a new participant shall be added
+ * This class holds an abstract action which is called when a new participant should be added
  */
 package gui.actions;
 

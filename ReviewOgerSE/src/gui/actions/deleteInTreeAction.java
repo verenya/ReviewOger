@@ -1,3 +1,6 @@
+/**
+ *An abstract action to delete the whole slot room tree 
+ */
 package gui.actions;
 
 import java.awt.event.ActionEvent;

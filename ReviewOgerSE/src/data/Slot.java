@@ -1,5 +1,5 @@
 /**
- * This class represents a slot a a specific time and knows which rooms are available at that time.
+ * This class represents a slot at a specific time and knows which rooms are available at that time.
  */
 
 package data;

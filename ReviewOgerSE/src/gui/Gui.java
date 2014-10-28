@@ -304,7 +304,6 @@ public class Gui extends JFrame {
 		roomTree = new JTree(RoomTreeModel.getInstance());
 		roomScrollPane.setViewportView(roomTree);
 
-		// TODO edit slot
 
 		JPanel roomButtonPanel = new JPanel();
 		GridBagConstraints gbc_roomButtonPanel = new GridBagConstraints();

@@ -34,7 +34,7 @@ public class EditParticipantAction extends AbstractAction {
 		ParticipantTableModel model = ParticipantTableModel.getInstance();
 		int[] rows = Gui.getselectedParticipantRows();
 
-		if (rows.length >1) {
+		if (rows.length > 1) {
 			JOptionPane.showMessageDialog(null,
 					"Es kann nur ein Teilnehmer gleichzeitig geändert werden");
 		} else {

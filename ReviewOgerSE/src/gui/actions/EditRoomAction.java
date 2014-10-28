@@ -75,7 +75,7 @@ public class EditRoomAction extends AbstractAction {
 			roomFrame.add(hasBeamerLabel);
 
 			final JCheckBox hasBeamerBox = new JCheckBox();
-			hasBeamerBox.setSelected(selectedRoom.isHasBeamer());
+			hasBeamerBox.setSelected(selectedRoom.hasBeamer());
 			roomFrame.add(hasBeamerBox);
 
 			JButton doneButton = new JButton("OK");

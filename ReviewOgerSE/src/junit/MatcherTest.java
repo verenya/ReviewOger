@@ -1,7 +1,7 @@
 package junit;
 
 import static org.junit.Assert.*;
-import io.FileReader;
+import io.FileProcessor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -68,7 +68,7 @@ public class MatcherTest {
 					for (Participant p : ParticipantTableModel.getInstance()
 							.getParticipants()) {
 						for (Review r : p.getReviews()) {
-							FileReader fr = new FileReader();
+							FileProcessor fr = new FileProcessor();
 							if (p.getReviews().lastIndexOf(r) != p.getReviews()
 									.indexOf(r)) {
 								File file = new File(

@@ -68,8 +68,12 @@ public class Participant implements Comparable<Participant> {
 		this.groupNumber = groupNumber;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Participant o) {
+		//sorting by group number
 		if (o.groupNumber < this.groupNumber) {
 			return -1;
 		} else if (o.groupNumber == this.groupNumber) {

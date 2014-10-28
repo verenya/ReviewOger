@@ -1,3 +1,6 @@
+/**
+ * a filter for oger files
+ */
 package io;
 
 import java.io.File;

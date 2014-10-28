@@ -4,10 +4,9 @@
 package gui;
 
 import io.EmailDelivery;
-import io.FileReader;
+import io.FileProcessor;
 import io.IODialog;
 
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -118,15 +117,15 @@ public class ExecutingFrame {
 			progressBar.setMinimum(0);
 
 			Date currentDate = new Date();
-			Date plannedDate = new Date();
+			Date finishingDate = new Date();
 
-			plannedDate.setHours(plannedDate.getHours() + hours);
-			plannedDate.setMinutes(plannedDate.getMinutes() + minutes);
+			finishingDate.setHours(finishingDate.getHours() + hours);
+			finishingDate.setMinutes(finishingDate.getMinutes() + minutes);
 
 			Date startDate = new Date();
 
 			// wait till wished date arrived
-			while (currentDate.before(plannedDate)) {
+			while (currentDate.before(finishingDate)) {
 				Future<ArrayList<Review>> future = executorService
 						.submit(matcher);
 				while (!future.isDone()) {
@@ -220,6 +219,9 @@ public class ExecutingFrame {
 		}
 	}
 
+	/**
+	 * Shows a frame with the possibilities after a solution was found
+	 */
 	private void showSolutionFrame() {
 
 		final JFrame solutionFrame = new JFrame();
@@ -253,11 +255,11 @@ public class ExecutingFrame {
 						pw.print("");
 						pw.close();
 					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Datei konnte nicht gefunden werden",
+								"Fehler", JOptionPane.ERROR_MESSAGE);
 					}
 
-					FileReader fr = new FileReader();
+					FileProcessor fr = new FileProcessor();
 					fr.printResult(reviews, file.getAbsolutePath());
 				}
 			}
@@ -282,7 +284,7 @@ public class ExecutingFrame {
 
 		});
 
-		JButton cancelButton = new JButton("Abbrechen");
+		JButton cancelButton = new JButton("Beenden");
 		optionPanel.add(cancelButton);
 
 		cancelButton.addActionListener(new AbstractAction() {
@@ -304,6 +306,9 @@ public class ExecutingFrame {
 		solutionFrame.pack();
 	}
 
+	/**
+	 * Shows a frame if no solution was found
+	 */
 	private void showNoSolutionFrame() {
 		final JFrame noSolutionFrame = new JFrame();
 		noSolutionFrame.setLayout(new GridLayout(5, 1));

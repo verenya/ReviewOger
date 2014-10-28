@@ -3,7 +3,7 @@
  */
 package gui.actions;
 
-import io.FileReader;
+import io.FileProcessor;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -24,10 +24,10 @@ public class ReadParticipantsAction extends AbstractAction {
 
 		int returnValue = fileChooser.showOpenDialog(null);
 
-		// file chosen
+		// file choser
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
-			FileReader reader = new FileReader();
+			FileProcessor reader = new FileProcessor();
 
 			reader.readParticipantList(file.getAbsolutePath());
 			Main.setSaved(false);
