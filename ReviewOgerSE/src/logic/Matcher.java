@@ -40,7 +40,7 @@ public class Matcher implements Callable<ArrayList<Review>> {
 	 */
 	private boolean firstRound = true;
 
-	List<Slot> slots = new ArrayList<Slot>();
+	ArrayList<Slot> slots = new ArrayList<Slot>();
 
 	/**
 	 * This function matches all participants to the reviews
@@ -266,7 +266,8 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 	private Review fillReview(List<Review> tempReviews, Room currentRoom,
 			Slot currentSlot) {
-		// take first review and after successfully adding, delete it
+		// take first review and after successfully adding, delete it from temp
+		// list
 		if (tempReviews.size() > 0) {
 
 			Participant author = null;
@@ -464,8 +465,6 @@ public class Matcher implements Callable<ArrayList<Review>> {
 					reviewer.addReview(currentReview);
 
 					// no reviewers left -> error
-				} else {
-					return false;
 				}
 
 			}
@@ -484,6 +483,10 @@ public class Matcher implements Callable<ArrayList<Review>> {
 
 	public void setFirstRound(boolean firstRound) {
 		this.firstRound = firstRound;
+	}
+
+	public ArrayList<Slot> getSlots() {
+		return slots;
 	}
 
 	/*

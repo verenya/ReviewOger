@@ -131,6 +131,8 @@ public class FileProcessor {
 	}
 
 	public void printResult(ArrayList<Review> reviews, String path) {
+		
+		
 
 		FileWriter writer;
 

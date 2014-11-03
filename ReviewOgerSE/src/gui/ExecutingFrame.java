@@ -6,6 +6,7 @@ package gui;
 import io.EmailDelivery;
 import io.FileProcessor;
 import io.IODialog;
+import io.TableOutputter;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -215,14 +216,14 @@ public class ExecutingFrame {
 			showNoSolutionFrame();
 
 		} else {
-			showSolutionFrame();
+			showSolutionFrame(matcher);
 		}
 	}
 
 	/**
 	 * Shows a frame with the possibilities after a solution was found
 	 */
-	private void showSolutionFrame() {
+	private void showSolutionFrame(final Matcher matcher) {
 
 		final JFrame solutionFrame = new JFrame();
 		solutionFrame.setLayout(new GridLayout(2, 1));
@@ -261,6 +262,9 @@ public class ExecutingFrame {
 
 					FileProcessor fr = new FileProcessor();
 					fr.printResult(reviews, file.getAbsolutePath());
+					
+					File texFile = new File(file.getAbsolutePath().replace(".txt", ".tex"));
+					TableOutputter.createTable(texFile.getAbsolutePath(), reviews, matcher);
 				}
 			}
 
