@@ -97,23 +97,42 @@ public class TableOutputter {
 			result = "\\hline";
 			writer.append(result);
 			writer.append((char) Character.LINE_SEPARATOR);
-			
-			//slot by slot
+
+			// slot by slot
 			DateFormat dateFormatter = new SimpleDateFormat("dd.MM.yy");
 			DateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 
-			for (Slot s : slots){
+			String[][] array = createArray(rooms, slots);
+			int slotCounter = 0;
+
+			for (Slot s : slots) {
 				String dateString = dateFormatter.format(s.getDate());
 				result = dateString;
 				String begin = timeFormatter.format(s.getBeginTime());
-				result = result +" & " + begin + " - ";
+				result = result + " & " + begin + " - ";
 				String end = timeFormatter.format(s.getEndTime());
-				result = result + end;
+				result = result + end + " Uhr & Review: ";
+
+				// review letters
+				for (int i = 0; i < array.length; i++) {
+					if (array[i][slotCounter] == null) {
+						result = result + "& - ";
+					} else {
+						result = result + " & " + array[i][slotCounter];
+					}
+				}
+
+				result = result + "\\\\";
+
+				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
+
+				result = "\\hline";
+				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
+
+				slotCounter++;
 			}
-			
-			
-			
-			
 
 			// end
 			result = "\\end{tabular}";
@@ -162,6 +181,32 @@ public class TableOutputter {
 		}
 
 		return roomNumbers;
+	}
+
+	
+
+	public static String[][] createArray(ArrayList<String> rooms,
+			ArrayList<Slot> slots) {
+		String[][] array = new String[slots.size()][rooms.size()];
+		int slotCounter = 0;
+
+		for (Slot slot : slots) {
+			for (Room roomInSlot : slot.getRooms()) {
+				String roomToSearch;
+
+				if (roomInSlot.hasBeamer()) {
+					roomToSearch = roomInSlot.getRoomID();
+				} else {
+					roomToSearch = roomInSlot.getRoomID() + "*";
+				}
+				int index = rooms.indexOf(roomToSearch);
+				array[index][slotCounter] = roomInSlot.getReview().getLetter();
+
+			}
+			slotCounter++;
+		}
+
+		return array;
 	}
 
 }

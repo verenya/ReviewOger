@@ -140,7 +140,7 @@ public class FileProcessor {
 			writer = new FileWriter(new File(path), true);
 
 			for (Review r : reviews) {
-				String result = "Review Gruppe " + r.getGroupNumber() + " am "
+				String result = "Review " + r.getLetter() + ": Gruppe " + r.getGroupNumber() + " am "
 						+ r.getAssignedRoom().getSlot().getFormatedDate().trim() + " in Raum " + r.getAssignedRoom().getRoomID();
 				writer.append(result);
 				writer.append((char) Character.LINE_SEPARATOR);

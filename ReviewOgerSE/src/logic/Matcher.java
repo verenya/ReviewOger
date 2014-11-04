@@ -497,6 +497,48 @@ public class Matcher implements Callable<ArrayList<Review>> {
 	@Override
 	public ArrayList<Review> call() throws Exception {
 		ArrayList<Review> reviews = MatchReview();
+		
+		if(reviews != null){
+			setLetters(reviews);
+		}
+		
 		return reviews;
+	}
+	
+	/**
+	 * This method goes through the reviews and adds a character for every
+	 * review A..Z..AA...AZ...
+	 * 
+	 * @param reviews
+	 *            the list of reviews
+	 */
+	private static void setLetters(ArrayList<Review> reviews) {
+		char letter = 'A';
+		char prefix = '0';
+
+		for (Review r : reviews) {
+			if (prefix == '0') {
+				r.setLetter(String.valueOf(letter));
+			} else {
+				r.setLetter(String.valueOf(prefix) + letter);
+			}
+
+			if (letter == 'Z') {
+				// reset
+				letter = 'A';
+				// fix prefix
+				if (prefix == '0') {
+					prefix = 'A';
+
+				} else {
+					prefix++;
+				}
+
+			} else {
+
+				letter++;
+			}
+		}
+
 	}
 }

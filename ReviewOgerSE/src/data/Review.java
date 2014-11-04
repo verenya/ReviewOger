@@ -25,6 +25,8 @@ public class Review {
 	private Room assignedRoom;
 	// The group number of the reviewed group
 	private int groupNumber;
+	//letter for anonymisation
+	private String letter;
 
 
 	public Participant getAuthor() {
@@ -105,6 +107,14 @@ public class Review {
 
 	public ArrayList<Participant> getReviewers() {
 		return reviewers;
+	}
+
+	public String getLetter() {
+		return letter;
+	}
+
+	public void setLetter(String string) {
+		this.letter = string;
 	}
 
 }
