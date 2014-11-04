@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JOptionPane;
 
@@ -14,6 +15,7 @@ import logic.Matcher;
 import data.Review;
 import data.Room;
 import data.Slot;
+import data.SortSlot;
 
 public class TableOutputter {
 
@@ -21,7 +23,18 @@ public class TableOutputter {
 			ArrayList<Review> reviews, Matcher matcher) {
 		FileWriter writer;
 
-		ArrayList<Slot> slots = matcher.getSlots();
+		ArrayList<Slot> tempSlots = matcher.getSlots();
+		ArrayList<SortSlot> slots = new ArrayList<SortSlot>();
+
+		for (Slot s : tempSlots) {
+			SortSlot newSlot = new SortSlot(s.getDate(), s.getBeginTime(),
+					s.getEndTime());
+			newSlot.setRooms(s.getRooms());
+			slots.add(newSlot);
+		}
+
+		Collections.sort(slots);
+
 		ArrayList<String> rooms = getRoomNumbers(slots);
 
 		try {
@@ -162,7 +175,7 @@ public class TableOutputter {
 		}
 	}
 
-	private static ArrayList<String> getRoomNumbers(ArrayList<Slot> slots) {
+	private static ArrayList<String> getRoomNumbers(ArrayList<SortSlot> slots) {
 		ArrayList<String> roomNumbers = new ArrayList<String>();
 
 		for (Slot s : slots) {
@@ -183,10 +196,8 @@ public class TableOutputter {
 		return roomNumbers;
 	}
 
-	
-
 	public static String[][] createArray(ArrayList<String> rooms,
-			ArrayList<Slot> slots) {
+			ArrayList<SortSlot> slots) {
 		String[][] array = new String[slots.size()][rooms.size()];
 		int slotCounter = 0;
 
