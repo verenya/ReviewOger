@@ -1,10 +1,13 @@
-/**
-
-
- * 
- * 
- * This class represents one pool for a review. A pool holds all participants which can be added to a review. These participants have no other review in the same time slot, have not the same group as the author of the review and have not participated in the maximum amount of reviews for each participabt.  
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package logic;
 
 import java.util.ArrayList;
@@ -15,6 +18,12 @@ import data.Review;
 import data.Room;
 import data.Slot;
 
+/**
+ * This class represents one pool for a review. A pool holds all participants
+ * which can be added to a review. These participants have no other review in
+ * the same time slot, have not the same group as the author of the review and
+ * have not participated in the maximum amount of reviews for each participabt.
+ */
 public class Pool {
 
 	static ArrayList<Participant> reviewerList = new ArrayList<Participant>();

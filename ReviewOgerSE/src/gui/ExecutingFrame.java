@@ -1,6 +1,13 @@
-/**
- * This class shows a frame with a progress bar while Oger is running
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package gui;
 
 import io.EmailDelivery;
@@ -33,6 +40,9 @@ import data.ReviewPlan;
 import logic.Matcher;
 import logic.RandomFunctions;
 
+/**
+ * This class shows a frame with a progress bar while Oger is running
+ */
 public class ExecutingFrame {
 
 	ArrayList<Review> reviews = new ArrayList<Review>();
@@ -248,7 +258,7 @@ public class ExecutingFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				File file = IODialog.showSaveDialog(".txt");
+				File file = IODialog.showSaveDialog(".txt", false);
 				if (file != null) {
 					PrintWriter pw;
 					try {
@@ -256,15 +266,32 @@ public class ExecutingFrame {
 						pw.print("");
 						pw.close();
 					} catch (FileNotFoundException e1) {
-						JOptionPane.showMessageDialog(null, "Datei konnte nicht gefunden werden",
-								"Fehler", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,
+								"Datei konnte nicht gefunden werden", "Fehler",
+								JOptionPane.ERROR_MESSAGE);
 					}
 
 					FileProcessor fr = new FileProcessor();
 					fr.printResult(reviews, file.getAbsolutePath());
-					
-					File texFile = new File(file.getAbsolutePath().replace(".txt", ".tex"));
-					TableOutputter.createTable(texFile.getAbsolutePath(), reviews, matcher);
+
+					File texFile = new File(file.getAbsolutePath().replace(
+							".txt", ".tex"));
+
+					if (texFile != null) {
+						PrintWriter printWriter;
+						try {
+							printWriter = new PrintWriter(texFile);
+							printWriter.print("");
+							printWriter.close();
+						} catch (FileNotFoundException e1) {
+							JOptionPane.showMessageDialog(null,
+									"Datei konnte nicht gefunden werden",
+									"Fehler", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+
+					TableOutputter.createTable(texFile.getAbsolutePath(),
+							reviews, matcher);
 				}
 			}
 

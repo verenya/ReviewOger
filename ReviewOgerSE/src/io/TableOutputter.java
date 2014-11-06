@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package io;
 
 import java.io.File;
@@ -17,6 +27,9 @@ import data.Room;
 import data.Slot;
 import data.SortSlot;
 
+/**
+ * This class parses the reviews to an overview table in Latex
+ */
 public class TableOutputter {
 
 	public static void createTable(String pathToFile,
@@ -164,17 +177,23 @@ public class TableOutputter {
 			writer.append(result);
 
 			writer.close();
+
 		} catch (FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(null,
-					"Konnte Ergebnis-Datei nicht schreiben", "Error",
+					"Konnte Ergebnis-Tabelle nicht schreiben", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(null,
-					"Konnte Ergebnis-Datei nicht schreiben", "Error",
+					"Konnte Ergebnis-Tabelle nicht schreiben", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
+	/**
+	 * @param slots
+	 *            the sorted slot list
+	 * @return a list of all room numbers
+	 */
 	private static ArrayList<String> getRoomNumbers(ArrayList<SortSlot> slots) {
 		ArrayList<String> roomNumbers = new ArrayList<String>();
 
@@ -196,6 +215,13 @@ public class TableOutputter {
 		return roomNumbers;
 	}
 
+	/**
+	 * @param rooms
+	 *            the list of room IDs
+	 * @param slots
+	 *            the sorted slot list
+	 * @return an array which has the match between the slot and the rooms
+	 */
 	public static String[][] createArray(ArrayList<String> rooms,
 			ArrayList<SortSlot> slots) {
 		String[][] array = new String[slots.size()][rooms.size()];

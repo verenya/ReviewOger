@@ -1,7 +1,13 @@
-/**
- * This class provides functions for the random selection of participants and the random shuffeling of the current review plan
- */
-
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package logic;
 
 import java.util.List;
@@ -11,6 +17,10 @@ import data.Participant;
 import data.Review;
 import data.ReviewPlan;
 
+/**
+ * This class provides functions for the random selection of participants and
+ * the random shuffeling of the current review plan
+ */
 public class RandomFunctions {
 
 	/**

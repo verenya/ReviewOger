@@ -1,6 +1,13 @@
-/**
- * This class holds the methods to read a list of participants 
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package io;
 
 import java.io.File;
@@ -20,6 +27,9 @@ import data.Participant;
 import data.ParticipantTableModel;
 import data.Review;
 
+/**
+ * This class holds the methods to read a list of participants
+ */
 public class FileProcessor {
 
 	private Path filePath;
@@ -131,8 +141,6 @@ public class FileProcessor {
 	}
 
 	public void printResult(ArrayList<Review> reviews, String path) {
-		
-		
 
 		FileWriter writer;
 
@@ -140,31 +148,44 @@ public class FileProcessor {
 			writer = new FileWriter(new File(path), true);
 
 			for (Review r : reviews) {
-				String result = "Review " + r.getLetter() + ": Gruppe " + r.getGroupNumber() + " am "
-						+ r.getAssignedRoom().getSlot().getFormatedDate().trim() + " in Raum " + r.getAssignedRoom().getRoomID();
+				String result = "Review "
+						+ r.getLetter()
+						+ ": Gruppe "
+						+ r.getGroupNumber()
+						+ " am "
+						+ r.getAssignedRoom().getSlot().getFormatedDate()
+								.trim() + " in Raum "
+						+ r.getAssignedRoom().getRoomID();
 				writer.append(result);
 				writer.append((char) Character.LINE_SEPARATOR);
-				
-				if(!r.getAssignedRoom().hasBeamer()){
+
+				if (!r.getAssignedRoom().hasBeamer()) {
 					writer.append("Beamer benötigt");
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
 
 				if (r.getAuthor() != null) {
 					Participant author = r.getAuthor();
-					result = "Author: " + author.getFirstName().replace(" ", "").trim() + " "
-							+ author.getLastName().replace(" ", "").trim() + " "
-							+ author.geteMailAdress().replace(" ", "").trim() + " Gruppe "
-							+ author.getGroupNumber();
+					result = "Author: "
+							+ author.getFirstName().replace(" ", "").trim()
+							+ " "
+							+ author.getLastName().replace(" ", "").trim()
+							+ " "
+							+ author.geteMailAdress().replace(" ", "").trim()
+							+ " Gruppe " + author.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
 
 				if (r.getModerator() != null) {
 					Participant moderator = r.getModerator();
-					result = "Moderator: " + moderator.getFirstName().replace(" ", "").trim() + " "
-							+ moderator.getLastName().replace(" ", "").trim() + " "
-							+ moderator.geteMailAdress().replace(" ", "").trim() + " Gruppe "
+					result = "Moderator: "
+							+ moderator.getFirstName().replace(" ", "").trim()
+							+ " "
+							+ moderator.getLastName().replace(" ", "").trim()
+							+ " "
+							+ moderator.geteMailAdress().replace(" ", "")
+									.trim() + " Gruppe "
 							+ moderator.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
@@ -172,19 +193,25 @@ public class FileProcessor {
 
 				if (r.getScribe() != null) {
 					Participant scribe = r.getScribe();
-					result = "Notar: " + scribe.getFirstName().replace(" ", "").trim() + " "
-							+ scribe.getLastName().replace(" ", "").trim() + " "
-							+ scribe.geteMailAdress().replace(" ", "").trim() + " Gruppe "
-							+ scribe.getGroupNumber();
+					result = "Notar: "
+							+ scribe.getFirstName().replace(" ", "").trim()
+							+ " "
+							+ scribe.getLastName().replace(" ", "").trim()
+							+ " "
+							+ scribe.geteMailAdress().replace(" ", "").trim()
+							+ " Gruppe " + scribe.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
 
 				for (Participant reviewer : r.getReviewers()) {
-					result = "Gutachter: " + reviewer.getFirstName().replace(" ", "").trim() + " "
-							+ reviewer.getLastName().replace(" ", "").trim() + " "
-							+ reviewer.geteMailAdress().replace(" ", "").trim() + " Gruppe "
-							+ reviewer.getGroupNumber();
+					result = "Gutachter: "
+							+ reviewer.getFirstName().replace(" ", "").trim()
+							+ " "
+							+ reviewer.getLastName().replace(" ", "").trim()
+							+ " "
+							+ reviewer.geteMailAdress().replace(" ", "").trim()
+							+ " Gruppe " + reviewer.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}

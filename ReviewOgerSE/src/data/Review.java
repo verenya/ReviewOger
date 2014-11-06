@@ -1,11 +1,21 @@
-/**
- * This class represents a complete review at least consisting of author, scribe, 3 reviewers, date, time and place.
- */
-
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package data;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a complete review at least consisting of author,
+ * scribe, 3 reviewers, date, time and place.
+ */
 public class Review {
 
 	public Review(Participant author) {
@@ -25,9 +35,8 @@ public class Review {
 	private Room assignedRoom;
 	// The group number of the reviewed group
 	private int groupNumber;
-	//letter for anonymisation
+	// letter for anonymisation
 	private String letter;
-
 
 	public Participant getAuthor() {
 		return author;
@@ -85,9 +94,6 @@ public class Review {
 			return true;
 		}
 	}
-
-
-	
 
 	public Room getAssignedRoom() {
 		return assignedRoom;

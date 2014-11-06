@@ -1,7 +1,13 @@
-/**
- * This class represents a room where a review can take place
- */
-
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package data;
 
 import java.text.DateFormat;
@@ -9,6 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * This class represents a room where a review can take place
+ */
 public class Room {
 
 	public Room(String roomNumber, boolean hasBeamer, Date beginTime,

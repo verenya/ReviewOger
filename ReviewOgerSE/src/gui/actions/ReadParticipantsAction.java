@@ -1,6 +1,13 @@
-/**
- * This class implements an abstract action that is called when a list of participants should be read
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package gui.actions;
 
 import io.FileProcessor;
@@ -13,6 +20,10 @@ import javax.swing.JFileChooser;
 
 import main.Main;
 
+/**
+ * This class implements an abstract action that is called when a list of
+ * participants should be read
+ */
 public class ReadParticipantsAction extends AbstractAction {
 
 	private static final long serialVersionUID = 195034471242396979L;

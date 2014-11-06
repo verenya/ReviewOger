@@ -1,11 +1,20 @@
-/**
- * This class represents a single participant of the reviews
- */
-
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package data;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a single participant of the reviews
+ */
 public class Participant implements Comparable<Participant> {
 
 	public Participant(String firstName, String lastName, String eMail,
@@ -68,12 +77,14 @@ public class Participant implements Comparable<Participant> {
 		this.groupNumber = groupNumber;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
 	public int compareTo(Participant o) {
-		//sorting by group number
+		// sorting by group number
 		if (o.groupNumber < this.groupNumber) {
 			return -1;
 		} else if (o.groupNumber == this.groupNumber) {
@@ -102,7 +113,7 @@ public class Participant implements Comparable<Participant> {
 		reviews.add(review);
 	}
 
-	public void resetReviews(){
+	public void resetReviews() {
 		reviews.clear();
 	}
 }

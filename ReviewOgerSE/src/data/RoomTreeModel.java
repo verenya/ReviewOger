@@ -1,6 +1,13 @@
-/**
- * This class holds the root node of the room tree model. A singleton.
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package data;
 
 import gui.Gui;
@@ -11,6 +18,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
+/**
+ * This class holds the root node of the room tree model. A singleton.
+ */
 public class RoomTreeModel extends DefaultTreeModel {
 
 	private RoomTreeModel(TreeNode name) {

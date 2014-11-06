@@ -1,7 +1,13 @@
-/**
- * This class represents a slot at a specific time and knows which rooms are available at that time.
- */
-
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package data;
 
 import java.text.DateFormat;
@@ -11,6 +17,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+/**
+ * This class represents a slot at a specific time and knows which rooms are
+ * available at that time.
+ */
 public class Slot implements Comparable<Slot> {
 
 	public Slot(Date date, Date beginTime, Date endTime) {

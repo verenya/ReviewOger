@@ -1,6 +1,13 @@
-/**
- * This class is the table model of the participant table
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package data;
 
 import java.util.ArrayList;
@@ -9,8 +16,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * @author verena
- * 
+ * This class is the table model of the participant table
  */
 public class ParticipantTableModel extends AbstractTableModel {
 

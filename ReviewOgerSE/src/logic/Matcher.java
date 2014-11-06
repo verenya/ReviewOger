@@ -1,6 +1,13 @@
-/**
- * This class provides the main logical functions to match participants to reviews
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package logic;
 
 import java.util.ArrayList;
@@ -22,6 +29,10 @@ import data.RoomTreeModel;
 import data.Slot;
 import data.SlotNode;
 
+/**
+ * This class provides the main logical functions to match participants to
+ * reviews
+ */
 public class Matcher implements Callable<ArrayList<Review>> {
 
 	public Matcher(String exitSelection, boolean scribeIsAuthor,
@@ -497,14 +508,14 @@ public class Matcher implements Callable<ArrayList<Review>> {
 	@Override
 	public ArrayList<Review> call() throws Exception {
 		ArrayList<Review> reviews = MatchReview();
-		
-		if(reviews != null){
+
+		if (reviews != null) {
 			setLetters(reviews);
 		}
-		
+
 		return reviews;
 	}
-	
+
 	/**
 	 * This method goes through the reviews and adds a character for every
 	 * review A..Z..AA...AZ...

@@ -1,6 +1,13 @@
-/**
- * This class provides a GUI for editing a slot
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package gui.actions;
 
 import gui.Gui;
@@ -24,11 +31,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import main.Main;
 import data.Slot;
 
+/**
+ * This class provides a GUI for editing a slot
+ */
 public class EditSlotAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3746794815943075198L;
 
 	@Override

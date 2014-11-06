@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package gui;
 
 import gui.actions.AddParticipantAction;
@@ -43,6 +53,9 @@ import main.Main;
 import data.ParticipantTableModel;
 import data.RoomTreeModel;
 
+/**
+ * This class holds the GUI
+ */
 public class Gui extends JFrame {
 	/**
 	 * 
@@ -303,7 +316,6 @@ public class Gui extends JFrame {
 
 		roomTree = new JTree(RoomTreeModel.getInstance());
 		roomScrollPane.setViewportView(roomTree);
-
 
 		JPanel roomButtonPanel = new JPanel();
 		GridBagConstraints gbc_roomButtonPanel = new GridBagConstraints();

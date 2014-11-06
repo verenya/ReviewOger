@@ -1,6 +1,13 @@
-/**
- * This class holds the functionality of loading and saving participants, slots and rooms 
- */
+/*******************************************************************************
+ * Copyright (c) 2014 Verena Käfer.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * Contributors:
+ * Verena Käfer - initial version
+ *******************************************************************************/
 package io;
 
 import gui.Gui;
@@ -36,13 +43,17 @@ import data.RoomTreeModel;
 import data.Slot;
 import data.SlotNode;
 
+/**
+ * This class holds the functionality of loading and saving participants, slots
+ * and rooms
+ */
 public class LoadSave {
 	/**
 	 * Saves the current status to a .oger file
 	 */
 	public static void save() {
 		// get the selected file
-		File file = IODialog.showSaveDialog(".oger");
+		File file = IODialog.showSaveDialog(".oger", true);
 		// not canceled
 		if (file != null) {
 			DefaultTreeModel treeModel = RoomTreeModel.getInstance();
