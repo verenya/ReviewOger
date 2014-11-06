@@ -1,4 +1,4 @@
 ReviewOger
 ==========
 
-A tool to mach participants on reviews under certain conditions
+A tool to match participants on reviews under certain conditions
