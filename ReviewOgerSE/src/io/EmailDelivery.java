@@ -294,7 +294,7 @@ public class EmailDelivery {
 						// attach correct participants for every review
 						for (Review currentReview : reviews) {
 							String separateFinalEmailText = finalEmailText
-									+ "<br>Review"
+									+ "<br>Review "
 									+ currentReview.getLetter()
 									+ ": Gruppe "
 									+ currentReview.getGroupNumber()
