@@ -9,12 +9,13 @@
  * Verena Käfer - initial version
  *******************************************************************************/
 
-
 import static org.junit.Assert.*;
 import io.FileProcessor;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -78,25 +79,6 @@ public class MatcherTest {
 					for (Participant p : ParticipantTableModel.getInstance()
 							.getParticipants()) {
 						for (Review r : p.getReviews()) {
-							FileProcessor fr = new FileProcessor();
-							if (p.getReviews().lastIndexOf(r) != p.getReviews()
-									.indexOf(r)) {
-								File file = new File(
-										"/home/verena/Desktop/h.txt");
-								PrintWriter pw;
-								if (file.exists()) {
-									try {
-										pw = new PrintWriter(file);
-										pw.print("");
-										pw.close();
-									} catch (FileNotFoundException e1) {
-
-										e1.printStackTrace();
-									}
-								}
-								fr.printResult(result,
-										"/home/verena/Desktop/h.txt");
-							}
 							assertEquals(p.getReviews().lastIndexOf(r), p
 									.getReviews().indexOf(r));
 						}
@@ -201,7 +183,8 @@ public class MatcherTest {
 
 		try {
 			// Create a new JDOM document from a oger file
-			File file = new File("/home/verena/Oger/reviews.oger");
+			URL url = Test.class.getClassLoader().getResource("resources/reviews.oger");
+			File file = new File(url.getPath());
 			document = saxBuilder.build(file);
 		} catch (Exception e) {
 			JOptionPane
