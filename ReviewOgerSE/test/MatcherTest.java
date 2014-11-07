@@ -8,7 +8,7 @@
  * Contributors:
  * Verena Käfer - initial version
  *******************************************************************************/
-package junit;
+
 
 import static org.junit.Assert.*;
 import io.FileProcessor;
