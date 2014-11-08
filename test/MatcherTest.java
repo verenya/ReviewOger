@@ -10,12 +10,7 @@
  *******************************************************************************/
 
 import static org.junit.Assert.*;
-import io.FileProcessor;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -183,8 +178,7 @@ public class MatcherTest {
 
 		try {
 			// Create a new JDOM document from a oger file
-			URL url = Test.class.getClassLoader().getResource("resources/reviews.oger");
-			File file = new File(url.getPath());
+			File file = new File("res-test/reviews.oger");
 			document = saxBuilder.build(file);
 		} catch (Exception e) {
 			JOptionPane
