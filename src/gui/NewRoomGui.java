@@ -41,7 +41,7 @@ public class NewRoomGui {
 	/**
 	 * This method shows a dialog for the slot data and generates a new slot.
 	 */
-	public static void addRoom() {
+	public static void addRoom(JFrame parent) {
 
 		final DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) Gui
 				.getRoomTree().getLastSelectedPathComponent();
@@ -150,6 +150,7 @@ public class NewRoomGui {
 			});
 			roomFrame.add(doneButton);
 
+			roomFrame.setLocationRelativeTo(parent);
 			roomFrame.setVisible(true);
 			roomFrame.pack();
 		} else {

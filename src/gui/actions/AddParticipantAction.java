@@ -32,6 +32,12 @@ import data.ParticipantTableModel;
  * should be added
  */
 public class AddParticipantAction extends AbstractAction {
+	
+	private JFrame parent;
+	
+	public AddParticipantAction(JFrame parent) {
+		this.parent = parent;
+	}
 
 	/**
 	 * 
@@ -107,6 +113,7 @@ public class AddParticipantAction extends AbstractAction {
 
 		});
 
+		participantFrame.setLocationRelativeTo(parent);
 		participantFrame.setVisible(true);
 		participantFrame.pack();
 

@@ -221,7 +221,7 @@ public class Gui extends JFrame {
 				Double.MIN_VALUE };
 		participantButtonPanle.setLayout(gbl_participantButtonPanle);
 
-		JButton participantAddButton = new JButton(new AddParticipantAction());
+		JButton participantAddButton = new JButton(new AddParticipantAction(this));
 		GridBagConstraints gbc_participantAddButton = new GridBagConstraints();
 		gbc_participantAddButton.fill = GridBagConstraints.BOTH;
 		gbc_participantAddButton.insets = new Insets(0, 0, 5, 5);
@@ -232,7 +232,7 @@ public class Gui extends JFrame {
 
 		participantAddButton.setText("Hinzufügen");
 
-		JButton participantEditButton = new JButton(new EditParticipantAction());
+		JButton participantEditButton = new JButton(new EditParticipantAction(this));
 		GridBagConstraints gbc_participantEditButton = new GridBagConstraints();
 		gbc_participantEditButton.insets = new Insets(0, 0, 5, 0);
 		gbc_participantEditButton.fill = GridBagConstraints.BOTH;
@@ -336,7 +336,7 @@ public class Gui extends JFrame {
 		JButton newSlotButton = new JButton("Neuer Slot");
 		newSlotButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewSlotGui.addSlot();
+				NewSlotGui.addSlot(instance);
 			}
 		});
 
@@ -350,7 +350,7 @@ public class Gui extends JFrame {
 		JButton newRoomButton = new JButton("Neuer Raum");
 		newRoomButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewRoomGui.addRoom();
+				NewRoomGui.addRoom(instance);
 			}
 		});
 		GridBagConstraints gbc_newRoomButton = new GridBagConstraints();
@@ -360,7 +360,7 @@ public class Gui extends JFrame {
 		gbc_newRoomButton.gridy = 0;
 		roomButtonPanel.add(newRoomButton, gbc_newRoomButton);
 
-		JButton slotEditButton = new JButton(new EditSlotAction());
+		JButton slotEditButton = new JButton(new EditSlotAction(this));
 		slotEditButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -372,7 +372,7 @@ public class Gui extends JFrame {
 		gbc_slotEditButton.gridy = 1;
 		roomButtonPanel.add(slotEditButton, gbc_slotEditButton);
 
-		JButton roomEditButton = new JButton(new EditRoomAction());
+		JButton roomEditButton = new JButton(new EditRoomAction(this));
 		roomEditButton.setText("Raum Bearbeiten");
 		GridBagConstraints gbc_roomEditButton = new GridBagConstraints();
 		gbc_roomEditButton.insets = new Insets(0, 0, 5, 0);

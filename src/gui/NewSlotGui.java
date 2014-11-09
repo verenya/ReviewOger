@@ -36,11 +36,12 @@ import data.SlotNode;
  * slot
  */
 public class NewSlotGui {
+	
 
 	/**
 	 * This method shows a dialog for the slot data and generates a new slot.
 	 */
-	public static void addSlot() {
+	public static void addSlot(JFrame parent) {
 
 		final JFrame slotFrame = new JFrame();
 
@@ -127,6 +128,7 @@ public class NewSlotGui {
 		});
 		slotFrame.add(doneButton);
 
+		slotFrame.setLocationRelativeTo(parent);
 		slotFrame.setVisible(true);
 		slotFrame.pack();
 

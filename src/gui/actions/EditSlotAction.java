@@ -35,6 +35,13 @@ import data.Slot;
  * This class provides a GUI for editing a slot
  */
 public class EditSlotAction extends AbstractAction {
+	
+	private JFrame parent;
+	
+	public EditSlotAction(JFrame parent) {
+		this.parent = parent;
+	}
+
 
 	private static final long serialVersionUID = 3746794815943075198L;
 
@@ -136,6 +143,7 @@ public class EditSlotAction extends AbstractAction {
 			});
 			roomFrame.add(doneButton);
 
+			roomFrame.setLocationRelativeTo(parent);
 			roomFrame.setVisible(true);
 			roomFrame.pack();
 
