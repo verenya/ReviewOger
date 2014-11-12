@@ -62,16 +62,10 @@ public class TableOutputter {
 			result = "\\usepackage[german]{babel}";
 			writer.append(result);
 			writer.append((char) Character.LINE_SEPARATOR);
-			result = "\\usepackage{amsmath}";
-			writer.append(result);
-			writer.append((char) Character.LINE_SEPARATOR);
-			result = "\\usepackage{amsfonts}";
-			writer.append(result);
-			writer.append((char) Character.LINE_SEPARATOR);
-			result = "\\usepackage{amssymb}";
-			writer.append(result);
-			writer.append((char) Character.LINE_SEPARATOR);
 			result = "\\usepackage{multirow}";
+			writer.append(result);
+			writer.append((char) Character.LINE_SEPARATOR);
+			result = "\\usepackage[landscape]{geometry}";
 			writer.append(result);
 			writer.append((char) Character.LINE_SEPARATOR);
 			result = "\\usepackage{a4wide}";
@@ -140,11 +134,11 @@ public class TableOutputter {
 				result = result + end + " Uhr & Review: ";
 
 				// review letters
-				for (int i = 0; i < array.length; i++) {
-					if (array[i][slotCounter] == null) {
+				for (int i = 0; i < array.length + 1; i++) {
+					if (array[slotCounter][i] == null) {
 						result = result + "& - ";
 					} else {
-						result = result + " & " + array[i][slotCounter];
+						result = result + " & " + array[slotCounter][i];
 					}
 				}
 
@@ -237,8 +231,15 @@ public class TableOutputter {
 					roomToSearch = roomInSlot.getRoomID() + "*";
 				}
 				int index = rooms.indexOf(roomToSearch);
-				array[index][slotCounter] = roomInSlot.getReview().getLetter();
+				System.out.println(index + " " + slotCounter);
 
+				if (roomInSlot.getReview() == null) {
+					array[slotCounter][index] = "-";
+				} else {
+					array[slotCounter][index] = roomInSlot.getReview()
+							.getLetter();
+
+				}
 			}
 			slotCounter++;
 		}
