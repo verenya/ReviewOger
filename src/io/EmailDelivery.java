@@ -296,9 +296,7 @@ public class EmailDelivery {
 							String separateFinalEmailText = finalEmailText
 									+ "<br>Review "
 									+ currentReview.getLetter()
-									+ ": Gruppe "
-									+ currentReview.getGroupNumber()
-									+ ": Raum "
+									+ " Raum "
 									+ currentReview.getAssignedRoom()
 											.getRoomID()
 									+ " am "
@@ -504,6 +502,8 @@ public class EmailDelivery {
 		Review review = null;
 		Room room = null;
 
+		String currentLetter = "";
+		
 		while (scanner.hasNextLine() && !error) {
 
 			String currentLine = scanner.nextLine();
@@ -520,14 +520,16 @@ public class EmailDelivery {
 					// clock
 					Date begin;
 					try {
-						Date date = dateFormat.parse(splitReview[4]);
-						begin = timeFormat.parse(splitReview[6]);
-						Date end = timeFormat.parse(splitReview[9]);
-						room = new Room(splitReview[13], false, begin, end);
+						Date date = dateFormat.parse(splitReview[5]);
+						begin = timeFormat.parse(splitReview[7]);
+						Date end = timeFormat.parse(splitReview[10]);
+						room = new Room(splitReview[14], false, begin, end);
 						room.setSlot(new Slot(date, begin, end));
+						currentLetter = splitReview[1];
 					} catch (ParseException e) {
 						JOptionPane.showMessageDialog(null,
 								"Fehler beim Einlesen");
+						e.printStackTrace();
 						error = true;
 					}
 
@@ -547,6 +549,7 @@ public class EmailDelivery {
 							review = new Review(current);
 							review.setGroupNumber(current.getGroupNumber());
 							review.setAssignedRoom(room);
+							review.setLetter(currentLetter);
 						}
 
 						if (currentLine.startsWith("Moderator")) {
@@ -560,9 +563,11 @@ public class EmailDelivery {
 						if (currentLine.startsWith("Gutachter")) {
 							review.addReviewer(current);
 						}
+					
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null,
 								"Fehler beim Einlesen");
+						e.printStackTrace();
 						error = true;
 					}
 
