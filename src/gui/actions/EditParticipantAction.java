@@ -34,6 +34,15 @@ import data.ParticipantTableModel;
  * should be edited
  */
 public class EditParticipantAction extends AbstractAction {
+	
+
+	private JFrame parent;
+	
+	public EditParticipantAction(JFrame parent) {
+		this.parent = parent;
+	}
+
+	
 
 	/**
 	 * 
@@ -127,6 +136,7 @@ public class EditParticipantAction extends AbstractAction {
 
 			});
 
+			participantFrame.setLocationRelativeTo(parent);
 			participantFrame.setVisible(true);
 			participantFrame.pack();
 		}

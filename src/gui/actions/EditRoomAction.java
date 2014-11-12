@@ -36,6 +36,14 @@ import data.Room;
  * This class provides a gui for editing a room
  */
 public class EditRoomAction extends AbstractAction {
+	
+	private JFrame parent;
+	
+	public EditRoomAction(JFrame parent) {
+		this.parent = parent;
+	}
+
+	
 
 	private static final long serialVersionUID = 3746794815943075198L;
 
@@ -136,6 +144,7 @@ public class EditRoomAction extends AbstractAction {
 			});
 			roomFrame.add(doneButton);
 
+			roomFrame.setLocationRelativeTo(parent);
 			roomFrame.setVisible(true);
 			roomFrame.pack();
 
