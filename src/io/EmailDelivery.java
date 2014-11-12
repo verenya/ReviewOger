@@ -134,7 +134,7 @@ public class EmailDelivery {
 
 				String emailText = finalEmailText
 						+ "<br>Review Gruppe i: Raum x von y bis z<br>"
-						+ "Author: <br>" + "Moderator: <br>" + "Notar: <br>"
+						+ "Autor: <br>" + "Moderator: <br>" + "Notar: <br>"
 						+ "Gutachter: <br>";
 
 				JLabel textLabel = new JLabel(emailText);
