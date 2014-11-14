@@ -129,15 +129,20 @@ public class FileProcessor {
 	 *            the current line
 	 */
 	protected void processLine(String line) {
-		String[] splitResult = line.split(";");
-		String firstName = splitResult[0];
-		String lastName = splitResult[1];
-		String email = splitResult[2];
-		int group = Integer.parseInt(splitResult[3]);
 
-		Participant newParticipant = new Participant(firstName, lastName,
-				email, group);
-		ParticipantTableModel.getInstance().addParticipant(newParticipant);
+		if (line.equals("")) {
+			// do nothing, empty line
+		} else {
+			String[] splitResult = line.split(";");
+			String firstName = splitResult[0];
+			String lastName = splitResult[1];
+			String email = splitResult[2];
+			int group = Integer.parseInt(splitResult[3]);
+
+			Participant newParticipant = new Participant(firstName, lastName,
+					email, group);
+			ParticipantTableModel.getInstance().addParticipant(newParticipant);
+		}
 	}
 
 	public void printResult(ArrayList<Review> reviews, String path) {
