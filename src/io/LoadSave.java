@@ -117,28 +117,28 @@ public class LoadSave {
 
 				String date = dateFormatter.format(currentSlot.getDate()
 						.getTime());
-				Attribute dateAttribute = new Attribute("Datum", date);
+				Attribute dateAttribute = new Attribute("Date", date);
 				slotElement.setAttribute(dateAttribute);
 
 				String begin = beginFormatter.format(currentSlot.getBeginTime()
 						.getTime());
-				Attribute beginAttribute = new Attribute("Beginn", begin);
+				Attribute beginAttribute = new Attribute("Begin", begin);
 				slotElement.setAttribute(beginAttribute);
 
 				String end = endFormatter.format(currentSlot.getEndTime()
 						.getTime());
-				Attribute endAttribute = new Attribute("Ende", end);
+				Attribute endAttribute = new Attribute("End", end);
 				slotElement.setAttribute(endAttribute);
 
 				// all rooms
-				Element allRoomsElement = new Element("AlleRäume");
+				Element allRoomsElement = new Element("AllRooms");
 
 				for (Enumeration<RoomNode> enumRooms = currentSlotNode
 						.children(); enumRooms.hasMoreElements();) {
 					currentRoomNode = (RoomNode) enumRooms.nextElement();
 					Room currentRoom = (Room) currentRoomNode.getUserObject();
 
-					Element roomElement = new Element("Raum");
+					Element roomElement = new Element("Room");
 
 					Attribute beamerAttribute;
 					if (currentRoom.hasBeamer()) {
@@ -154,13 +154,13 @@ public class LoadSave {
 
 					String beginRoom = beginFormatter.format(currentRoom
 							.getBeginTime().getTime());
-					Attribute beginRoomAttribute = new Attribute("Beginn",
+					Attribute beginRoomAttribute = new Attribute("Begin",
 							beginRoom);
 					roomElement.setAttribute(beginRoomAttribute);
 
 					String endRoom = endFormatter.format(currentRoom
 							.getEndTime().getTime());
-					Attribute endRoomAttribute = new Attribute("Ende", endRoom);
+					Attribute endRoomAttribute = new Attribute("End", endRoom);
 					roomElement.setAttribute(endRoomAttribute);
 
 					allRoomsElement.addContent(roomElement);
@@ -269,7 +269,7 @@ public class LoadSave {
 
 				try {
 					date = dateFormat.parse(slotElement
-							.getAttributeValue("Datum"));
+							.getAttributeValue("Date"));
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(null,
 							"Konnte Slot-Datum nicht parsen",
@@ -279,7 +279,7 @@ public class LoadSave {
 
 				try {
 					beginTime = timeFormat.parse(slotElement
-							.getAttributeValue("Beginn"));
+							.getAttributeValue("Begin"));
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(null,
 							"Konnte Slot-Angfangszeit nicht parsen",
@@ -290,7 +290,7 @@ public class LoadSave {
 
 				try {
 					endTime = timeFormat.parse(slotElement
-							.getAttributeValue("Ende"));
+							.getAttributeValue("End"));
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(null,
 							"Konnte Slot-Endzeit nicht parsen",
@@ -306,8 +306,8 @@ public class LoadSave {
 							.getRoot()).add(newSlotNode);
 
 					// Rooms
-					Element roomsElement = slotElement.getChild("AlleRäume");
-					for (Element roomElement : roomsElement.getChildren("Raum")) {
+					Element roomsElement = slotElement.getChild("AllRooms");
+					for (Element roomElement : roomsElement.getChildren("Room")) {
 						parseFailed = false;
 
 						String roomString = roomElement.getAttributeValue("ID");
@@ -331,7 +331,7 @@ public class LoadSave {
 
 						try {
 							roomBeginTime = timeFormat.parse(roomElement
-									.getAttributeValue("Beginn"));
+									.getAttributeValue("Begin"));
 						} catch (ParseException e) {
 							JOptionPane.showMessageDialog(null,
 									"Konnte Slot-Angfangszeit nicht parsen",
@@ -342,7 +342,7 @@ public class LoadSave {
 
 						try {
 							roomEndTime = timeFormat.parse(roomElement
-									.getAttributeValue("Ende"));
+									.getAttributeValue("End"));
 						} catch (ParseException e) {
 							JOptionPane.showMessageDialog(null,
 									"Konnte Slot-Endzeit nicht parsen",
