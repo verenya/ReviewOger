@@ -95,6 +95,7 @@ public class NewRoomGui {
 			roomFrame.add(hasBeamerLabel);
 
 			final JCheckBox hasBeamerBox = new JCheckBox();
+			hasBeamerBox.setSelected(true);
 			roomFrame.add(hasBeamerBox);
 
 			JButton doneButton = new JButton("OK");
