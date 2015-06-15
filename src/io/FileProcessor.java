@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena KÃ¤fer.
+ * Copyright (c) 2014 Verena Käfer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena KÃ¤fer - initial version
+ * Verena Käfer - initial version
  *******************************************************************************/
 package io;
 
@@ -57,8 +57,8 @@ public class FileProcessor {
 		try {
 			scanner = new Scanner(filePath, ENCODING.name());
 		} catch (IOException io) {
-			JOptionPane.showMessageDialog(null, "Fehler beim Ã–ffnen der Datei",
-					"Ã–ffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Fehler beim Öffnen der Datei",
+					"Öffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
 		} catch (IllegalArgumentException iae) {
 			JOptionPane.showMessageDialog(null, "Encoding falsch",
 					"Einlesen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
@@ -165,7 +165,7 @@ public class FileProcessor {
 				writer.append((char) Character.LINE_SEPARATOR);
 
 				if (!r.getAssignedRoom().hasBeamer()) {
-					writer.append("Beamer benÃ¶tigt");
+					writer.append("Beamer benötigt");
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
 

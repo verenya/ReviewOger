@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena KÃ¤fer.
+ * Copyright (c) 2014 Verena Käfer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena KÃ¤fer - initial version
+ * Verena Käfer - initial version
  *******************************************************************************/
 package io;
 
@@ -46,7 +46,7 @@ public class IODialog {
 					result = JOptionPane
 							.showOptionDialog(
 									null,
-									"Die Datei existiert bereits. MÃ¶chten Sie Ã¼berschreiben?",
+									"Die Datei existiert bereits. Möchten Sie überschreiben?",
 									"Warnung", JOptionPane.YES_NO_OPTION,
 									JOptionPane.INFORMATION_MESSAGE, null,
 									null, null);
@@ -54,7 +54,7 @@ public class IODialog {
 					result = JOptionPane
 							.showOptionDialog(
 									null,
-									"Die Datei existiert bereits. MÃ¶chten Sie Ã¼berschreiben? Vorsicht: Es wird auch die Latex-Datei mit Ã¼berschrieben!",
+									"Die Datei existiert bereits. Möchten Sie überschreiben? Vorsicht: Es wird auch die Latex-Datei mit überschrieben!",
 									"Warnung", JOptionPane.YES_NO_OPTION,
 									JOptionPane.INFORMATION_MESSAGE, null,
 									null, null);

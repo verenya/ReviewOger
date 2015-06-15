@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena KÃ¤fer.
+ * Copyright (c) 2014 Verena Käfer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena KÃ¤fer - initial version
+ * Verena Käfer - initial version
  *******************************************************************************/
 
 import static org.junit.Assert.*;
@@ -221,7 +221,7 @@ public class MatcherTest {
 			Date endTime = null;
 
 			try {
-				date = dateFormat.parse(slotElement.getAttributeValue("Datum"));
+				date = dateFormat.parse(slotElement.getAttributeValue("Date"));
 			} catch (ParseException e) {
 				JOptionPane.showMessageDialog(null,
 						"Konnte Slot-Datum nicht parsen",
@@ -231,7 +231,7 @@ public class MatcherTest {
 
 			try {
 				beginTime = timeFormat.parse(slotElement
-						.getAttributeValue("Beginn"));
+						.getAttributeValue("Begin"));
 			} catch (ParseException e) {
 				JOptionPane.showMessageDialog(null,
 						"Konnte Slot-Angfangszeit nicht parsen",
@@ -241,7 +241,7 @@ public class MatcherTest {
 
 			try {
 				endTime = timeFormat.parse(slotElement
-						.getAttributeValue("Ende"));
+						.getAttributeValue("End"));
 			} catch (ParseException e) {
 				JOptionPane.showMessageDialog(null,
 						"Konnte Slot-Endzeit nicht parsen",
@@ -257,8 +257,8 @@ public class MatcherTest {
 						.add(newSlotNode);
 
 				// Rooms
-				Element roomsElement = slotElement.getChild("AlleRÃ¤ume");
-				for (Element roomElement : roomsElement.getChildren("Raum")) {
+				Element roomsElement = slotElement.getChild("AllRooms");
+				for (Element roomElement : roomsElement.getChildren("Room")) {
 					parseFailed = false;
 
 					String roomString = roomElement.getAttributeValue("ID");
@@ -281,7 +281,7 @@ public class MatcherTest {
 
 					try {
 						roomBeginTime = timeFormat.parse(roomElement
-								.getAttributeValue("Beginn"));
+								.getAttributeValue("Begin"));
 					} catch (ParseException e) {
 						JOptionPane.showMessageDialog(null,
 								"Konnte Slot-Angfangszeit nicht parsen",
@@ -292,7 +292,7 @@ public class MatcherTest {
 
 					try {
 						roomEndTime = timeFormat.parse(roomElement
-								.getAttributeValue("Ende"));
+								.getAttributeValue("End"));
 					} catch (ParseException e) {
 						JOptionPane.showMessageDialog(null,
 								"Konnte Slot-Endzeit nicht parsen",

@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena KÃ¤fer.
+ * Copyright (c) 2014 Verena Käfer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena KÃ¤fer - initial version
+ * Verena Käfer - initial version
  *******************************************************************************/
 package io;
 
@@ -134,7 +134,7 @@ public class TableOutputter {
 				result = result + end + " Uhr & Review: ";
 
 				// review letters
-				for (int i = 0; i < array.length + 1; i++) {
+				for (int i = 0; i < array.length ; i++) {
 					if (array[slotCounter][i] == null) {
 						result = result + "& - ";
 					} else {

@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena K√§fer.
+ * Copyright (c) 2014 Verena K‰fer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena K√§fer - initial version
+ * Verena K‰fer - initial version
  *******************************************************************************/
 package io;
 
@@ -65,7 +65,7 @@ public class EmailDelivery {
 		optionFrame.setLayout(new GridLayout(2, 1));
 
 		JLabel optionLabel = new JLabel(
-				"Bitte w√§hlen Sie ein Textdokument, das den Inhalt der e-Mail enth√§lt");
+				"Bitte w‰hlen Sie ein Textdokument, das den Inhalt der e-Mail enth‰lt");
 		optionFrame.add(optionLabel);
 
 		JButton browseButton = new JButton("Browse");
@@ -117,8 +117,8 @@ public class EmailDelivery {
 							ENCODING.name());
 				} catch (IOException io) {
 					JOptionPane.showMessageDialog(null,
-							"Fehler beim √ñffnen der Datei",
-							"√ñffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+							"Fehler beim ÷ffnen der Datei",
+							"÷ffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
 				} catch (IllegalArgumentException iae) {
 					JOptionPane.showMessageDialog(null, "Encoding falsch",
 							"Einlesen fehlgeschlagen",
@@ -144,7 +144,7 @@ public class EmailDelivery {
 				textFrame.add(buttonPanel);
 				buttonPanel.setLayout(new GridLayout(1, 2));
 
-				JButton backButton = new JButton("Zur√ºck");
+				JButton backButton = new JButton("Zur¸ck");
 				buttonPanel.add(backButton);
 
 				backButton.addActionListener(new AbstractAction() {
@@ -197,7 +197,7 @@ public class EmailDelivery {
 		greetingFrame.setLayout(new GridLayout(5, 1));
 
 		JLabel greetingLabel = new JLabel(
-				"Bitte geben Sie eine Gru√üformel ein:");
+				"Bitte geben Sie eine Gruﬂformel ein:");
 		greetingFrame.add(greetingLabel);
 
 		final JTextField greetingField = new JTextField();
@@ -251,9 +251,9 @@ public class EmailDelivery {
 		delayFrame.setLayout(new GridLayout(4, 1));
 
 		JLabel delayLabel1 = new JLabel(
-				"Bei zu schnellem √ñffnen der E-Mails kann es zu Prolemen mit dem E-Mail-Programm kommen.");
+				"Bei zu schnellem ÷ffnen der E-Mails kann es zu Prolemen mit dem E-Mail-Programm kommen.");
 		JLabel delayLabel2 = new JLabel(
-				"Bitte geben Sie die Verz√∂gerung zwischen den einzelnen E-Mails in Millisekunden ein:");
+				"Bitte geben Sie die Verzˆgerung zwischen den einzelnen E-Mails in Millisekunden ein:");
 		delayFrame.add(delayLabel1);
 		delayFrame.add(delayLabel2);
 
@@ -278,11 +278,11 @@ public class EmailDelivery {
 					delay = Integer.parseInt(delayField.getText());
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null,
-							"Verz√∂gerung muss eine Zahl sein");
+							"Verzˆgerung muss eine Zahl sein");
 				}
 				if (delay < 0) {
 					JOptionPane.showMessageDialog(null,
-							"Verz√∂gerung muss eine Zahl > 0 sein");
+							"Verzˆgerung muss eine Zahl > 0 sein");
 				} else {
 					// Send mails
 					Desktop desktop;
@@ -389,7 +389,7 @@ public class EmailDelivery {
 
 					} else {
 						JOptionPane.showMessageDialog(null,
-								"Konnte kein E-Mail-Prgramm √∂ffnen");
+								"Konnte kein E-Mail-Prgramm ÷ffnen");
 						optionFrame.setVisible(true);
 					}
 				}
@@ -490,8 +490,8 @@ public class EmailDelivery {
 			scanner = new Scanner(fileChooser.getSelectedFile(),
 					ENCODING.name());
 		} catch (IOException io) {
-			JOptionPane.showMessageDialog(null, "Fehler beim √ñffnen der Datei",
-					"√ñffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Fehler beim ÷ffnen der Datei",
+					"÷ffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
 			error = true;
 		} catch (IllegalArgumentException iae) {
 			JOptionPane.showMessageDialog(null, "Encoding falsch",

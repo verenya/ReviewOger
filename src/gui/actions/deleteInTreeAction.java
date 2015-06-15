@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena KÃ¤fer.
+ * Copyright (c) 2014 Verena Käfer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena KÃ¤fer - initial version
+ * Verena Käfer - initial version
  *******************************************************************************/
 package gui.actions;
 
@@ -38,7 +38,7 @@ public class deleteInTreeAction extends AbstractAction {
 
 		if (selectedNode.isRoot()) {
 			JOptionPane.showMessageDialog(null,
-					"Die Wurzel kann nicht gelÃ¶scht werden");
+					"Die Wurzel kann nicht gelöscht werden");
 		} else {
 			RoomTreeModel.getInstance().removeNodeFromParent(selectedNode);
 			Gui.getRoomTree().updateUI();

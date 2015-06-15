@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena KÃ¤fer.
+ * Copyright (c) 2014 Verena Käfer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena KÃ¤fer - initial version
+ * Verena Käfer - initial version
  *******************************************************************************/
 package gui;
 
@@ -108,7 +108,7 @@ public class ExecutingFrame {
 					}
 				} catch (InterruptedException | ExecutionException e) {
 					JOptionPane.showMessageDialog(null,
-							"Fehler bei der AusfÃ¼hrung.", "Fehler",
+							"Fehler bei der Ausführung.", "Fehler",
 							JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
@@ -157,7 +157,7 @@ public class ExecutingFrame {
 					}
 				} catch (InterruptedException | ExecutionException e) {
 					JOptionPane.showMessageDialog(null,
-							"Fehler bei der AusfÃ¼hrung.", "Fehler",
+							"Fehler bei der Ausführung.", "Fehler",
 							JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
@@ -209,7 +209,7 @@ public class ExecutingFrame {
 					}
 				} catch (InterruptedException | ExecutionException e) {
 					JOptionPane.showMessageDialog(null,
-							"Fehler bei der AusfÃ¼hrung.", "Fehler",
+							"Fehler bei der Ausführung.", "Fehler",
 							JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
@@ -239,7 +239,7 @@ public class ExecutingFrame {
 		solutionFrame.setLayout(new GridLayout(2, 1));
 
 		JLabel optionLabel = new JLabel(
-				"Es wurde eine LÃ¶sung gefunden. Sie haben folgende MÃ¶glichkeiten: ");
+				"Es wurde eine Lösung gefunden. Sie haben folgende Möglichkeiten: ");
 		solutionFrame.add(optionLabel);
 
 		JPanel optionPanel = new JPanel();
@@ -346,21 +346,21 @@ public class ExecutingFrame {
 
 		JLabel textLabel = new JLabel();
 		noSolutionFrame.add(textLabel);
-		textLabel.setText("Konnte keine LÃ¶sung finden. MÃ¶glich Optionen: ");
+		textLabel.setText("Konnte keine Lösung finden. Möglich Optionen: ");
 
 		JLabel lineOneLabel = new JLabel();
 		noSolutionFrame.add(lineOneLabel);
-		lineOneLabel.setText("- Bieten Sie mehr Slots/RÃ¤ume an ");
+		lineOneLabel.setText("- Bieten Sie mehr Slots/Räume an ");
 
 		JLabel lineTwoLabel = new JLabel();
 		noSolutionFrame.add(lineTwoLabel);
 		lineTwoLabel
-				.setText("- Ã„ndern Sie die Einstellungen zu Notar oder Moderator");
+				.setText("- Ändern Sie die Einstellungen zu Notar oder Moderator");
 
 		JLabel lineThreeLabel = new JLabel();
 		noSolutionFrame.add(lineThreeLabel);
 		lineThreeLabel
-				.setText("- FÃ¼hren Sie die Berechnung erneut mit mehr Wiederholungen durch");
+				.setText("- FÜhren Sie die Berechnung erneut mit mehr Wiederholungen durch");
 
 		JPanel optionPanel = new JPanel();
 		optionPanel.setLayout(new GridLayout(1, 2));

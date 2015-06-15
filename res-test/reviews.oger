@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <root>
   <allParticipants>
     <participant firstName="Claudia" lastName="Delacruz" mail="nulla.magna.malesuada@turpis.ca" group="1" />
@@ -10,7 +10,7 @@
     <participant firstName="Randall" lastName="Rogers" mail="semper@non.ca" group="3" />
     <participant firstName="Hop" lastName="Chandler" mail="arcu.et.pede@tinciduntneque.co.uk" group="3" />
     <participant firstName="Thaddeus" lastName="Harrington" mail="cursus.et@eleifendvitaeerat.ca" group="3" />
-    <participant firstName="Winifred" lastName="Mendez" mail="bibendum.fermentum@velesttempor.org" group="4" />
+    <participant firstName="Winifred" lastName="MEndz" mail="bibendum.fermentum@velesttempor.org" group="4" />
     <participant firstName="Nero" lastName="Gillespie" mail="pharetra.Quisque@malesuada.edu" group="4" />
     <participant firstName="Idola" lastName="Bray" mail="Donec.consectetuer@pede.org" group="4" />
     <participant firstName="Cameran" lastName="Shelton" mail="et.eros@Nullamvitaediam.ca" group="5" />
@@ -60,7 +60,7 @@
     <participant firstName="Wynter" lastName="Rush" mail="adipiscing.elit.Etiam@rutrum.net" group="19" />
     <participant firstName="Buffy" lastName="Gonzalez" mail="id.risus.quis@diam.edu" group="20" />
     <participant firstName="Benedict" lastName="Tate" mail="mattis.velit@Donecelementum.net" group="20" />
-    <participant firstName="Dora" lastName="Mendez" mail="ultrices.iaculis@eleifend.net" group="20" />
+    <participant firstName="Dora" lastName="MEndz" mail="ultrices.iaculis@eleifend.net" group="20" />
     <participant firstName="Carter" lastName="Farrell" mail="lobortis.ultrices@Donecnonjusto.net" group="21" />
     <participant firstName="Kirby" lastName="Cochran" mail="semper.auctor@gravidamolestiearcu.edu" group="21" />
     <participant firstName="Aspen" lastName="Blackburn" mail="in.dolor@aliquet.org" group="21" />
@@ -68,7 +68,7 @@
     <participant firstName="Xenos" lastName="Carpenter" mail="faucibus@mieleifend.ca" group="22" />
     <participant firstName="Kelsie" lastName="Sloan" mail="Curabitur@laciniamattisInteger.edu" group="22" />
     <participant firstName="Andrew" lastName="Bruce" mail="Donec.luctus.aliquet@nullaInteger.org" group="23" />
-    <participant firstName="Willa" lastName="Mendez" mail="et.magna.Praesent@utaliquamiaculis.org" group="23" />
+    <participant firstName="Willa" lastName="MEndz" mail="et.magna.Praesent@utaliquamiaculis.org" group="23" />
     <participant firstName="Lydia" lastName="Ray" mail="natoque.penatibus@eratEtiamvestibulum.ca" group="23" />
     <participant firstName="Baxter" lastName="Cameron" mail="amet.nulla@portaelit.ca" group="24" />
     <participant firstName="Azalia" lastName="Merrill" mail="dis.parturient.montes@nonmagna.edu" group="24" />
@@ -111,69 +111,69 @@
     <participant firstName="Jaden" lastName="Kemp" mail="ante.blandit@urnaUttincidunt.ca" group="36" />
   </allParticipants>
   <Slots>
-    <Slot Datum="19.11.14" Beginn="19:00" Ende="20:40">
-      <AlleRäume>
-        <Raum Beamer="false" ID="1.212" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.014" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.020" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.168" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="0.463" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="0.457" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="0.447" Beginn="19:00" Ende="20:40" />
-      </AlleRäume>
+    <Slot Date="19.11.14" Begin="19:00" End="20:40">
+      <AllRooms>
+        <Room Beamer="false" ID="1.212" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.014" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.020" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.168" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="0.463" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="0.457" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="0.447" Begin="19:00" End="20:40" />
+      </AllRooms>
     </Slot>
-    <Slot Datum="20.11.14" Beginn="17:20" Ende="19:00">
-      <AlleRäume>
-        <Raum Beamer="false" ID="1.212" Beginn="17:20" Ende="19:00" />
-        <Raum Beamer="false" ID="1.014" Beginn="17:20" Ende="19:00" />
-        <Raum Beamer="false" ID="1.020" Beginn="17:20" Ende="19:00" />
-        <Raum Beamer="false" ID="1.168" Beginn="17:20" Ende="19:00" />
-      </AlleRäume>
+    <Slot Date="20.11.14" Begin="17:20" End="19:00">
+      <AllRooms>
+        <Room Beamer="false" ID="1.212" Begin="17:20" End="19:00" />
+        <Room Beamer="false" ID="1.014" Begin="17:20" End="19:00" />
+        <Room Beamer="false" ID="1.020" Begin="17:20" End="19:00" />
+        <Room Beamer="false" ID="1.168" Begin="17:20" End="19:00" />
+      </AllRooms>
     </Slot>
-    <Slot Datum="20.11.14" Beginn="19:00" Ende="20:40">
-      <AlleRäume>
-        <Raum Beamer="false" ID="1.212" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.014" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.020" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.168" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="0.463" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="0.457" Beginn="19:00" Ende="20:40" />
-      </AlleRäume>
+    <Slot Date="20.11.14" Begin="19:00" End="20:40">
+      <AllRooms>
+        <Room Beamer="false" ID="1.212" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.014" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.020" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.168" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="0.463" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="0.457" Begin="19:00" End="20:40" />
+      </AllRooms>
     </Slot>
-    <Slot Datum="21.11.14" Beginn="11:20" Ende="13:00">
-      <AlleRäume>
-        <Raum Beamer="false" ID="1.014" Beginn="11:20" Ende="13:00" />
-        <Raum Beamer="false" ID="1.020" Beginn="11:20" Ende="13:00" />
-        <Raum Beamer="false" ID="1.168" Beginn="11:20" Ende="13:00" />
-      </AlleRäume>
+    <Slot Date="21.11.14" Begin="11:20" End="13:00">
+      <AllRooms>
+        <Room Beamer="false" ID="1.014" Begin="11:20" End="13:00" />
+        <Room Beamer="false" ID="1.020" Begin="11:20" End="13:00" />
+        <Room Beamer="false" ID="1.168" Begin="11:20" End="13:00" />
+      </AllRooms>
     </Slot>
-    <Slot Datum="21.11.14" Beginn="15:30" Ende="17:15">
-      <AlleRäume>
-        <Raum Beamer="false" ID="1.212" Beginn="15:30" Ende="17:15" />
-        <Raum Beamer="false" ID="1.014" Beginn="15:30" Ende="17:15" />
-        <Raum Beamer="false" ID="1.020" Beginn="15:30" Ende="17:15" />
-        <Raum Beamer="false" ID="1.168" Beginn="15:30" Ende="17:15" />
-        <Raum Beamer="false" ID="0.463" Beginn="15:30" Ende="17:15" />
-      </AlleRäume>
+    <Slot Date="21.11.14" Begin="15:30" End="17:15">
+      <AllRooms>
+        <Room Beamer="false" ID="1.212" Begin="15:30" End="17:15" />
+        <Room Beamer="false" ID="1.014" Begin="15:30" End="17:15" />
+        <Room Beamer="false" ID="1.020" Begin="15:30" End="17:15" />
+        <Room Beamer="false" ID="1.168" Begin="15:30" End="17:15" />
+        <Room Beamer="false" ID="0.463" Begin="15:30" End="17:15" />
+      </AllRooms>
     </Slot>
-    <Slot Datum="21.11.14" Beginn="19:00" Ende="20:40">
-      <AlleRäume>
-        <Raum Beamer="false" ID="1.212" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.014" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.020" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="1.168" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="0.463" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="0.457" Beginn="19:00" Ende="20:40" />
-        <Raum Beamer="false" ID="0.447" Beginn="19:00" Ende="20:40" />
-      </AlleRäume>
+    <Slot Date="21.11.14" Begin="19:00" End="20:40">
+      <AllRooms>
+        <Room Beamer="false" ID="1.212" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.014" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.020" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="1.168" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="0.463" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="0.457" Begin="19:00" End="20:40" />
+        <Room Beamer="false" ID="0.447" Begin="19:00" End="20:40" />
+      </AllRooms>
     </Slot>
-    <Slot Datum="22.11.14" Beginn="11:20" Ende="13:00">
-      <AlleRäume>
-        <Raum Beamer="false" ID="1.212" Beginn="11:20" Ende="13:00" />
-        <Raum Beamer="false" ID="1.014" Beginn="11:20" Ende="13:00" />
-        <Raum Beamer="false" ID="1.020" Beginn="11:20" Ende="13:00" />
-        <Raum Beamer="false" ID="1.168" Beginn="11:20" Ende="13:00" />
-      </AlleRäume>
+    <Slot Date="22.11.14" Begin="11:20" End="13:00">
+      <AllRooms>
+        <Room Beamer="false" ID="1.212" Begin="11:20" End="13:00" />
+        <Room Beamer="false" ID="1.014" Begin="11:20" End="13:00" />
+        <Room Beamer="false" ID="1.020" Begin="11:20" End="13:00" />
+        <Room Beamer="false" ID="1.168" Begin="11:20" End="13:00" />
+      </AllRooms>
     </Slot>
   </Slots>
 </root>
