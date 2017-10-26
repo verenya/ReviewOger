@@ -176,8 +176,10 @@ public class LoadSave {
 
 			try {
 				// output
+				Format format = Format.getPrettyFormat();
+				format.setEncoding("UTF-8");
 				XMLOutputter xmlOutputter = new XMLOutputter(
-						Format.getPrettyFormat());
+						format);
 				xmlOutputter.output(document, new FileOutputStream(file));
 				Main.setSaved(true);
 			} catch (java.io.IOException e) {

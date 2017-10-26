@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena Käfer.
+ * Copyright (c) 2014 Verena Kï¿½fer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena Käfer - initial version
+ * Verena Kï¿½fer - initial version
  *******************************************************************************/
 package io;
 
@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -33,7 +34,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.table.TableModel;
 
+import data.ParticipantTableModel;
 import data.Review;
 import data.Participant;
 import data.Room;
@@ -65,7 +68,7 @@ public class EmailDelivery {
 		optionFrame.setLayout(new GridLayout(2, 1));
 
 		JLabel optionLabel = new JLabel(
-				"Bitte wählen Sie ein Textdokument, das den Inhalt der e-Mail enthält");
+				"Bitte wï¿½hlen Sie ein Textdokument, das den Inhalt der e-Mail enthï¿½lt");
 		optionFrame.add(optionLabel);
 
 		JButton browseButton = new JButton("Browse");
@@ -117,8 +120,8 @@ public class EmailDelivery {
 							ENCODING.name());
 				} catch (IOException io) {
 					JOptionPane.showMessageDialog(null,
-							"Fehler beim Öffnen der Datei",
-							"Öffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+							"Fehler beim ï¿½ffnen der Datei",
+							"ï¿½ffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
 				} catch (IllegalArgumentException iae) {
 					JOptionPane.showMessageDialog(null, "Encoding falsch",
 							"Einlesen fehlgeschlagen",
@@ -144,7 +147,7 @@ public class EmailDelivery {
 				textFrame.add(buttonPanel);
 				buttonPanel.setLayout(new GridLayout(1, 2));
 
-				JButton backButton = new JButton("Zurück");
+				JButton backButton = new JButton("Zurï¿½ck");
 				buttonPanel.add(backButton);
 
 				backButton.addActionListener(new AbstractAction() {
@@ -197,7 +200,7 @@ public class EmailDelivery {
 		greetingFrame.setLayout(new GridLayout(5, 1));
 
 		JLabel greetingLabel = new JLabel(
-				"Bitte geben Sie eine Grußformel ein:");
+				"Bitte geben Sie eine Gruï¿½formel ein:");
 		greetingFrame.add(greetingLabel);
 
 		final JTextField greetingField = new JTextField();
@@ -251,9 +254,9 @@ public class EmailDelivery {
 		delayFrame.setLayout(new GridLayout(4, 1));
 
 		JLabel delayLabel1 = new JLabel(
-				"Bei zu schnellem Öffnen der E-Mails kann es zu Prolemen mit dem E-Mail-Programm kommen.");
+				"Bei zu schnellem ï¿½ffnen der E-Mails kann es zu Prolemen mit dem E-Mail-Programm kommen.");
 		JLabel delayLabel2 = new JLabel(
-				"Bitte geben Sie die Verzögerung zwischen den einzelnen E-Mails in Millisekunden ein:");
+				"Bitte geben Sie die Verzï¿½gerung zwischen den einzelnen E-Mails in Millisekunden ein:");
 		delayFrame.add(delayLabel1);
 		delayFrame.add(delayLabel2);
 
@@ -278,11 +281,11 @@ public class EmailDelivery {
 					delay = Integer.parseInt(delayField.getText());
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null,
-							"Verzögerung muss eine Zahl sein");
+							"Verzï¿½gerung muss eine Zahl sein");
 				}
 				if (delay < 0) {
 					JOptionPane.showMessageDialog(null,
-							"Verzögerung muss eine Zahl > 0 sein");
+							"Verzï¿½gerung muss eine Zahl > 0 sein");
 				} else {
 					// Send mails
 					Desktop desktop;
@@ -303,7 +306,7 @@ public class EmailDelivery {
 									+ currentReview.getAssignedRoom().getSlot()
 											.getFormatedDate()
 									+ "<br>"
-									+ "Author: "
+									+ "Autor: "
 									+ currentReview.getAuthor().getFirstName()
 									+ " "
 									+ currentReview.getAuthor().getLastName()
@@ -389,7 +392,7 @@ public class EmailDelivery {
 
 					} else {
 						JOptionPane.showMessageDialog(null,
-								"Konnte kein E-Mail-Prgramm Öffnen");
+								"Konnte kein E-Mail-Prgramm ï¿½ffnen");
 						optionFrame.setVisible(true);
 					}
 				}
@@ -490,8 +493,8 @@ public class EmailDelivery {
 			scanner = new Scanner(fileChooser.getSelectedFile(),
 					ENCODING.name());
 		} catch (IOException io) {
-			JOptionPane.showMessageDialog(null, "Fehler beim Öffnen der Datei",
-					"Öffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Fehler beim ï¿½ffnen der Datei",
+					"ï¿½ffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
 			error = true;
 		} catch (IllegalArgumentException iae) {
 			JOptionPane.showMessageDialog(null, "Encoding falsch",
@@ -509,13 +512,17 @@ public class EmailDelivery {
 			String currentLine = scanner.nextLine();
 
 			if (!currentLine.startsWith("*x")) {
+				
+				System.out.println(currentLine.charAt(0));
+				System.out.println(currentLine.charAt(1));
+				System.out.println(currentLine.charAt(2));
 
-				if (currentLine.startsWith("Review")) {
+				if (currentLine.contains("Review")) {
 
 					String[] splitReview = currentLine.split(" ");
 					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 					SimpleDateFormat dateFormat = new SimpleDateFormat(
-							"mm.dd.yy");
+							"dd.MM.yy");
 					// review group number room number from time clock to time
 					// clock
 					Date begin;
@@ -545,7 +552,7 @@ public class EmailDelivery {
 						Participant current = new Participant(split[1],
 								split[2], split[3], Integer.parseInt(split[5]));
 
-						if (currentLine.startsWith("Author")) {
+						if (currentLine.startsWith("Autor")) {
 							review = new Review(current);
 							review.setGroupNumber(current.getGroupNumber());
 							review.setAssignedRoom(room);

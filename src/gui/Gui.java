@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena Käfer.
+ * Copyright (c) 2014 Verena Kï¿½fer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena Käfer - initial version
+ * Verena Kï¿½fer - initial version
  *******************************************************************************/
 package gui;
 
@@ -94,7 +94,7 @@ public class Gui extends JFrame {
 			public void windowClosing(WindowEvent evt) {
 				if (!Main.isSaved()) {
 					int showConfirmDialog = JOptionPane.showConfirmDialog(null,
-							"Möchten Sie speichern?");
+							"MÃ¶chten Sie speichern?");
 					if (showConfirmDialog == JOptionPane.YES_OPTION) {
 						LoadSave.save();
 					}
@@ -230,7 +230,7 @@ public class Gui extends JFrame {
 		participantButtonPanle.add(participantAddButton,
 				gbc_participantAddButton);
 
-		participantAddButton.setText("HinzufÜgen");
+		participantAddButton.setText("HinzufÃ¼gen");
 
 		JButton participantEditButton = new JButton(new EditParticipantAction(this));
 		GridBagConstraints gbc_participantEditButton = new GridBagConstraints();
@@ -254,9 +254,9 @@ public class Gui extends JFrame {
 		participantButtonPanle.add(participantDeleteButton,
 				gbc_participantDeleteButton);
 
-		participantDeleteButton.setText("Löschen");
+		participantDeleteButton.setText("LÃ¶schen");
 
-		JButton clearButton = new JButton("Alle Löschen");
+		JButton clearButton = new JButton("Alle LÃ¶schen");
 		GridBagConstraints gbc_clearButton = new GridBagConstraints();
 		gbc_clearButton.fill = GridBagConstraints.BOTH;
 		gbc_clearButton.insets = new Insets(0, 0, 5, 0);
@@ -382,7 +382,7 @@ public class Gui extends JFrame {
 		roomButtonPanel.add(roomEditButton, gbc_roomEditButton);
 
 		JButton deleteButton = new JButton(new deleteInTreeAction());
-		deleteButton.setText("Löschen");
+		deleteButton.setText("LÃ¶schen");
 		GridBagConstraints gbc_deleteButton = new GridBagConstraints();
 		gbc_deleteButton.insets = new Insets(0, 0, 0, 5);
 		gbc_deleteButton.fill = GridBagConstraints.HORIZONTAL;
@@ -390,7 +390,7 @@ public class Gui extends JFrame {
 		gbc_deleteButton.gridy = 2;
 		roomButtonPanel.add(deleteButton, gbc_deleteButton);
 
-		JButton treeDeleteButton = new JButton("Baum löschen");
+		JButton treeDeleteButton = new JButton("Baum lÃ¶schen");
 		GridBagConstraints gbc_treeDeleteButton = new GridBagConstraints();
 		gbc_treeDeleteButton.fill = GridBagConstraints.BOTH;
 		gbc_treeDeleteButton.gridx = 1;
@@ -456,7 +456,7 @@ public class Gui extends JFrame {
 		gbc_exitOptionLabel.gridy = 4;
 		optionPanel.add(exitOptionLabel, gbc_exitOptionLabel);
 
-		final JLabel amountRoundsLabel = new JLabel("  Anzahl Ausführungen:");
+		final JLabel amountRoundsLabel = new JLabel("  Anzahl AusfÃ¼hrungen:");
 		GridBagConstraints gbc_amountRoundsLabel = new GridBagConstraints();
 		gbc_amountRoundsLabel.fill = GridBagConstraints.BOTH;
 		gbc_amountRoundsLabel.insets = new Insets(0, 0, 5, 5);
@@ -696,7 +696,7 @@ public class Gui extends JFrame {
 
 			} catch (NumberFormatException nfe) {
 				JOptionPane.showMessageDialog(null,
-						"Gewählte Zeit muss eine Zahl sein!", "Zeit Error",
+						"GewÃ¤hlte Zeit muss eine Zahl sein!", "Zeit Error",
 						JOptionPane.ERROR_MESSAGE);
 				return false;
 			}

@@ -126,6 +126,7 @@ public class TableOutputter {
 			int slotCounter = 0;
 
 			for (Slot s : slots) {
+				
 				String dateString = dateFormatter.format(s.getDate());
 				result = dateString;
 				String begin = timeFormatter.format(s.getBeginTime());
@@ -134,7 +135,9 @@ public class TableOutputter {
 				result = result + end + " Uhr & Review: ";
 
 				// review letters
-				for (int i = 0; i < array.length ; i++) {
+				System.out.println(array[0].length);
+				for (int i = 0; i < array[1].length ; i++) {
+					System.out.println(slotCounter + ";" + i);
 					if (array[slotCounter][i] == null) {
 						result = result + "& - ";
 					} else {
@@ -231,7 +234,6 @@ public class TableOutputter {
 					roomToSearch = roomInSlot.getRoomID() + "*";
 				}
 				int index = rooms.indexOf(roomToSearch);
-				System.out.println(index + " " + slotCounter);
 
 				if (roomInSlot.getReview() == null) {
 					array[slotCounter][index] = "-";

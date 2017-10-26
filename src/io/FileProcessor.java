@@ -1,21 +1,25 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena Käfer.
+ * Copyright (c) 2014 Verena Kï¿½fer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena Käfer - initial version
+ * Verena Kï¿½fer - initial version
  *******************************************************************************/
 package io;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -55,10 +59,10 @@ public class FileProcessor {
 	public final void processLineByLine() {
 		Scanner scanner = null;
 		try {
-			scanner = new Scanner(filePath, ENCODING.name());
+			scanner = new Scanner(filePath, "UTF-8");
 		} catch (IOException io) {
-			JOptionPane.showMessageDialog(null, "Fehler beim Öffnen der Datei",
-					"Öffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Fehler beim Ã–ffnen der Datei",
+					"ï¿½ffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
 		} catch (IllegalArgumentException iae) {
 			JOptionPane.showMessageDialog(null, "Encoding falsch",
 					"Einlesen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
@@ -147,10 +151,9 @@ public class FileProcessor {
 
 	public void printResult(ArrayList<Review> reviews, String path) {
 
-		FileWriter writer;
-
 		try {
-			writer = new FileWriter(new File(path), true);
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(path), "UTF-8"));
 
 			for (Review r : reviews) {
 				String result = "Review "
@@ -165,13 +168,13 @@ public class FileProcessor {
 				writer.append((char) Character.LINE_SEPARATOR);
 
 				if (!r.getAssignedRoom().hasBeamer()) {
-					writer.append("Beamer benötigt");
+					writer.append("Beamer benÃ¶tigt");
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
 
 				if (r.getAuthor() != null) {
 					Participant author = r.getAuthor();
-					result = "Author: "
+					result = "Autor: "
 							+ author.getFirstName().replace(" ", "").trim()
 							+ " "
 							+ author.getLastName().replace(" ", "").trim()
@@ -214,9 +217,9 @@ public class FileProcessor {
 							+ reviewer.getFirstName().replace(" ", "").trim()
 							+ " "
 							+ reviewer.getLastName().replace(" ", "").trim()
-							+ " "
-							+ reviewer.geteMailAdress().replace(" ", "").trim()
-							+ " Gruppe " + reviewer.getGroupNumber();
+							+ " " 
+							+  reviewer.geteMailAdress().replace(" ", "").trim()
+							+" Gruppe " + reviewer.getGroupNumber();
 					writer.append(result);
 					writer.append((char) Character.LINE_SEPARATOR);
 				}
@@ -227,11 +230,101 @@ public class FileProcessor {
 			}
 
 			writer.close();
+
 		} catch (FileNotFoundException e1) {
+			System.out.println(e1.getStackTrace());
 			JOptionPane.showMessageDialog(null,
 					"Konnte Ergebnis-Datei nicht schreiben", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e1) {
+			System.out.println(e1.getStackTrace());
+			JOptionPane.showMessageDialog(null,
+					"Konnte Ergebnis-Datei nicht schreiben", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void printResultNoMail(ArrayList<Review> reviews, String path) {
+		String newPath = path.replace(".txt", "-no-mail.txt");
+
+		try {
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(newPath), "UTF-8"));
+
+			for (Review r : reviews) {
+				String result = "Review "
+						+ r.getLetter()
+						+ ": Gruppe "
+						+ r.getGroupNumber()
+						+ " am "
+						+ r.getAssignedRoom().getSlot().getFormatedDate()
+								.trim() + " in Raum "
+						+ r.getAssignedRoom().getRoomID();
+				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
+
+				if (!r.getAssignedRoom().hasBeamer()) {
+					writer.append("Beamer benÃ¶tigt");
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
+
+				if (r.getAuthor() != null) {
+					Participant author = r.getAuthor();
+					result = "Autor: "
+							+ author.getFirstName().replace(" ", "").trim()
+							+ " "
+							+ author.getLastName().replace(" ", "").trim()
+							+ " " + " Gruppe " + author.getGroupNumber();
+					writer.append(result);
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
+
+				if (r.getModerator() != null) {
+					Participant moderator = r.getModerator();
+					result = "Moderator: "
+							+ moderator.getFirstName().replace(" ", "").trim()
+							+ " "
+							+ moderator.getLastName().replace(" ", "").trim()
+							+ " " + " Gruppe " + moderator.getGroupNumber();
+					writer.append(result);
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
+
+				if (r.getScribe() != null) {
+					Participant scribe = r.getScribe();
+					result = "Notar: "
+							+ scribe.getFirstName().replace(" ", "").trim()
+							+ " "
+							+ scribe.getLastName().replace(" ", "").trim()
+							+ " " + " Gruppe " + scribe.getGroupNumber();
+					writer.append(result);
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
+
+				for (Participant reviewer : r.getReviewers()) {
+					result = "Gutachter: "
+							+ reviewer.getFirstName().replace(" ", "").trim()
+							+ " "
+							+ reviewer.getLastName().replace(" ", "").trim()
+							+ " " + " Gruppe " + reviewer.getGroupNumber();
+					writer.append(result);
+					writer.append((char) Character.LINE_SEPARATOR);
+				}
+
+				result = "*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x";
+				writer.append(result);
+				writer.append((char) Character.LINE_SEPARATOR);
+			}
+
+			writer.close();
+
+		} catch (FileNotFoundException e1) {
+			System.out.println(e1.getStackTrace());
+			JOptionPane.showMessageDialog(null,
+					"Konnte Ergebnis-Datei nicht schreiben", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e1) {
+			System.out.println(e1.getStackTrace());
 			JOptionPane.showMessageDialog(null,
 					"Konnte Ergebnis-Datei nicht schreiben", "Error",
 					JOptionPane.ERROR_MESSAGE);
