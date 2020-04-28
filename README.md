@@ -15,7 +15,9 @@
 ## CSV-Format
 
 Trennzeichen: ;
+
 Name, Vorname; E-Mail; Gruppennummer (als Zahl)
+
 
 | Max    | Mustermann | max.mustermann@mail.de    | 5 |
 |--------|------------|---------------------------|---|
