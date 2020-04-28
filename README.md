@@ -10,3 +10,13 @@
 * Berechnung beginnen.
 
 * Das Berechnungsergebnis kann gespeichert werden. Über Datei -> Mail versenden können dann später die Mails verschickt werden.
+
+
+## CSV-Format
+
+Trennzeichen: ;
+Name, Vorname; E-Mail; Gruppennummer (als Zahl)
+
+| Max    | Mustermann | max.mustermann@mail.de    | 5 |
+|--------|------------|---------------------------|---|
+| Sabine | Musterfrau | sabine.musterfrau@mail.de | 4 |
