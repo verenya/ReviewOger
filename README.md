@@ -6,10 +6,14 @@
 * CSV-Datei mit Vorname, Nachname, Mail, Gruppe erstellen.
 * Datei -> Teilnehmer einlesen
 * Speichern nicht vergessen :)
-* Optionen wählen
+* Optionen wählen. Empfehlung:
+ * Notar ist Autor
+ * 10 Wiederholungen
 * Berechnung beginnen.
 
-* Das Berechnungsergebnis kann gespeichert werden. Über Datei -> Mail versenden können dann später die Mails verschickt werden.
+* Das Berechnungsergebnis kann gespeichert werden. Über Datei -> Mail versenden können dann später die Mails verschickt werden. Das kann aber auch gleich im Anschluss passieren. 
+
+* .txt-Dokument einlesen, das den Haupttext der Mail enthält
 
 
 ## CSV-Format
@@ -17,6 +21,11 @@
 Trennzeichen: ;
 
 Name, Vorname; E-Mail; Gruppennummer (als Zahl)
+
+
+## Mail-Text
+
+
 
 
 | Max    | Mustermann | max.mustermann@mail.de    | 5 |
