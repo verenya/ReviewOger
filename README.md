@@ -14,6 +14,8 @@
 * Das Berechnungsergebnis kann gespeichert werden. Über Datei -> Mail versenden können dann später die Mails verschickt werden. Das kann aber auch gleich im Anschluss passieren. 
 
 * .txt-Dokument einlesen, das den Haupttext der Mail enthält
+* Grußformel anpassen
+* Mails versenden
 
 
 ## CSV-Format
@@ -22,12 +24,14 @@ Trennzeichen: ;
 
 Name, Vorname; E-Mail; Gruppennummer (als Zahl)
 
-
-## Mail-Text
-
-
-
-
 | Max    | Mustermann | max.mustermann@mail.de    | 5 |
 |--------|------------|---------------------------|---|
 | Sabine | Musterfrau | sabine.musterfrau@mail.de | 4 |
+
+
+## Mail-Text
+
+Eine .txt-Datei, die den Haupttext der E-Mail enthält. Standard-WIndows-Text-Formatierung
+
+
+
