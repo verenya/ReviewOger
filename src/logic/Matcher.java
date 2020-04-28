@@ -18,6 +18,7 @@ import java.util.concurrent.Callable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import data.Participant;
 import data.ParticipantTableModel;
@@ -225,13 +226,13 @@ public class Matcher implements Callable<ArrayList<Review>> {
 		SlotNode currentSlotNode;
 		RoomNode currentRoomNode;
 
-		for (Enumeration<SlotNode> enumSlots = root.children(); enumSlots
+		for (Enumeration<TreeNode> enumSlots = root.children(); enumSlots
 				.hasMoreElements();) {
 			currentSlotNode = (SlotNode) enumSlots.nextElement();
 			Slot currentSlot = (Slot) currentSlotNode.getUserObject();
 
 			// all rooms
-			for (Enumeration<RoomNode> enumRooms = currentSlotNode.children(); enumRooms
+			for (Enumeration<TreeNode> enumRooms = currentSlotNode.children(); enumRooms
 					.hasMoreElements();) {
 				currentRoomNode = (RoomNode) enumRooms.nextElement();
 				Room currentRoom = (Room) currentRoomNode.getUserObject();

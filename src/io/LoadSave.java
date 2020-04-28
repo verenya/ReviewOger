@@ -25,6 +25,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import main.Main;
 
@@ -108,7 +109,7 @@ public class LoadSave {
 			DateFormat endFormatter = new SimpleDateFormat("HH:mm");
 			;
 
-			for (Enumeration<SlotNode> enumSlots = rootNode.children(); enumSlots
+			for (Enumeration<TreeNode> enumSlots = rootNode.children(); enumSlots
 					.hasMoreElements();) {
 				currentSlotNode = (SlotNode) enumSlots.nextElement();
 				Slot currentSlot = (Slot) currentSlotNode.getUserObject();
@@ -133,7 +134,7 @@ public class LoadSave {
 				// all rooms
 				Element allRoomsElement = new Element("AllRooms");
 
-				for (Enumeration<RoomNode> enumRooms = currentSlotNode
+				for (Enumeration<TreeNode> enumRooms = currentSlotNode
 						.children(); enumRooms.hasMoreElements();) {
 					currentRoomNode = (RoomNode) enumRooms.nextElement();
 					Room currentRoom = (Room) currentRoomNode.getUserObject();

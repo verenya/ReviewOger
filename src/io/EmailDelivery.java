@@ -13,6 +13,8 @@ package io;
 import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -116,8 +118,8 @@ public class EmailDelivery {
 
 				Scanner scanner = null;
 				try {
-					scanner = new Scanner(fileChooser.getSelectedFile(),
-							ENCODING.name());
+					scanner = new Scanner(new BufferedReader(new FileReader(fileChooser.getSelectedFile(), ENCODING))); 
+
 				} catch (IOException io) {
 					JOptionPane.showMessageDialog(null,
 							"Fehler beim �ffnen der Datei",
@@ -130,7 +132,7 @@ public class EmailDelivery {
 
 				finalEmailText = "<html>";
 
-				while (scanner.hasNextLine()) {
+				while (scanner.hasNext()) {
 					String currentLine = scanner.nextLine();
 					finalEmailText = finalEmailText + currentLine + "<br>";
 				}
@@ -489,9 +491,9 @@ public class EmailDelivery {
 		ArrayList<Review> reviews = new ArrayList<Review>();
 		boolean error = false;
 		try {
-
-			scanner = new Scanner(fileChooser.getSelectedFile(),
-					ENCODING.name());
+			scanner = new Scanner(new BufferedReader(new FileReader(fileChooser.getSelectedFile()))); 
+			//scanner = new Scanner(fileChooser.getSelectedFile(),
+				//	ENCODING.name());
 		} catch (IOException io) {
 			JOptionPane.showMessageDialog(null, "Fehler beim �ffnen der Datei",
 					"�ffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);

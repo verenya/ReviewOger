@@ -50,7 +50,7 @@ public class RoomTreeModel extends DefaultTreeModel {
 	public static boolean hasReviews() {
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) instance
 				.getRoot();
-		Enumeration<DefaultMutableTreeNode> currentNode = root
+		Enumeration<TreeNode> currentNode = root
 				.preorderEnumeration();
 		while (currentNode.hasMoreElements()) {
 			if ((currentNode.nextElement()).isLeaf()) {

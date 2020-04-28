@@ -10,10 +10,12 @@
  *******************************************************************************/
 package io;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -37,6 +39,7 @@ import data.Review;
 public class FileProcessor {
 
 	private Path filePath;
+	private String fp;
 	private final static Charset ENCODING = StandardCharsets.UTF_8;
 
 	/**
@@ -49,6 +52,7 @@ public class FileProcessor {
 	 *            the path to the selected file
 	 */
 	public void readParticipantList(String filePath) {
+		this.fp=filePath;
 		this.filePath = Paths.get(filePath);
 		processLineByLine();
 	}
@@ -59,7 +63,9 @@ public class FileProcessor {
 	public final void processLineByLine() {
 		Scanner scanner = null;
 		try {
-			scanner = new Scanner(filePath, "UTF-8");
+			scanner = new Scanner(new BufferedReader(new FileReader(fp))); 
+
+			//scanner = new Scanner(filePath, "UTF-8");
 		} catch (IOException io) {
 			JOptionPane.showMessageDialog(null, "Fehler beim Öffnen der Datei",
 					"�ffnen fehlgeschlagen", JOptionPane.ERROR_MESSAGE);
