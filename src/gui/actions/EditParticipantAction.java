@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena K‰fer.
+ * Copyright (c) 2014 Verena K√§fer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena K‰fer - initial version
+ * Verena K√§fer - initial version
  *******************************************************************************/
 package gui.actions;
 
@@ -56,7 +56,7 @@ public class EditParticipantAction extends AbstractAction {
 
 		if (rows.length > 1) {
 			JOptionPane.showMessageDialog(null,
-					"Es kann nur ein Teilnehmer gleichzeitig ge‰ndert werden");
+					"Es kann nur ein Teilnehmer gleichzeitig ge√§ndert werden");
 		} else {
 
 			final Participant selectedParticipant = model

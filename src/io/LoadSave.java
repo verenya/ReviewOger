@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena Käfer.
+ * Copyright (c) 2014 Verena KÃ¤fer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena Käfer - initial version
+ * Verena KÃ¤fer - initial version
  *******************************************************************************/
 package io;
 
@@ -201,7 +201,7 @@ public class LoadSave {
 
 			// current game must be saved
 			int saveResult = JOptionPane.showOptionDialog(null,
-					"Möchten Sie vorher speichern?", "Speichern?",
+					"MÃ¶chten Sie vorher speichern?", "Speichern?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
 					null, null, null);
 			if (saveResult == JOptionPane.YES_OPTION) {
