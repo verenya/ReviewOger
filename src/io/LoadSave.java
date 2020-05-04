@@ -88,7 +88,7 @@ public class LoadSave {
 				participantElement.setAttribute(mailAttribute);
 
 				Attribute groupAttribute = new Attribute("group",
-						Integer.toString(p.getGroupNumber()));
+						p.getGroupNumber());
 				participantElement.setAttribute(groupAttribute);
 
 				allParticipantsElement.addContent(participantElement);
@@ -251,8 +251,8 @@ public class LoadSave {
 				String firstName = participant.getAttributeValue("firstName");
 				String lastName = participant.getAttributeValue("lastName");
 				String mail = participant.getAttributeValue("mail");
-				int group = Integer.parseInt(participant
-						.getAttributeValue("group"));
+				String group = participant
+						.getAttributeValue("group");
 
 				Participant newParticipant = new Participant(firstName,
 						lastName, mail, group);

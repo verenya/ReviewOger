@@ -32,9 +32,9 @@ import data.ParticipantTableModel;
  * should be added
  */
 public class AddParticipantAction extends AbstractAction {
-	
+
 	private JFrame parent;
-	
+
 	public AddParticipantAction(JFrame parent) {
 		this.parent = parent;
 	}
@@ -89,26 +89,14 @@ public class AddParticipantAction extends AbstractAction {
 				String firstName = firstNameField.getText();
 				String lastName = lastNameField.getText();
 				String email = emailField.getText();
-				int group = 0;
-				Boolean numberError = false;
-				try {
-					group = Integer.parseInt(groupField.getText());
-				} catch (NumberFormatException e1) {
-					numberError = true;
-				}
-				if (numberError) {
-					JOptionPane.showMessageDialog(null,
-							"Die Gruppe muss eine Zahl sein", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				} else {
-					Participant addedParticipant = new Participant(firstName,
-							lastName, email, group);
-					ParticipantTableModel model = ParticipantTableModel
-							.getInstance();
-					model.addParticipant(addedParticipant);
-					Main.setSaved(false);
-					participantFrame.dispose();
-				}
+				String group = groupField.getText();
+
+				Participant addedParticipant = new Participant(firstName, lastName, email, group);
+				ParticipantTableModel model = ParticipantTableModel.getInstance();
+				model.addParticipant(addedParticipant);
+				Main.setSaved(false);
+				participantFrame.dispose();
+
 			}
 
 		});

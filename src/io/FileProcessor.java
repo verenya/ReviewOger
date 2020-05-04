@@ -147,7 +147,7 @@ public class FileProcessor {
 			String firstName = splitResult[0];
 			String lastName = splitResult[1];
 			String email = splitResult[2];
-			int group = Integer.parseInt(splitResult[3]);
+			String group = splitResult[3];
 
 			Participant newParticipant = new Participant(firstName, lastName,
 					email, group);

@@ -552,7 +552,7 @@ public class EmailDelivery {
 					try {
 
 						Participant current = new Participant(split[1],
-								split[2], split[3], Integer.parseInt(split[5]));
+								split[2], split[3], split[5]);
 
 						if (currentLine.startsWith("Autor")) {
 							review = new Review(current);

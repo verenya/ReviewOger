@@ -34,15 +34,12 @@ import data.ParticipantTableModel;
  * should be edited
  */
 public class EditParticipantAction extends AbstractAction {
-	
 
 	private JFrame parent;
-	
+
 	public EditParticipantAction(JFrame parent) {
 		this.parent = parent;
 	}
-
-	
 
 	/**
 	 * 
@@ -55,12 +52,10 @@ public class EditParticipantAction extends AbstractAction {
 		int[] rows = Gui.getselectedParticipantRows();
 
 		if (rows.length > 1) {
-			JOptionPane.showMessageDialog(null,
-					"Es kann nur ein Teilnehmer gleichzeitig geändert werden");
+			JOptionPane.showMessageDialog(null, "Es kann nur ein Teilnehmer gleichzeitig geändert werden");
 		} else {
 
-			final Participant selectedParticipant = model
-					.getParticipantAt(rows[0]);
+			final Participant selectedParticipant = model.getParticipantAt(rows[0]);
 
 			final JFrame participantFrame = new JFrame();
 			participantFrame.setLayout(new GridLayout(2, 1));
@@ -97,8 +92,7 @@ public class EditParticipantAction extends AbstractAction {
 			inputPane.add(groupLabel);
 
 			final JTextField groupField = new JTextField();
-			groupField.setText(Integer.toString(selectedParticipant
-					.getGroupNumber()));
+			groupField.setText(selectedParticipant.getGroupNumber());
 			inputPane.add(groupField);
 
 			JButton doneButton = new JButton("OK");
@@ -110,28 +104,17 @@ public class EditParticipantAction extends AbstractAction {
 					String firstName = firstNameField.getText();
 					String lastName = lastNameField.getText();
 					String email = emailField.getText();
-					int group = 0;
-					Boolean numberError = false;
-					try {
-						group = Integer.parseInt(groupField.getText());
-					} catch (NumberFormatException e1) {
-						numberError = true;
-					}
-					if (numberError) {
-						JOptionPane.showMessageDialog(null,
-								"Die Gruppe muss eine Zahl sein!", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					} else {
-						selectedParticipant.setFirstName(firstName);
-						selectedParticipant.setLastName(lastName);
-						selectedParticipant.seteMailAdress(email);
-						selectedParticipant.setGroupNumber(group);
-						ParticipantTableModel model = ParticipantTableModel
-								.getInstance();
-						model.fireTableDataChanged();
-						Main.setSaved(false);
-						participantFrame.dispose();
-					}
+					String group = groupField.getText();
+
+					selectedParticipant.setFirstName(firstName);
+					selectedParticipant.setLastName(lastName);
+					selectedParticipant.seteMailAdress(email);
+					selectedParticipant.setGroupNumber(group);
+					ParticipantTableModel model = ParticipantTableModel.getInstance();
+					model.fireTableDataChanged();
+					Main.setSaved(false);
+					participantFrame.dispose();
+
 				}
 
 			});

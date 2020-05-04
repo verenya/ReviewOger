@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena Käfer.
+ * Copyright (c) 2014 Verena Kï¿½fer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena Käfer - initial version
+ * Verena Kï¿½fer - initial version
  *******************************************************************************/
 
 import static org.junit.Assert.*;
@@ -201,8 +201,7 @@ public class MatcherTest {
 			String firstName = participant.getAttributeValue("firstName");
 			String lastName = participant.getAttributeValue("lastName");
 			String mail = participant.getAttributeValue("mail");
-			int group = Integer
-					.parseInt(participant.getAttributeValue("group"));
+			String group = participant.getAttributeValue("group");
 
 			Participant newParticipant = new Participant(firstName, lastName,
 					mail, group);

@@ -17,8 +17,7 @@ import java.util.ArrayList;
  */
 public class Participant implements Comparable<Participant> {
 
-	public Participant(String firstName, String lastName, String eMail,
-			int groupNumber) {
+	public Participant(String firstName, String lastName, String eMail, String groupNumber) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.eMailAdress = eMail;
@@ -35,7 +34,7 @@ public class Participant implements Comparable<Participant> {
 	private ArrayList<Review> reviews = new ArrayList<Review>();
 
 	// The SoPra group number
-	private int groupNumber;
+	private String groupNumber;
 
 	public int getNumberOfReviews() {
 		return numberOfReviews;
@@ -69,11 +68,11 @@ public class Participant implements Comparable<Participant> {
 		this.eMailAdress = eMailAdress;
 	}
 
-	public int getGroupNumber() {
+	public String getGroupNumber() {
 		return groupNumber;
 	}
 
-	public void setGroupNumber(int groupNumber) {
+	public void setGroupNumber(String groupNumber) {
 		this.groupNumber = groupNumber;
 	}
 
@@ -85,12 +84,7 @@ public class Participant implements Comparable<Participant> {
 	@Override
 	public int compareTo(Participant o) {
 		// sorting by group number
-		if (o.groupNumber < this.groupNumber) {
-			return -1;
-		} else if (o.groupNumber == this.groupNumber) {
-			return 0;
-		} else
-			return 1;
+		return o.groupNumber.compareTo(this.groupNumber);
 	}
 
 	public void increaseParticipation() {

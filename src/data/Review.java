@@ -34,7 +34,7 @@ public class Review {
 	// The room in which the review should be conducted
 	private Room assignedRoom;
 	// The group number of the reviewed group
-	private int groupNumber;
+	private String groupNumber;
 	// letter for anonymisation
 	private String letter;
 
@@ -103,11 +103,11 @@ public class Review {
 		this.assignedRoom = assignedRoom;
 	}
 
-	public int getGroupNumber() {
+	public String getGroupNumber() {
 		return groupNumber;
 	}
 
-	public void setGroupNumber(int groupNumber) {
+	public void setGroupNumber(String groupNumber) {
 		this.groupNumber = groupNumber;
 	}
 
