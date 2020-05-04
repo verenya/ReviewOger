@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2014 Verena Käfer.
+ * Copyright (c) 2014 Verena KÃ¤fer.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU General Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/copyleft/gpl.html
  *
  * Contributors:
- * Verena Käfer - initial version
+ * Verena KÃ¤fer - initial version
  *******************************************************************************/
 package gui;
 
@@ -53,7 +53,7 @@ public class NewRoomGui {
 
 		else if (selectedNode.isRoot()) {
 			JOptionPane.showMessageDialog(null,
-					"Kann keine Räume zur Wurzel hinzufügen", "Error",
+					"Kann keine RÃ¤ume zur Wurzel hinzufÃ¼gen", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 
@@ -156,7 +156,7 @@ public class NewRoomGui {
 			roomFrame.pack();
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"Kann keine Räume zu Räumen hinzufügen", "Error",
+					"Kann keine RÃ¤ume zu RÃ¤umen hinzufÃ¼gen", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 
